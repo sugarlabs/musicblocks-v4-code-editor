@@ -24,6 +24,9 @@ module.exports = {
       }
   ]
   },
+  externals:{
+    "@sugarlabs/musicblocks-v4-lib":"@sugarlabs/musicblocks-v4-lib"
+  }
   
   
 }

@@ -106,7 +106,6 @@ function createCodeEditorDom(){
   const codeEditorTextLineTextCont = document.createElement("div");
   codeEditorTextLineTextCont.classList.add("text");
   const codeEditorTextLineText = document.createElement("pre");
-  codeEditorTextLineText.innerText = "hello";
   codeEditorTextLineTextCont.appendChild(codeEditorTextLineText);
   codeEditorTextLine.appendChild(codeEditorTextLineTextCont);
   codeEditorTextLineCont.appendChild(codeEditorTextLine);

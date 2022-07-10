@@ -1,4 +1,6 @@
 import cursorBlink from "../Tasks/cursorBlink";
+import getWrittenCode from "../Tasks/getWrittenCode";
+import setInitialCode from "../Tasks/setInitialCode";
 import arrayVariables from "../Variables/arrayVariables";
 import conditionalVariables from "../Variables/conditionalVariables";
 import dataVariables from "../Variables/dataVariables";
@@ -60,5 +62,21 @@ export default class generateCodeEditor{
 
     // adding eventListeners on windows
     addingWindowEventListener(codeEditor,this.conditionalVariables,this.intervalVariables,this.dataVariables);
+  }
+  /**
+   * @description - we need to set some sample code into the code Editor after it has been appended. In this function
+   * we will add code to the codeEditor
+   */
+  setCode(codeText){
+    let codeEditor = this.codeEditor.getCodeEditor();
+    setInitialCode(codeText,codeEditor,this.dataVariables,this.conditionalVariables,this.arrayVariables);
+  }
+  /**
+   * @description - we need to export the code written in code edittor whenever it's asked for, so this function gets
+   * the complete code and returns it.
+   */
+   getCode(){
+    let codeEditor = this.codeEditor.getCodeEditor();
+    return getWrittenCode(codeEditor);
   }
 }
