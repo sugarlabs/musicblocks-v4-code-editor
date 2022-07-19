@@ -1,3 +1,4 @@
+import runSyntaxHighlighter from "../MusicBlock_v4_Support/runSyntaxHighlighter";
 import copySelectedText from "../Tasks/copySelectedText";
 import createNewLine from "../Tasks/createNewLine";
 import cursorNavigationDown from "../Tasks/cursorNavigationDown";
@@ -31,9 +32,10 @@ export default function addingInputEventListeners(codeEditorCont,dataVariables,c
   });
 
   textInputBox.addEventListener("keydown",(e)=>{
-    //console.log(e)
+    console.log(e)
     if(e.key == "Enter"){
       createNewLine(codeEditorCont,conditionalVariables,dataVariables,arrayVariables);
+      runSyntaxHighlighter("enter",codeEditorCont,dataVariables,conditionalVariables);
     } 
     
     else if(e.key == "Backspace"){
@@ -116,6 +118,10 @@ export default function addingInputEventListeners(codeEditorCont,dataVariables,c
           e.preventDefault();
           selectAllText(codeEditorCont,dataVariables,conditionalVariables);
       }
+    }
+
+    else if(e.key == " "){
+      runSyntaxHighlighter("space",codeEditorCont,dataVariables,conditionalVariables);
     }
   });
 } 

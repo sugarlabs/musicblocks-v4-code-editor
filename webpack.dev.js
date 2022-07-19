@@ -27,9 +27,19 @@ module.exports = {
         test:/\.(css)$/,
         exclude: /node_modules/,
         use: ["style-loader","css-loader"]
-      }
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      
   ]
   },
+  resolve:{
+    modules:[path.resolve(__dirname,"node_modules")],
+    extensions: ['.js', '.jsx', '.ts', '.d.ts'],
+  }
   
   
 }
