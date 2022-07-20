@@ -1,14 +1,9 @@
 import cursorBlink from "../Tasks/cursorBlink";
 import getWrittenCode from "../Tasks/getWrittenCode";
 import setInitialCode from "../Tasks/setInitialCode";
-import arrayVariables from "../Variables/arrayVariables";
-import conditionalVariables from "../Variables/conditionalVariables";
-import dataVariables from "../Variables/dataVariables";
-import intervalVariables from "../Variables/intervalVariables";
 import addingCodeEditorEventListeners from "./addingCodeEditorEventListeners";
 import addingInputEventListeners from "./addingInputEventListeners";
 import addingWindowEventListener from "./addingWindowEventListener";
-import codeEditorDom from "./codeEditorDom";
 
 
 
@@ -18,12 +13,12 @@ import codeEditorDom from "./codeEditorDom";
  */
 export default class generateCodeEditor{
 
-  constructor(){
-    this.codeEditor = new codeEditorDom();
-    this.dataVariables = new dataVariables();
-    this.conditionalVariables = new conditionalVariables();
-    this.arrayVariables = new arrayVariables();
-    this.intervalVariables = new intervalVariables();
+  constructor(codeEditor,dataVariables,conditionalVariables,arrayVariables,intervalVariables){
+    this.codeEditor = codeEditor;
+    this.dataVariables = dataVariables;
+    this.conditionalVariables = conditionalVariables;
+    this.arrayVariables = arrayVariables;
+    this.intervalVariables = intervalVariables;
   }
 
   generateCodeEditorDOM(){
@@ -34,7 +29,7 @@ export default class generateCodeEditor{
   combineAllActions(){
     let codeEditor = this.codeEditor.getCodeEditor();
     addingCodeEditorEventListeners(codeEditor, this.intervalVariables, this.conditionalVariables, this.dataVariables);
-    addingInputEventListeners(codeEditor,this.dataVariables,this.conditionalVariables,this.arrayVariables)
+    addingInputEventListeners(codeEditor,this.dataVariables,this.conditionalVariables,this.arrayVariables);
     // let testLine = document.getElementsByClassName('code_editor_line_measure')[0].childNodes[1];
     // let charSize = (testLine.clientWidth)/40;
   }

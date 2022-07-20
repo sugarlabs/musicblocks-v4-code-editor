@@ -119,10 +119,6 @@ export default function addingInputEventListeners(codeEditorCont,dataVariables,c
           selectAllText(codeEditorCont,dataVariables,conditionalVariables);
       }
     }
-
-    else if(e.key == " "){
-      runSyntaxHighlighter("space",codeEditorCont,dataVariables,conditionalVariables);
-    }
   });
 } 
 
