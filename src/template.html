@@ -73,7 +73,7 @@
 
 
     codeEditorContRef = document.getElementById('Code_Editor_Container_main');
-    let codeEditorDom = new codeEditor.default(codeEditorContRef);
+    let codeEditorDom = new codeEditor.default(codeEditorContRef,{});
     codeEditorDom.createCodeEditorDom();
 
     codeEditorDom.setCode(codeText);

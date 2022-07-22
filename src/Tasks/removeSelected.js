@@ -41,8 +41,10 @@ export default function removeSelected(ReplaceChar,dataVariables,conditionalVari
   let bottomLineUnSelectedText = codeLines[bottomLineInSelected.line - 1].innerText.slice(bottomLineInSelected.char, codeLines[bottomLineInSelected.line - 1].innerText.length);
   let topLineUnselectedText = codeLines[topLineInSelected.line - 1].innerText.slice(0,topLineInSelected.char);
   // //console.log(bottomLineUnSelectedText,topLineUnselectedText)
-  codeLines[topLineInSelected.line -1].childNodes[0].innerHTML = "<pre>" + topLineUnselectedText + ReplaceChar + bottomLineUnSelectedText + "</pre>";
-
+  let preTag = document.createElement('pre');
+  preTag.innerText = topLineUnselectedText + ReplaceChar + bottomLineUnSelectedText;
+  codeLines[topLineInSelected.line -1].childNodes[0].innerHTML = "";
+  codeLines[topLineInSelected.line -1].childNodes[0].appendChild(preTag);
   let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
   
   charNumber = topLineInSelected.char > codeLines[topLineInSelected.line -1].childNodes[0].innerText.length

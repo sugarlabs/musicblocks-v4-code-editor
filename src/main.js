@@ -8,7 +8,7 @@ import dataVariables from "./Variables/dataVariables";
 import intervalVariables from "./Variables/intervalVariables";
 export default class codeEditor {
 
-  constructor(codeEditorCont){
+  constructor(codeEditorCont,_specificationSnapshot){
     this.codeEditorCont = codeEditorCont;
     this.codeEditor = new codeEditorDom();
     this.dataVariables = new dataVariables();
@@ -20,18 +20,19 @@ export default class codeEditor {
       this.dataVariables,this.conditionalVariables,this.arrayVariables,this.intervalVariables);
     
     this.syntaxColorConfigObj = new syntaxColorConfig();
-    this.musicBlocksv4Support = new addMusicBlocksSupport(this.syntaxColorConfigObj);
+    this.musicBlocksv4Support = new addMusicBlocksSupport(this.syntaxColorConfigObj,_specificationSnapshot);
   }
 
   createCodeEditorDom(){
     const codeEditorNode = this.codeEditorNodeObject.generateCodeEditorDOM();
     this.codeEditorCont.appendChild(codeEditorNode);
     this.codeEditorNodeObject.setupInitialDomData();
-    this.musicBlocksv4Support.initializeSupport(this.codeEditor.getCodeEditor(),this.dataVariables);
+    this.musicBlocksv4Support.initializeSupport(this.codeEditor.getCodeEditor(),this.dataVariables,this.conditionalVariables);
   }
 
   setCode(codeText){
     this.codeEditorNodeObject.setCode(codeText);
+    this.musicBlocksv4Support.runSyntaxHighlighterOnAllLinesAPI(this.codeEditor.getCodeEditor(),this.dataVariables);
   }
 
   getCode(){

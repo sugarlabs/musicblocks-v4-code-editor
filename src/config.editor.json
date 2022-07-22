@@ -19,7 +19,15 @@
     "color":"#D5FF04"
   }, 
   "statements":{
-    "categories":{},
+    "categories":{
+      "pen":{
+        "color": "red",
+        "arg":{
+          "name":"green",
+          "value":"blue"
+        }
+      }
+    },
     "args":{
       "name":"00CDFF",
       "value":"#474747"

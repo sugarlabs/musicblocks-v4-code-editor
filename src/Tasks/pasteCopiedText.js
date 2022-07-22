@@ -44,7 +44,10 @@ export default async function pasteCopiedText(codeEditorCont,dataVariables,condi
     }
     let beforeCursorText =codeLines[lineNumber -1].innerText.slice(0,charNumber);
     let afterCursorText = codeLines[lineNumber - 1].innerText.slice(charNumber, codeLines[lineNumber - 1].innerText.length);
-    codeLines[lineNumber-1].childNodes[0].innerHTML = "<pre>" + beforeCursorText + copiedTextArray[0].replaceAll('\r','') + afterCursorText + "</pre>"
+    let preTag = document.createElement('pre');
+    preTag.innerText = beforeCursorText + copiedTextArray[0].replaceAll('\r','') + afterCursorText;
+    codeLines[lineNumber-1].childNodes[0].innerHTML = "";
+    codeLines[lineNumber-1].childNodes[0].appendChild(preTag);
     charNumber = dataVariables.setCharNumber(beforeCursorText.length + copiedTextArray[0].length) ;
     cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
       
@@ -55,7 +58,10 @@ export default async function pasteCopiedText(codeEditorCont,dataVariables,condi
     let beforeCursorText = codeLines[lineNumber -1].innerText.slice(0,charNumber);
     let afterCursorText = codeLines[lineNumber - 1].innerText.slice(charNumber, codeLines[lineNumber - 1].innerText.length);
     // adding first line of copied text along with text before the cursor into first line
-    codeLines[lineNumber-1].childNodes[0].innerHTML = "<pre>" + beforeCursorText + copiedTextArray[0].replaceAll('\r','') + "</pre>";
+    let preTag = document.createElement('pre');
+    preTag.innerText = beforeCursorText + copiedTextArray[0].replaceAll('\r','');
+    codeLines[lineNumber-1].childNodes[0].innerHTML = "";
+    codeLines[lineNumber-1].childNodes[0].appendChild(preTag);
     // creating new new lines and adding copied text into the lines until last second line
     let numberLineCont = codeEditorCont.getElementsByClassName('number_line_cont')[0];
     let numberLines = codeEditorCont.getElementsByClassName('number_line');

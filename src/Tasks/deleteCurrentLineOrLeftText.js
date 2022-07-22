@@ -49,7 +49,10 @@ export default function deleteCurrentLineOrLeftText(codeEditorCont,conditionalVa
 
       //adding any text the deleted line had into current active line
 
-      activeline.innerHTML ="<pre>" + activeline.innerText.slice(0,activeline.innerText.length) + textVal + "</pre>";
+      let preTag = document.createElement('pre');
+      preTag.innerText = activeline.innerText.slice(0,activeline.innerText.length) + textVal;
+      activeline.innerHTML = "";
+      activeline.appendChild(preTag); 
 
     } 
     else {
@@ -57,7 +60,10 @@ export default function deleteCurrentLineOrLeftText(codeEditorCont,conditionalVa
           return;
       }
       // removing text from left side
-      activeline.innerHTML ="<pre>" + textVal.slice(0,charNumber-1) + textVal.slice(charNumber) + "</pre>";
+      let preTag = document.createElement('pre');
+      preTag.innerText = textVal.slice(0,charNumber-1) + textVal.slice(charNumber);
+      activeline.innerHTML = "";
+      activeline.appendChild(preTag); 
       // moving the cursor left
       let cursor = document.getElementsByClassName('code_editor_cursor')[0];
       cursor.style.left = (charNumber-1)*charSize + numberLineWidth  + "px";

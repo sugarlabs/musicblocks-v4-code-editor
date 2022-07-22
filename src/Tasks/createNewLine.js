@@ -80,9 +80,15 @@ export default function createNewLine(codeEditorCont,conditionalVariables,dataVa
 
     if(textVal.slice(0,topLineInSelected.char)){
         //console.log(textVal.slice(0,topLineInSelected.char))
-        activeline.innerHTML = "<pre>" + textVal.slice(0,topLineInSelected.char) + "</pre>";
+        let preTag = document.createElement('pre');
+        preTag.innerText = textVal.slice(0,topLineInSelected.char)
+        activeline.innerHTML = "";
+        activeline.appendChild(preTag); 
     } else {
-        activeline.innerHTML = "<pre>" + "&#8203;" + "</pre>";
+      let preTag = document.createElement('pre');
+      preTag.innerHTML = "&#8203;"
+      activeline.innerHTML = "";
+      activeline.appendChild(preTag);
     }
     focusOnCursor(codeEditorCont,dataVariables);
 
@@ -93,9 +99,15 @@ export default function createNewLine(codeEditorCont,conditionalVariables,dataVa
     let activeline = codeEditorCont.getElementsByClassName("text")[lineNumber - 1];
     let textVal = activeline.innerText;
     if(textVal.slice(0,charNumber)){
-        activeline.innerHTML = "<pre>" + textVal.slice(0,charNumber) + "</pre>";
+      let preTag = document.createElement('pre');
+      preTag.innerText = textVal.slice(0,charNumber)
+      activeline.innerHTML = "";
+      activeline.appendChild(preTag); 
     } else {
-        activeline.innerHTML = "<pre>" + "&#8203;" + "</pre>";
+      let preTag = document.createElement('pre');
+      preTag.innerHTML = "&#8203;" 
+      activeline.innerHTML = "";
+      activeline.appendChild(preTag); 
     }
     // create a new number in number line
     let numberLineCont = codeEditorCont.getElementsByClassName('number_line_cont')[0];

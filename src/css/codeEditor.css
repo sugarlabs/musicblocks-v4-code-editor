@@ -236,4 +236,9 @@
 }
 .background_selected_text{
   background-color: rgb(160, 159, 159);
+  color: #000000 !important;
+  
+}
+.background_selected_text span{
+  color: #000000 !important;
 }

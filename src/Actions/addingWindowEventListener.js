@@ -80,6 +80,8 @@ export default function addingWindowEventListener(codeEditorCont,conditionalVari
         },100));
 
       }
+      const TextSelection = new CustomEvent("TextSelection");
+      codeEditorCont.dispatchEvent(TextSelection);
     }
   });
 

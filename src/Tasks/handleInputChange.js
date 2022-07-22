@@ -3,6 +3,8 @@ import removeSelected from "./removeSelected";
 
 export default function handleInputChange(e, codeEditorCont, dataVariables, conditionalVariables, arrayVariables){
   e.preventDefault();
+  const InputEvent = new CustomEvent("InputTriggered",{detail:{data:e.data}});
+  let textInputBox = codeEditorCont.querySelector('#code-editor-cursor-input');
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let drag = conditionalVariables.getDrag();
   let charNumber = dataVariables.getCharNumber();
@@ -19,6 +21,7 @@ export default function handleInputChange(e, codeEditorCont, dataVariables, cond
         lineNumber = dataVariables.getLineNumber();
         charNumber = dataVariables.getCharNumber();
         textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
+        textInputBox.dispatchEvent(InputEvent);
       } else {
         removeSelected("",dataVariables,conditionalVariables,codeEditorCont);
         lineNumber = dataVariables.getLineNumber();
@@ -32,15 +35,24 @@ export default function handleInputChange(e, codeEditorCont, dataVariables, cond
       let activeline = codeEditorCont.getElementsByClassName("text")[lineNumber - 1];
       let textVal = activeline.innerText;
       if((e.data.length)){
-          // remove ZeroWhiteSpace and add the text.
-          if(textVal == "\u200B"){
-              activeline.innerHTML ="<pre>" +  e.data + "</pre>";
-          } else{
-              activeline.innerHTML ="<pre>" + textVal.slice(0,charNumber) + e.data + textVal.slice(charNumber) + "</pre>";
-          }
-          
-          charNumber = charNumber + 1;
-          dataVariables.setCharNumber(charNumber);
+        console.log(e.data,textVal.slice(0,charNumber) + e.data + textVal.slice(charNumber),charNumber)
+        // remove ZeroWhiteSpace and add the text.
+        if(textVal == "\u200B"){
+            let preTag = document.createElement('pre');
+            preTag.innerText = e.data
+            activeline.innerHTML = "";
+            activeline.appendChild(preTag); 
+        } else{
+            let preTag = document.createElement('pre');
+            preTag.innerText = `${textVal.slice(0,charNumber)}${e.data}${textVal.slice(charNumber)}`
+            console.log(preTag)
+            activeline.innerHTML = "";
+            activeline.appendChild(preTag); 
+        }
+        
+        charNumber = charNumber + 1;
+        dataVariables.setCharNumber(charNumber);
+        textInputBox.dispatchEvent(InputEvent);
       }
       
       let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];

@@ -108,6 +108,8 @@ export default function addingCodeEditorEventListeners(codeEditorCont, intervalV
           }
           dataVariables.setLineEnd(lineEnd);
           SelectTextByMouse(codeEditorCont,dataVariables,conditionalVariables);
+          // const TextSelection = new CustomEvent("TextSelection");
+          // codeEditorCont.dispatchEvent(TextSelection);
       },1)
     }
     

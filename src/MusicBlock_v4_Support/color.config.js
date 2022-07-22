@@ -22,37 +22,50 @@ export default class syntaxColorConfig{
           "loop":{
             "color":"#CD2BD5"
           },
-          "repeat":{
+          "program":{
             "args":{
               "name":"#473FDF",
               "value":"#00A6FF"
             },
-            "color":"#CD2BD5"
+            "color":"#473FDF"
           }
         },
         "args":{
-          "name":"00CDFF",
+          "name":"#00CDFF",
           "value":"#474747"
         },
         "color":"#D5FF04"
       }, 
-      "statements":{
-        "categories":{},
+      "statement":{
+        "categories":{
+          "pen":{
+            "color": "red",
+            "args":{
+              "name":"green",
+              "value":"blue"
+            }
+          }
+        },
         "args":{
-          "name":"00CDFF",
+          "name":"#00CDFF",
           "value":"#474747"
         },
         "color":"#0097FF"
       },
       "data":{
-        "categories":{},
+        "categories":{
+          "boxidentifier":{
+            "name":"#0441FF",
+            "value":"#474747"
+          }
+        },
         "name":"#0441FF",
         "value":"#474747"
       },
-      "expresson":{
+      "expression":{
         "categories":{},
         "args":{
-          "name":"00CDFF",
+          "name":"#00CDFF",
           "value":"#474747"
         },
         "color":"#0441FF"

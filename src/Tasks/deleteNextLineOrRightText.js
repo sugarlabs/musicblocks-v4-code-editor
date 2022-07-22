@@ -36,11 +36,17 @@ export default function deleteNextLineOrRightText(codeEditorCont,conditionalVari
       let nextLineText = codeLines[lineNumber].innerText;
       removeLine(lineNumber+1,codeEditorCont);
       // copying any text the next line had and adding it to active line 
-      activeline.innerHTML = "<pre>" + textVal + nextLineText + "</pre>";
+      let preTag = document.createElement('pre');
+      preTag.innerText = textVal + nextLineText;
+      activeline.innerHTML = "";
+      activeline.appendChild(preTag); 
         
     } else {
       // removing text from right  side
-      activeline.innerHTML ="<pre>" + textVal.slice(0,charNumber) + textVal.slice(charNumber+1) + "</pre>";
+      let preTag = document.createElement('pre');
+      preTag.innerText = textVal.slice(0,charNumber) + textVal.slice(charNumber+1)
+      activeline.innerHTML = "";
+      activeline.appendChild(preTag);
     }
   }
   focusOnCursor(codeEditorCont,dataVariables);

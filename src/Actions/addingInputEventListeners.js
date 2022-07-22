@@ -1,4 +1,3 @@
-import runSyntaxHighlighter from "../MusicBlock_v4_Support/runSyntaxHighlighter";
 import copySelectedText from "../Tasks/copySelectedText";
 import createNewLine from "../Tasks/createNewLine";
 import cursorNavigationDown from "../Tasks/cursorNavigationDown";
@@ -32,18 +31,23 @@ export default function addingInputEventListeners(codeEditorCont,dataVariables,c
   });
 
   textInputBox.addEventListener("keydown",(e)=>{
-    console.log(e)
     if(e.key == "Enter"){
       createNewLine(codeEditorCont,conditionalVariables,dataVariables,arrayVariables);
-      runSyntaxHighlighter("enter",codeEditorCont,dataVariables,conditionalVariables);
+      const InputEvent = new CustomEvent("InputTriggered",{detail:{data:"Enter"}});
+      textInputBox.dispatchEvent(InputEvent);
     } 
     
     else if(e.key == "Backspace"){
       deleteCurrentLineOrLeftText(codeEditorCont,conditionalVariables,dataVariables,arrayVariables);
+      const InputEvent = new CustomEvent("InputTriggered",{detail:{data:"BackSpace"}});
+      textInputBox.dispatchEvent(InputEvent);
     } 
     
     else if(e.key == "Delete"){
+      
       deleteNextLineOrRightText(codeEditorCont,conditionalVariables,dataVariables,arrayVariables);
+      const InputEvent = new CustomEvent("InputTriggered",{detail:{data:"Delete"}});
+      textInputBox.dispatchEvent(InputEvent);
     } 
     
     else if(e.key == "ArrowUp"){
