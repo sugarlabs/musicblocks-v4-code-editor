@@ -215,7 +215,6 @@ function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
   } else {
     let TempTextArr = t.split(':');
     t="";
-    console.log(TempTextArr,toAddColon)
     if(TempTextArr[1] || TempTextArr.length > 2){
       let tempTextArrCounter = 0;
       while(tempTextArrCounter < TempTextArr.length -1 ){
@@ -304,11 +303,17 @@ function highLightLineText(codeLines,dataVariables,_specificationSnapshot){
       HTMLText += ":" + " ";
     } else {
       if(TextData[TextDataI] && TextData[TextDataI].span){
-        TextDataI = TextDataI + 1
+        TextDataI = TextDataI + 1;
+        
+        // if the execution is in this else that means the text is null which means there is a space
+        // after the previous text and because we are adding that space here we need to make addspace to
+        //  false for previous textData to aviod duplicate spaces.
+        if(TextData[TextDataI-1] && codeTextArray.length-1 == i ){
+          TextData[TextDataI-1].addSpace = false ;
+        }
       }
-      if(TextData[TextDataI] && TextData[TextDataI].addSpace){
-        TextData[TextDataI].text += " ";
-      }
+      
+      
       TextData[TextDataI] = {
         text: TextData[TextDataI] && TextData[TextDataI].text ? TextData[TextDataI].text + " " : " ",
         addColon:false,
@@ -320,6 +325,7 @@ function highLightLineText(codeLines,dataVariables,_specificationSnapshot){
     }
   }
   HTMLText = HTMLText.slice(0,HTMLText.length-1);
+  TextData[TextData.length-1].addSpace = false;
   codeLines[LineNumber-1].getElementsByTagName('pre')[0].innerHTML = "";
   console.log(TextData)
   for(let i=0;i<TextData.length;i++){

@@ -2,6 +2,7 @@ import deselectText from "./deselectText";
 import focusOnCursor from "./focusOnCursor";
 
 export default function cursorNavigationDown(codeEditorCont,dataVariables,conditionalVariables){
+  const TextDeselectEvent = new Event("TextDeselect");
   deselectText(codeEditorCont);
   conditionalVariables.setDrag(false);
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -30,5 +31,6 @@ export default function cursorNavigationDown(codeEditorCont,dataVariables,condit
       }
       lineNumber = dataVariables.setLineNumber(lineNumber + 1);
   }
+  codeEditorCont.dispatchEvent(TextDeselectEvent);
   focusOnCursor(codeEditorCont,dataVariables);
 }

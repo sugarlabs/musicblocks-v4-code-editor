@@ -3,6 +3,7 @@ import removeSelected from "./removeSelected";
 import storeCurrentState from "./storeCurrentState";
 
 export default async function pasteCopiedText(codeEditorCont,dataVariables,conditionalVariables,arrayVariables){
+  const pasteTextEvent = new Event("pasteText");
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let lineNumber = dataVariables.getLineNumber();
@@ -124,6 +125,7 @@ export default async function pasteCopiedText(codeEditorCont,dataVariables,condi
     cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
     cursor.style.top = (lineNumber-1)*lineHeight  + "px";
   }
+  codeEditorCont.dispatchEvent(pasteTextEvent);
   focusOnCursor(codeEditorCont,dataVariables);
 
   

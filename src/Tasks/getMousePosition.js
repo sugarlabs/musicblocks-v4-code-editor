@@ -2,7 +2,7 @@ import deselectText from "./deselectText";
 
 export default 
 function getMousePosition(codeEditorCont, conditionalVariables, dataVariables, event) {
-
+    const TextDeselectEvent = new Event("TextDeselect");
     let numberLineWidth = dataVariables.getNumberLineWidth();
     let lineNumber = dataVariables.getLineNumber();
     let charNumber = dataVariables.getCharNumber();
@@ -46,7 +46,7 @@ function getMousePosition(codeEditorCont, conditionalVariables, dataVariables, e
     } else {
         cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
     }
-
+    codeEditorCont.dispatchEvent(TextDeselectEvent);
     cursor.style.top = (lineNumber-1)*lineHeight  + "px";
     let input = codeEditorCont.querySelector('#code-editor-cursor-input');
     input.focus();

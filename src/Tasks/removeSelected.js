@@ -3,6 +3,8 @@ import storeCurrentState from "./storeCurrentState";
 
 export default function removeSelected(ReplaceChar,dataVariables,conditionalVariables,codeEditorCont,arrayVariables){
   //console.log(lineStart,lineEnd)let lineNumber = dataVariables.getLineNumber();
+  const TextDeselectEvent = new Event("TextDeselect");
+  
   let charNumber = dataVariables.getCharNumber();
   let charSize = dataVariables.getCharSize();
   let lineHeight = dataVariables.getLineHeight();
@@ -66,5 +68,6 @@ export default function removeSelected(ReplaceChar,dataVariables,conditionalVari
   }
   let input = codeEditorCont.querySelector('#code-editor-cursor-input');
   input.focus();
+  codeEditorCont.dispatchEvent(TextDeselectEvent);
   conditionalVariables.setTextSelectionInProgress(false);
 }

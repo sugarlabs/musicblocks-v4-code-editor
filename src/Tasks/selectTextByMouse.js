@@ -1,6 +1,69 @@
 import deselectText from "./deselectText";
 import focusOnCursor from "./focusOnCursor";
 
+function generateSelectedTextHTML(category,charPos,preNode){
+
+  let spanTags = preNode.querySelectorAll("span");
+  let spanTag = document.createElement('span');
+  spanTag.classList.add("background_selected_text");
+
+  let tempSpanTag = document.createElement('span');
+
+  let unModifiedSpanTags = [];
+  let textLengthsPos=[];
+  for(let i=0;i<spanTags.length;i++){
+    textLengthsPos.push(textLengthsPos.length ? textLengthsPos[textLengthsPos.length-1] + spanTags[i].innerText.length : spanTags[i].innerText.length);
+  }
+  let cursorPosInSpanTags = 0;
+  for(let i=0; i<textLengthsPos.length;i++){
+    if(textLengthsPos[i] > charPos){
+      cursorPosInSpanTags = i;
+      break;
+    }
+    cursorPosInSpanTags = i;
+  }
+  let noOfCharToSelect = textLengthsPos[cursorPosInSpanTags] - charPos;
+ 
+  if(category == "RL"){
+    let spanTagsLength = spanTags.length;
+    let i=cursorPosInSpanTags+1;
+    console.log("spanTAgslength: ",spanTagsLength," cursorPositionInSPan ",cursorPosInSpanTags)
+    while(i<spanTagsLength){
+      console.log("i",i)
+      let tempCloneSPanTag = spanTags[i].cloneNode(true)
+      spanTag.appendChild(tempCloneSPanTag);
+      // preNode.removeChild(spanTags[i]);
+      i++;
+    }
+    if(spanTagsLength){
+      let tempcloneSpanTag = preNode.childNodes[cursorPosInSpanTags].cloneNode(true);
+
+      let tempSpanTagSelected = document.createElement('span');
+      tempSpanTagSelected.classList.add("background_selected_text");
+      tempSpanTagSelected.innerText = tempcloneSpanTag.innerText.slice(preNode.childNodes[cursorPosInSpanTags].innerText.length - (noOfCharToSelect));;
+      
+      tempSpanTag.innerText = preNode.childNodes[cursorPosInSpanTags].innerText.slice(0,preNode.childNodes[cursorPosInSpanTags].innerText.length - (noOfCharToSelect))
+      tempSpanTag.appendChild(tempSpanTagSelected);
+
+      i=cursorPosInSpanTags - 1;
+      while(i>=0){
+        let tempCloneSpanTag = spanTags[i].cloneNode(true);
+        unModifiedSpanTags.push(tempCloneSpanTag);
+        i--;
+      }
+    }
+    
+    // preNode.childNodes[preNode.childNodes.length - 1].innerText = preNode.childNodes[preNode.childNodes.length - 1].innerText.slice(0,preNode.childNodes[preNode.childNodes.length - 1].innerText.length - (noOfCharToSelect));
+    // preNode.childNodes[preNode.childNodes.length - 1].appendChild(tempSpanTag)
+  }
+  
+  return {
+    "unModified":unModifiedSpanTags.reverse(),
+    "partialModified":tempSpanTag,
+    "ComplModified":spanTag,
+  };
+}
+
 export default function SelectTextByMouse(codeEditorCont,dataVariables,conditionalVariables){
   let lineNumber = dataVariables.getLineNumber();
   let charNumber = dataVariables.getCharNumber();
@@ -31,38 +94,17 @@ export default function SelectTextByMouse(codeEditorCont,dataVariables,condition
           lineEnd.char = 0;
       }
       if(codeLines[lineEnd.line - 1].innerText.length >= lineEnd.char && lineEnd.char >= 0){
-        let preTag = document.createElement('pre');
-        let spanTag = document.createElement('span');
-        spanTag.classList.add("background_selected_text");
-        spanTag.innerText = codeLines[lineEnd.line - 1].innerText.slice(lineEnd.char,codeLines[lineEnd.line - 1].innerText.length);
-        preTag.innerText = codeLines[lineEnd.line - 1].innerText.slice(0,lineEnd.char);
-        preTag.appendChild(spanTag);
-        codeLines[lineEnd.line - 1].childNodes[0].innerHTML = "";
-        codeLines[lineEnd.line - 1].childNodes[0].appendChild(preTag);
+          
+          codeLines[lineEnd.line - 1].childNodes[0].innerHTML = "<pre>" + codeLines[lineEnd.line - 1].innerText.slice(0,lineEnd.char) +
+                   "<span class='background_selected_text'>" + codeLines[lineEnd.line - 1].innerText.slice(lineEnd.char,codeLines[lineEnd.line - 1].innerText.length) 
+                   +"</span>"  + "</pre>"
       }
      
       if(codeLines[lineStart.line - 1].innerText.length >= lineStart.char){
-
-        let preTag = document.createElement('pre');
-        let spanTag = document.createElement('span');
-        spanTag.classList.add("background_selected_text");
-        spanTag.innerText = codeLines[lineStart.line - 1].innerText.slice(0,lineStart.char);
-        
-        preTag.appendChild(spanTag);
-        preTag.innerText += codeLines[lineStart.line - 1].innerText.slice(lineStart.char,codeLines[lineStart.line - 1].innerText.length);
-    
-        codeLines[lineStart.line - 1].childNodes[0].innerHTML = "";
-        codeLines[lineStart.line - 1].childNodes[0].appendChild(preTag);
+          codeLines[lineStart.line - 1].childNodes[0].innerHTML = "<pre>" + "<span class='background_selected_text'>" + codeLines[lineStart.line - 1].innerText.slice(0,lineStart.char) 
+          + "</span>" + codeLines[lineStart.line - 1].innerText.slice(lineStart.char,codeLines[lineStart.line - 1].innerText.length) + "</pre>";
       } else{
-        let preTag = document.createElement('pre');
-        let spanTag = document.createElement('span');
-        spanTag.classList.add("background_selected_text");
-        spanTag.innerText = codeLines[lineStart.line - 1].innerText;
-        
-        preTag.appendChild(spanTag);
-
-        codeLines[lineStart.line - 1].childNodes[0].innerHTML = "";
-        codeLines[lineStart.line - 1].childNodes[0].appendChild(preTag);
+          codeLines[lineStart.line - 1].childNodes[0].innerHTML = "<pre>" + "<span class='background_selected_text'>" + codeLines[lineStart.line - 1].innerText + "</span>" + "</pre>";
       }
 
       for(let i = lineEnd.line + 1; i< lineStart.line; i++){
@@ -90,42 +132,17 @@ export default function SelectTextByMouse(codeEditorCont,dataVariables,condition
       }
       
       if(codeLines[lineStart.line - 1].innerText.length >= lineStart.char && lineStart.char >= 0){
-        let preTag = document.createElement('pre');
-        let spanTag = document.createElement('span');
-
-        spanTag.classList.add("background_selected_text");
-        spanTag.innerText = codeLines[lineStart.line - 1].innerText.slice(lineStart.char,codeLines[lineStart.line - 1].innerText.length) ;
-        
-        preTag.innerText = codeLines[lineStart.line - 1].innerText.slice(0,lineStart.char);
-        preTag.appendChild(spanTag);
-
-        codeLines[lineStart.line - 1].childNodes[0].innerHTML = "";
-        codeLines[lineStart.line - 1].childNodes[0].appendChild(preTag);
+          
+          codeLines[lineStart.line - 1].childNodes[0].innerHTML = "<pre>" + codeLines[lineStart.line - 1].innerText.slice(0,lineStart.char) +
+                   "<span class='background_selected_text'>" + codeLines[lineStart.line - 1].innerText.slice(lineStart.char,codeLines[lineStart.line - 1].innerText.length) 
+                   +"</span>"  + "</pre>";
       }
 
       if(codeLines[lineEnd.line - 1].innerText.length >= lineEnd.char){
-        let preTag = document.createElement('pre');
-        let spanTag = document.createElement('span');
-
-        spanTag.classList.add("background_selected_text");
-        spanTag.innerText = codeLines[lineEnd.line - 1].innerText.slice(0,lineEnd.char);
-        
-        preTag.appendChild(spanTag);
-        preTag.innerText += codeLines[lineEnd.line - 1].innerText.slice(lineEnd.char,codeLines[lineEnd.line - 1].innerText.length);
-
-        codeLines[lineEnd.line - 1].childNodes[0].innerHTML = "";
-        codeLines[lineEnd.line - 1].childNodes[0].appendChild(preTag);
+          codeLines[lineEnd.line - 1].childNodes[0].innerHTML = "<pre>" + "<span class='background_selected_text'>" + codeLines[lineEnd.line - 1].innerText.slice(0,lineEnd.char) 
+          + "</span>" + codeLines[lineEnd.line - 1].innerText.slice(lineEnd.char,codeLines[lineEnd.line - 1].innerText.length) + "</pre>";
       } else{
-        let preTag = document.createElement('pre');
-        let spanTag = document.createElement('span');
-
-        spanTag.classList.add("background_selected_text");
-        spanTag.innerText = codeLines[lineEnd.line - 1].innerText;
-        
-        preTag.appendChild(spanTag);
-
-        codeLines[lineEnd.line - 1].childNodes[0].innerHTML = "";
-        codeLines[lineEnd.line - 1].childNodes[0].appendChild(spanTag);
+          codeLines[lineEnd.line - 1].childNodes[0].innerHTML = "<pre>" + "<span class='background_selected_text'>" + codeLines[lineEnd.line - 1].innerText + "</span>" + "</pre>";
       }
 
       for(let i = lineStart.line + 1; i< lineEnd.line; i++){

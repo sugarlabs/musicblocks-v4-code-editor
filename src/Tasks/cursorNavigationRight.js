@@ -2,7 +2,7 @@ import deselectText from "./deselectText";
 import focusOnCursor from "./focusOnCursor";
 
 export default function cursorNavigationRight(codeEditorCont,dataVariables,conditionalVariables){
- 
+  const TextDeselectEvent = new Event("TextDeselect");
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let lineNumber = dataVariables.getLineNumber();
   let charNumber = dataVariables.getCharNumber();
@@ -32,5 +32,6 @@ export default function cursorNavigationRight(codeEditorCont,dataVariables,condi
       cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
       cursor.style.top = (lineNumber-1)*lineHeight +"px";
   }
+  codeEditorCont.dispatchEvent(TextDeselectEvent);
   focusOnCursor(codeEditorCont,dataVariables);
 }

@@ -78,10 +78,7 @@ export default function addingWindowEventListener(codeEditorCont,conditionalVari
               SelectTextByMouse(codeEditorCont,dataVariables,conditionalVariables);
           }
         },100));
-
       }
-      const TextSelection = new CustomEvent("TextSelection");
-      codeEditorCont.dispatchEvent(TextSelection);
     }
   });
 
