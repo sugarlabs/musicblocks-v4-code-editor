@@ -2,7 +2,9 @@ import focusOnCursor from "./focusOnCursor";
 import removeSelected from "./removeSelected";
 import storeCurrentState from "./storeCurrentState";
 
-export default async function pasteCopiedText(codeEditorCont,dataVariables,conditionalVariables,arrayVariables){
+export default async function pasteCopiedText(
+  codeEditorCont,dataVariables,conditionalVariables,arrayVariables
+  ){
   const pasteTextEvent = new Event("pasteText");
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -44,7 +46,8 @@ export default async function pasteCopiedText(codeEditorCont,dataVariables,condi
       return;
     }
     let beforeCursorText =codeLines[lineNumber -1].innerText.slice(0,charNumber);
-    let afterCursorText = codeLines[lineNumber - 1].innerText.slice(charNumber, codeLines[lineNumber - 1].innerText.length);
+    let afterCursorText = codeLines[lineNumber - 1].innerText
+      .slice(charNumber, codeLines[lineNumber - 1].innerText.length);
     let preTag = document.createElement('pre');
     preTag.innerText = beforeCursorText + copiedTextArray[0].replaceAll('\r','') + afterCursorText;
     codeLines[lineNumber-1].childNodes[0].innerHTML = "";
@@ -57,7 +60,8 @@ export default async function pasteCopiedText(codeEditorCont,dataVariables,condi
       copiedTextArray.pop();
     }
     let beforeCursorText = codeLines[lineNumber -1].innerText.slice(0,charNumber);
-    let afterCursorText = codeLines[lineNumber - 1].innerText.slice(charNumber, codeLines[lineNumber - 1].innerText.length);
+    let afterCursorText = codeLines[lineNumber - 1]
+      .innerText.slice(charNumber, codeLines[lineNumber - 1].innerText.length);
     // adding first line of copied text along with text before the cursor into first line
     let preTag = document.createElement('pre');
     preTag.innerText = beforeCursorText + copiedTextArray[0].replaceAll('\r','');
@@ -90,7 +94,7 @@ export default async function pasteCopiedText(codeEditorCont,dataVariables,condi
         codeTextDiv.append(codeTextP);
         codeLineDiv.append(codeTextDiv);
 
-        codeLinesCont.insertBefore(codeLineDiv,codeLines[lineNumber])
+        codeLinesCont.insertBefore(codeLineDiv,codeLines[lineNumber]);
         lineNumber = dataVariables.setLineNumber(lineNumber + 1);
     }
 
@@ -117,7 +121,7 @@ export default async function pasteCopiedText(codeEditorCont,dataVariables,condi
     codeLineDiv.append(codeTextDiv);
 
 
-    codeLinesCont.insertBefore(codeLineDiv,codeLines[lineNumber])
+    codeLinesCont.insertBefore(codeLineDiv,codeLines[lineNumber]);
     lineNumber = dataVariables.setLineNumber(lineNumber + 1);
     let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
 

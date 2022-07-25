@@ -28,7 +28,7 @@
     return this.codeEditorAutoScrollX;
   }
   clearCodeEditorAutoScrollX(){
-    clearInterval(this.codeEditorAutoScrollX)
+    clearInterval(this.codeEditorAutoScrollX);
   }
 
   getCodeEditorAutoScrollY(){
@@ -39,7 +39,7 @@
     return this.codeEditorAutoScrollY;
   }
   clearCodeEditorAutoScrollY(){
-    clearInterval(this.codeEditorAutoScrollY)
+    clearInterval(this.codeEditorAutoScrollY);
   }
 
 }

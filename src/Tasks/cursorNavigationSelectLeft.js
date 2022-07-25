@@ -1,7 +1,9 @@
 import focusOnCursor from "./focusOnCursor";
 import SelectTextByMouse from "./selectTextByMouse";
 
-export default function cursorNavigationSelectLeft(codeEditorCont,dataVariables,conditionalVariables){
+export default function cursorNavigationSelectLeft(
+    codeEditorCont,dataVariables,conditionalVariables
+    ){
 
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -19,11 +21,11 @@ export default function cursorNavigationSelectLeft(codeEditorCont,dataVariables,
       lineStart=dataVariables.setLineStart({
           line : lineNumber,
           char:charNumber
-      })
+      });
       lineEnd=dataVariables.setLineEnd({
           line : lineNumber,
           char:charNumber
-      })
+      });
       textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(true);
   }
   
@@ -41,7 +43,7 @@ export default function cursorNavigationSelectLeft(codeEditorCont,dataVariables,
           charNumber = dataVariables.setCharNumber(codeLines[lineNumber-2].innerText.length) ;
           lineEnd.char = codeLines[lineNumber-2].innerText.length;
           dataVariables.setLineEnd(lineEnd);
-      }        
+      }
       lineNumber = dataVariables.setLineNumber(lineNumber - 1);
       lineEnd.line = lineEnd.line - 1;
       dataVariables.setLineEnd(lineEnd);

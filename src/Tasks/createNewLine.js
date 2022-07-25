@@ -2,7 +2,9 @@ import focusOnCursor from "./focusOnCursor";
 import removeSelected from "./removeSelected";
 import storeCurrentState from "./storeCurrentState";
 
-export default function createNewLine(codeEditorCont,conditionalVariables,dataVariables,arrayVariables){
+export default function createNewLine(
+  codeEditorCont,conditionalVariables,dataVariables,arrayVariables
+){
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let lineNumber = dataVariables.getLineNumber();
@@ -15,18 +17,20 @@ export default function createNewLine(codeEditorCont,conditionalVariables,dataVa
 
   storeCurrentState(codeEditorCont,dataVariables,arrayVariables);
   textSelectionInProgress = false;
-  conditionalVariables.setTextSelectionInProgress(false)
+  conditionalVariables.setTextSelectionInProgress(false);
   if(drag){
     let codeLines = codeEditorCont.getElementsByClassName("line");
 
     let topLineInSelected = lineStart.line > lineEnd.line ?
-      lineEnd : (lineStart.line == lineEnd.line ? (lineStart.char > lineEnd.char ? lineEnd : lineStart) : lineStart);
-    let bottomLineInSelected =  lineStart.line > lineEnd.line ? 
-        lineStart :(lineStart.line == lineEnd.line ? (lineStart.char > lineEnd.char ? lineStart : lineEnd) : lineEnd)  ;
+      lineEnd : (lineStart.line == lineEnd.line ?
+        (lineStart.char > lineEnd.char ? lineEnd : lineStart) : lineStart);
+    let bottomLineInSelected =  lineStart.line > lineEnd.line ?
+        lineStart :(lineStart.line == lineEnd.line ?
+          (lineStart.char > lineEnd.char ? lineStart : lineEnd) : lineEnd)  ;
 
     if(bottomLineInSelected.line > codeLines.length){
         bottomLineInSelected.line = codeLines.length;
-    } 
+    }
     if(topLineInSelected.line < 1){
         topLineInSelected.line = 1;
     }
@@ -58,7 +62,7 @@ export default function createNewLine(codeEditorCont,conditionalVariables,dataVa
     let codeTextDiv = document.createElement('div');
     codeTextDiv.classList.add("text");
     let codeTextP = document.createElement('pre');
-    console.log(codeLines[lineNumber - 1],lineNumber)
+    console.log(codeLines[lineNumber - 1],lineNumber);
     codeTextP.innerText =  codeLines[lineNumber - 1].innerText.slice(charNumber);
 
     codeTextDiv.append(codeTextP);
@@ -81,12 +85,12 @@ export default function createNewLine(codeEditorCont,conditionalVariables,dataVa
     if(textVal.slice(0,topLineInSelected.char)){
         //console.log(textVal.slice(0,topLineInSelected.char))
         let preTag = document.createElement('pre');
-        preTag.innerText = textVal.slice(0,topLineInSelected.char)
+        preTag.innerText = textVal.slice(0,topLineInSelected.char);
         activeline.innerHTML = "";
-        activeline.appendChild(preTag); 
+        activeline.appendChild(preTag);
     } else {
       let preTag = document.createElement('pre');
-      preTag.innerHTML = "&#8203;"
+      preTag.innerHTML = "&#8203;";
       activeline.innerHTML = "";
       activeline.appendChild(preTag);
     }
@@ -100,14 +104,14 @@ export default function createNewLine(codeEditorCont,conditionalVariables,dataVa
     let textVal = activeline.innerText;
     if(textVal.slice(0,charNumber)){
       let preTag = document.createElement('pre');
-      preTag.innerText = textVal.slice(0,charNumber)
+      preTag.innerText = textVal.slice(0,charNumber);
       activeline.innerHTML = "";
-      activeline.appendChild(preTag); 
+      activeline.appendChild(preTag);
     } else {
       let preTag = document.createElement('pre');
-      preTag.innerHTML = "&#8203;" 
+      preTag.innerHTML = "&#8203;";
       activeline.innerHTML = "";
-      activeline.appendChild(preTag); 
+      activeline.appendChild(preTag);
     }
     // create a new number in number line
     let numberLineCont = codeEditorCont.getElementsByClassName('number_line_cont')[0];
@@ -136,7 +140,7 @@ export default function createNewLine(codeEditorCont,conditionalVariables,dataVa
 
     let codeLinesCont = codeEditorCont.getElementsByClassName('code_editor_lines_container')[0];
 
-    codeLinesCont.insertBefore(codeLineDiv,codeLines[lineNumber])
+    codeLinesCont.insertBefore(codeLineDiv,codeLines[lineNumber]);
     lineNumber = lineNumber + 1;
     dataVariables.setLineNumber(lineNumber);
 

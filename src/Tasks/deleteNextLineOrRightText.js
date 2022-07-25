@@ -3,7 +3,9 @@ import removeLine from "./removeLine";
 import removeSelected from "./removeSelected";
 import storeCurrentState from "./storeCurrentState";
 
-export default function deleteNextLineOrRightText(codeEditorCont,conditionalVariables,dataVariables,arrayVariables){
+export default function deleteNextLineOrRightText(
+  codeEditorCont,conditionalVariables,dataVariables,arrayVariables
+  ){
   
   
   let drag = conditionalVariables.getDrag();
@@ -16,7 +18,7 @@ export default function deleteNextLineOrRightText(codeEditorCont,conditionalVari
 
   let codeLines = codeEditorCont.getElementsByClassName("line");
   if(lineNumber > codeLines.length){
-    lineNumber = dataVariables.setLineNumber(codeLines.length)
+    lineNumber = dataVariables.setLineNumber(codeLines.length);
   }
 
   let activeline = codeEditorCont.getElementsByClassName("text")[lineNumber - 1];
@@ -39,12 +41,12 @@ export default function deleteNextLineOrRightText(codeEditorCont,conditionalVari
       let preTag = document.createElement('pre');
       preTag.innerText = textVal + nextLineText;
       activeline.innerHTML = "";
-      activeline.appendChild(preTag); 
+      activeline.appendChild(preTag);
         
     } else {
       // removing text from right  side
       let preTag = document.createElement('pre');
-      preTag.innerText = textVal.slice(0,charNumber) + textVal.slice(charNumber+1)
+      preTag.innerText = textVal.slice(0,charNumber) + textVal.slice(charNumber+1);
       activeline.innerHTML = "";
       activeline.appendChild(preTag);
     }

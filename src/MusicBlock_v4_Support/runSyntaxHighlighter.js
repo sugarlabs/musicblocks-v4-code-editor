@@ -11,7 +11,7 @@ function getSyntaxDetails(text,currentLineNumber,_specificationSnapshot){
   let codeLines = tempCodeEditorCont.getElementsByClassName("line");
   let lineText = codeLines[currentLineNumber - 1].innerText.replaceAll(" ","");
   if(lineText[0] == "-"){
-    lineText = lineText.slice(1,lineText.length)
+    lineText = lineText.slice(1,lineText.length);
   }
   let lineTextArr = lineText.split(":");
   if(_specificationSnapshot[lineTextArr[0]]){
@@ -31,14 +31,14 @@ function getSyntaxDetails(text,currentLineNumber,_specificationSnapshot){
       if(lineTextArr <= 1 && loopingLineTextSpaces < activeLineTextSpaces){
         SyntaxDetails = _specificationSnapshot[lineTextArr[0]];
       } else if(currentLineNumber > 1) {
-        getSyntaxDetails(text,currentLineNumber-1,_specificationSnapshot)
+        getSyntaxDetails(text,currentLineNumber-1,_specificationSnapshot);
       }
     } else {
       SyntaxDetails = _specificationSnapshot[lineTextArr[0]];
     }
     
   } else if(currentLineNumber > 1) {
-    getSyntaxDetails(text,currentLineNumber-1,_specificationSnapshot)
+    getSyntaxDetails(text,currentLineNumber-1,_specificationSnapshot);
   } else {
     SyntaxDetails = undefined;
   }
@@ -53,7 +53,7 @@ function getColorForText(text,_specificationSnapshot){
     SyntaxDetails.type = SyntaxDetails.type.toLowerCase();
     SyntaxDetails.category = SyntaxDetails.category.toLowerCase();
     if(syntaxColorConfig[SyntaxDetails.type]){
-      let syntaxType = syntaxColorConfig[SyntaxDetails.type]
+      let syntaxType = syntaxColorConfig[SyntaxDetails.type];
       if(SyntaxDetails.type == "data"){
         color = syntaxType["name"];
       } else {
@@ -74,7 +74,7 @@ function getColorForText(text,_specificationSnapshot){
     SyntaxDetails.type = SyntaxDetails.type.toLowerCase();
     SyntaxDetails.category = SyntaxDetails.category.toLowerCase();
     if(syntaxColorConfig[SyntaxDetails.type]){
-      let syntaxType = syntaxColorConfig[SyntaxDetails.type]
+      let syntaxType = syntaxColorConfig[SyntaxDetails.type];
       if(SyntaxDetails.type == "data"){
         color = syntaxType["value"];
       } else {
@@ -97,14 +97,14 @@ function getColorForText(text,_specificationSnapshot){
       let codeLines = tempCodeEditorCont.getElementsByClassName("line");
       let lineText = codeLines[LineNumber - 1].innerText.replaceAll(" ","");
       if(lineText[0] == "-"){
-        lineText = lineText.slice(1,lineText.length)
+        lineText = lineText.slice(1,lineText.length);
       }
       let lineTextArr = lineText.split(":");
       if(lineTextArr.length == 1){
         SyntaxDetails.type = SyntaxDetails.type.toLowerCase();
         SyntaxDetails.category = SyntaxDetails.category.toLowerCase();
         if(syntaxColorConfig[SyntaxDetails.type]){
-          let syntaxType = syntaxColorConfig[SyntaxDetails.type]
+          let syntaxType = syntaxColorConfig[SyntaxDetails.type];
           if(SyntaxDetails.type == "data"){
             color = syntaxType["value"];
           } else {
@@ -125,7 +125,7 @@ function getColorForText(text,_specificationSnapshot){
           SyntaxDetails.type = SyntaxDetails.type.toLowerCase();
           SyntaxDetails.category = SyntaxDetails.category.toLowerCase();
           if(syntaxColorConfig[SyntaxDetails.type]){
-            let syntaxType = syntaxColorConfig[SyntaxDetails.type]
+            let syntaxType = syntaxColorConfig[SyntaxDetails.type];
             if(SyntaxDetails.type == "data"){
               color = syntaxType["name"];
             } else {
@@ -146,7 +146,7 @@ function getColorForText(text,_specificationSnapshot){
           SyntaxDetails.type = SyntaxDetails.type.toLowerCase();
           SyntaxDetails.category = SyntaxDetails.category.toLowerCase();
           if(syntaxColorConfig[SyntaxDetails.type]){
-            let syntaxType = syntaxColorConfig[SyntaxDetails.type]
+            let syntaxType = syntaxColorConfig[SyntaxDetails.type];
             if(SyntaxDetails.type == "data"){
               color = syntaxType["value"];
             } else {
@@ -169,7 +169,7 @@ function getColorForText(text,_specificationSnapshot){
   }
 
   if(!color){
-    return "#000000"
+    return "#000000";
   } else {
     return color;
   }
@@ -178,7 +178,7 @@ function getColorForText(text,_specificationSnapshot){
 function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
   if(!t){
     if(toAddColon){
-      console.log("toAddSpace" , toAddSpace)
+      console.log("toAddSpace" , toAddSpace);
       TextDataI = TextData[TextDataI] ? TextDataI + 1 : TextDataI;
       TextData[TextDataI] = {
         text: ":",
@@ -186,9 +186,9 @@ function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
         span:true,
         color:"#000000",
         addSpace:toAddSpace
-      }
+      };
     } else {
-      console.log(toAddSpace,"toAffspace",TextData[TextDataI],TextDataI)
+      console.log(toAddSpace,"toAffspace",TextData[TextDataI],TextDataI);
       TextDataI = TextData[TextDataI] ? TextDataI + 1 : TextDataI;
       
       TextData[TextDataI] = {
@@ -197,7 +197,7 @@ function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
         span:true,
         color:"#000000",
         addSpace:toAddSpace
-      }
+      };
     }
     return toAddColon ? ":" : "";
   }
@@ -210,7 +210,7 @@ function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
       span:true,
       color:"#000000",
       addSpace:false
-    }
+    };
     t = "-" + HighLightText(t,_specificationSnapshot,false,true);
   } else {
     let TempTextArr = t.split(':');
@@ -218,9 +218,9 @@ function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
     if(TempTextArr[1] || TempTextArr.length > 2){
       let tempTextArrCounter = 0;
       while(tempTextArrCounter < TempTextArr.length -1 ){
-        t += HighLightText(TempTextArr[tempTextArrCounter],_specificationSnapshot,true,false)
-        tempTextArrCounter += 1; 
-      } 
+        t += HighLightText(TempTextArr[tempTextArrCounter],_specificationSnapshot,true,false);
+        tempTextArrCounter += 1;
+      }
       t += HighLightText(TempTextArr[TempTextArr.length -1],_specificationSnapshot,false,true);
     } else {
       let textColor = getColorForText(TempTextArr[0],_specificationSnapshot);
@@ -232,8 +232,8 @@ function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
           span:true,
           color:textColor,
           addSpace:toAddSpace
-        }
-        t= `<span style="color:${textColor} ;">${TempTextArr[0]}</span>:`
+        };
+        t= `<span style="color:${textColor} ;">${TempTextArr[0]}</span>:`;
       } else if(toAddColon){
         TextData[TextDataI] = {
           text: TempTextArr[0],
@@ -241,8 +241,8 @@ function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
           span:true,
           color:textColor,
           addSpace:toAddSpace
-        }
-        t= `<span style="color:${textColor} ;">${TempTextArr[0]}</span>:`
+        };
+        t= `<span style="color:${textColor} ;">${TempTextArr[0]}</span>:`;
       } else {
         TextData[TextDataI] = {
           text: TempTextArr[0],
@@ -250,11 +250,11 @@ function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
           span:true,
           color:textColor,
           addSpace:toAddSpace
-        }
-        t= `<span style="color:${textColor} ;">${TempTextArr[0]}</span>`
+        };
+        t= `<span style="color:${textColor} ;">${TempTextArr[0]}</span>`;
       }
     }
-  } 
+  }
 
   return t;
 }
@@ -265,15 +265,15 @@ function highLightLineText(codeLines,dataVariables,_specificationSnapshot){
   let HTMLText = "";
   TextData = [];
   TextDataI = 0;
-  console.log(codeTextArray)
+  console.log(codeTextArray);
   for(let i=0;i<codeTextArray.length;i++) {
     let t= codeTextArray[i];
     if(t && t != '-' && t != ':'){
       HTMLText += HighLightText(t,_specificationSnapshot,false,true) + " ";
     } else if(t == '-') {
-      console.log("inside -")
+      console.log("inside -");
       if(TextData[TextDataI] && TextData[TextDataI].span){
-        TextDataI = TextDataI + 1
+        TextDataI = TextDataI + 1;
       }
       if(TextData[TextDataI] && TextData[TextDataI].addSpace){
         TextData[TextDataI].text += " ";
@@ -284,11 +284,11 @@ function highLightLineText(codeLines,dataVariables,_specificationSnapshot){
         span:false,
         color:"#000000",
         addSpace:true
-      }
+      };
       HTMLText += "-" + " ";
     } else if(t == ':') {
       if(TextData[TextDataI] && TextData[TextDataI].span){
-        TextDataI = TextDataI + 1
+        TextDataI = TextDataI + 1;
       }
       if(TextData[TextDataI] && TextData[TextDataI].addSpace){
         TextData[TextDataI].text += " ";
@@ -299,7 +299,7 @@ function highLightLineText(codeLines,dataVariables,_specificationSnapshot){
         span:false,
         color:"#000000",
         addSpace:true
-      }
+      };
       HTMLText += ":" + " ";
     } else {
       if(TextData[TextDataI] && TextData[TextDataI].span){
@@ -320,50 +320,50 @@ function highLightLineText(codeLines,dataVariables,_specificationSnapshot){
         span:false,
         color:"#000000",
         addSpace:false
-      }    
+      };
       HTMLText += " ";
     }
   }
   HTMLText = HTMLText.slice(0,HTMLText.length-1);
   TextData[TextData.length-1].addSpace = false;
   codeLines[LineNumber-1].getElementsByTagName('pre')[0].innerHTML = "";
-  console.log(TextData)
+  console.log(TextData);
   for(let i=0;i<TextData.length;i++){
     let t = TextData[i];
     if(t.span){
       if(t.addColon){
         let spanTag = document.createElement('span');
-        spanTag.style = `color:${t.color} ;`
+        spanTag.style = `color:${t.color} ;`;
         spanTag.innerText = t.text;
-        console.log(spanTag)
+        console.log(spanTag);
         codeLines[LineNumber-1].getElementsByTagName('pre')[0].appendChild(spanTag);
         if(i == TextData.length - 1){
           let spanTag1 = document.createElement('span');
-          spanTag1.innerText = ":"
+          spanTag1.innerText = ":";
           codeLines[LineNumber-1].getElementsByTagName('pre')[0].appendChild(spanTag1);
         } else {
           if(t.addSpace){
             let spanTag1 = document.createElement('span');
-            spanTag1.innerText = ": "
+            spanTag1.innerText = ": ";
             codeLines[LineNumber-1].getElementsByTagName('pre')[0].appendChild(spanTag1);
           } else {
             let spanTag1 = document.createElement('span');
-            spanTag1.innerText = ":"
+            spanTag1.innerText = ":";
             codeLines[LineNumber-1].getElementsByTagName('pre')[0].appendChild(spanTag1);
           }
         }
         
       } else {
         let spanTag = document.createElement('span');
-        spanTag.style = `color:${t.color} ;`
+        spanTag.style = `color:${t.color} ;`;
         spanTag.innerText = t.text;
-        console.log(spanTag)
+        console.log(spanTag);
         codeLines[LineNumber-1].getElementsByTagName('pre')[0].appendChild(spanTag);
         if(t.addSpace){
           let spanTag1 = document.createElement('span');
           spanTag1.innerText = " ";
           codeLines[LineNumber-1].getElementsByTagName('pre')[0].appendChild(spanTag1);
-        } 
+        }
       }
     } else {
       if(!(i == TextData.length - 1)){
@@ -379,12 +379,12 @@ function highLightLineText(codeLines,dataVariables,_specificationSnapshot){
       } else {
         if(t.addSpace){
           let spanTag = document.createElement('span');
-          spanTag.style = `color:${t.color} ;`
+          spanTag.style = `color:${t.color} ;`;
           spanTag.innerText = t.text + " ";
           codeLines[LineNumber-1].getElementsByTagName('pre')[0].appendChild(spanTag);
         } else {
           let spanTag = document.createElement('span');
-          spanTag.style = `color:${t.color} ;`
+          spanTag.style = `color:${t.color} ;`;
           spanTag.innerText = t.text;
           codeLines[LineNumber-1].getElementsByTagName('pre')[0].appendChild(spanTag);
         }
@@ -398,7 +398,14 @@ function highLightLineText(codeLines,dataVariables,_specificationSnapshot){
 }
 
 
-export default function runSyntaxHighlighter(eventKey,codeEditorCont,dataVariables,_specificationSnapshot,syntaxColorConfigObj,conditionalVariables){
+export default function runSyntaxHighlighter(
+  eventKey,
+  codeEditorCont,
+  dataVariables,
+  _specificationSnapshot,
+  syntaxColorConfigObj,
+  conditionalVariables
+  ){
   syntaxColorConfig = syntaxColorConfigObj["colorConfig"];
   SyntaxDetails = "";
   tempCodeEditorCont = codeEditorCont;
@@ -412,7 +419,8 @@ export default function runSyntaxHighlighter(eventKey,codeEditorCont,dataVariabl
 
     if(TempConditionalVariables && TempConditionalVariables.getDrag()){
       let lineEnd = TempDataVariable.getLineEnd();
-      let selectedText = lineEnd.line && codeLines[lineEnd.line-1].innerText.slice(lineEnd.char,codeLines[lineEnd.line-1].innerText.length);
+      let selectedText = lineEnd.line && codeLines[lineEnd.line-1]
+            .innerText.slice(lineEnd.char,codeLines[lineEnd.line-1].innerText.length);
     }
     // codeLines[dataVariables.getLineNumber()-1].getElementsByTagName('pre')[0].innerHTML = HTMLText;
   } else if(eventKey == "Enter"){
@@ -428,7 +436,9 @@ export default function runSyntaxHighlighter(eventKey,codeEditorCont,dataVariabl
 
 }
 
-export function runSyntaxHighlighterOnAllLines(codeEditorCont,dataVariables,_specificationSnapshot,syntaxColorConfigObj){
+export function runSyntaxHighlighterOnAllLines(
+  codeEditorCont,dataVariables,_specificationSnapshot,syntaxColorConfigObj
+  ){
   syntaxColorConfig = syntaxColorConfigObj["colorConfig"];
   tempCodeEditorCont = codeEditorCont;
   LineNumber = 1;
@@ -436,7 +446,7 @@ export function runSyntaxHighlighterOnAllLines(codeEditorCont,dataVariables,_spe
   while(codeLines.length >= LineNumber){
     SyntaxDetails = "";
     highLightLineText(codeLines,dataVariables,_specificationSnapshot);
-    LineNumber = LineNumber + 1
+    LineNumber = LineNumber + 1;
   }
   
 }

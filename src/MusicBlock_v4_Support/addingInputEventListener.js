@@ -1,6 +1,8 @@
 import runSyntaxHighlighter from "./runSyntaxHighlighter";
 
-export default function addingInputEventListenersMB(codeEditorCont,dataVariables,_specificationSnapshot,syntaxColorConfigObj){
+export default function addingInputEventListenersMB(
+  codeEditorCont,dataVariables,_specificationSnapshot,syntaxColorConfigObj
+  ){
   let textInputBox = codeEditorCont.querySelector('#code-editor-cursor-input');
   textInputBox.addEventListener("InputTriggered",(e)=>{
     if(e.detail.data == " "){

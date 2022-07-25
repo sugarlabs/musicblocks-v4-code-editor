@@ -30,6 +30,6 @@ export default function cursorNavigationUp(codeEditorCont,dataVariables,conditio
       }
   }
   codeEditorCont.dispatchEvent(TextDeselectEvent);
-  textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(false)
+  textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(false);
   focusOnCursor(codeEditorCont,dataVariables);
 }

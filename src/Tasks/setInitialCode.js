@@ -2,7 +2,9 @@ import focusOnCursor from "./focusOnCursor";
 import removeSelected from "./removeSelected";
 import storeCurrentState from "./storeCurrentState";
 
-export default async function setInitialCode(codeText,codeEditorCont,dataVariables,conditionalVariables,arrayVariables){
+export default async function setInitialCode(
+  codeText,codeEditorCont,dataVariables,conditionalVariables,arrayVariables
+  ){
   
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -37,7 +39,8 @@ export default async function setInitialCode(codeText,codeEditorCont,dataVariabl
       return;
     }
     let beforeCursorText =codeLines[lineNumber -1].innerText.slice(0,charNumber);
-    let afterCursorText = codeLines[lineNumber - 1].innerText.slice(charNumber, codeLines[lineNumber - 1].innerText.length);
+    let afterCursorText = codeLines[lineNumber - 1]
+      .innerText.slice(charNumber, codeLines[lineNumber - 1].innerText.length);
     let preTag = document.createElement('pre');
     preTag.innerText = beforeCursorText + textToSetArray[0].replaceAll('\r','') + afterCursorText ;
     codeLines[lineNumber-1].childNodes[0].innerHTML = "";
@@ -50,7 +53,8 @@ export default async function setInitialCode(codeText,codeEditorCont,dataVariabl
       textToSetArray.pop();
     }
     let beforeCursorText = codeLines[lineNumber -1].innerText.slice(0,charNumber);
-    let afterCursorText = codeLines[lineNumber - 1].innerText.slice(charNumber, codeLines[lineNumber - 1].innerText.length);
+    let afterCursorText = codeLines[lineNumber - 1]
+      .innerText.slice(charNumber, codeLines[lineNumber - 1].innerText.length);
     // adding first line of copied text along with text before the cursor into first line
     let preTag = document.createElement('pre');
     preTag.innerText = beforeCursorText + textToSetArray[0].replaceAll('\r','') ;
@@ -83,7 +87,7 @@ export default async function setInitialCode(codeText,codeEditorCont,dataVariabl
         codeTextDiv.append(codeTextP);
         codeLineDiv.append(codeTextDiv);
 
-        codeLinesCont.insertBefore(codeLineDiv,codeLines[lineNumber])
+        codeLinesCont.insertBefore(codeLineDiv,codeLines[lineNumber]);
         lineNumber = dataVariables.setLineNumber(lineNumber + 1);
     }
 
@@ -110,7 +114,7 @@ export default async function setInitialCode(codeText,codeEditorCont,dataVariabl
     codeLineDiv.append(codeTextDiv);
 
 
-    codeLinesCont.insertBefore(codeLineDiv,codeLines[lineNumber])
+    codeLinesCont.insertBefore(codeLineDiv,codeLines[lineNumber]);
     lineNumber = dataVariables.setLineNumber(lineNumber + 1);
     let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
 

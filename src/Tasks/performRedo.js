@@ -1,6 +1,8 @@
 import focusOnCursor from "./focusOnCursor";
 
-export default function performRedo(codeEditorCont,dataVariables,conditionalVariables,arrayVariables){
+export default function performRedo(
+  codeEditorCont,dataVariables,conditionalVariables,arrayVariables
+  ){
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let lineNumber = dataVariables.getLineNumber();
   let charNumber = dataVariables.getCharNumber();
@@ -14,7 +16,7 @@ export default function performRedo(codeEditorCont,dataVariables,conditionalVari
 
   let codeLinesCont = codeEditorCont.getElementsByClassName("code_editor_lines_container")[0];
   let numberLineCont = codeEditorCont.getElementsByClassName("number_line_cont")[0];
-  if(redoStore.length){    
+  if(redoStore.length){
     arrayVariables.pushIntoUndoStore({
       lineNumber:lineNumber,
       charNumber:charNumber,

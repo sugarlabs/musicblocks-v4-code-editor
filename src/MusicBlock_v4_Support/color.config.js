@@ -1,6 +1,6 @@
 function updateJSON(oldJSON,newJSON){
   let tempData = {};
-  for(x in oldJSON){
+  for(let x in oldJSON){
     if(newJSON[x]){
       if(typeof(newJSON[x]) === 'object'){
         tempData[x] = updateJSON(oldJSON[x],newJSON[x]);
@@ -8,7 +8,7 @@ function updateJSON(oldJSON,newJSON){
         tempData[x] = newJSON[x];
       }
     } else {
-        tempData[x] = oldJSON[x]
+        tempData[x] = oldJSON[x];
     }
   }
   return tempData;
@@ -35,7 +35,7 @@ export default class syntaxColorConfig{
           "value":"#474747"
         },
         "color":"#D5FF04"
-      }, 
+      },
       "statement":{
         "categories":{
           "pen":{
@@ -70,7 +70,7 @@ export default class syntaxColorConfig{
         },
         "color":"#0441FF"
       }
-    }; 
+    };
   }
 
   getConfig(){

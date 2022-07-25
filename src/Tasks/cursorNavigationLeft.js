@@ -27,7 +27,7 @@ export default function cursorNavigationLeft(codeEditorCont,dataVariables,condit
 
       } else {
           charNumber = dataVariables.setCharNumber(codeLines[lineNumber-2].innerText.length);
-      }        
+      }
       lineNumber = dataVariables.setLineNumber(lineNumber - 1);
       cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
       cursor.style.top = (lineNumber-1)*lineHeight +"px";

@@ -1,6 +1,8 @@
 import focusOnCursor from "./focusOnCursor";
 
-export default function performUndo(codeEditorCont,dataVariables,conditionalVariables,arrayVariables){
+export default function performUndo(
+    codeEditorCont,dataVariables,conditionalVariables,arrayVariables
+    ){
 
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let lineNumber = dataVariables.getLineNumber();
@@ -14,7 +16,7 @@ export default function performUndo(codeEditorCont,dataVariables,conditionalVari
   textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(false);
   let codeLinesCont = codeEditorCont.getElementsByClassName("code_editor_lines_container")[0];
   let numberLineCont = codeEditorCont.getElementsByClassName("number_line_cont")[0];
-  if(undoStore.length){    
+  if(undoStore.length){
       arrayVariables.pushIntoRedoStore({
           lineNumber:lineNumber,
           charNumber:charNumber,

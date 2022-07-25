@@ -28,8 +28,12 @@ export default class generateCodeEditor{
 
   combineAllActions(){
     let codeEditor = this.codeEditor.getCodeEditor();
-    addingCodeEditorEventListeners(codeEditor, this.intervalVariables, this.conditionalVariables, this.dataVariables);
-    addingInputEventListeners(codeEditor,this.dataVariables,this.conditionalVariables,this.arrayVariables);
+    addingCodeEditorEventListeners(
+      codeEditor, this.intervalVariables, this.conditionalVariables, this.dataVariables
+    );
+    addingInputEventListeners(
+      codeEditor,this.dataVariables,this.conditionalVariables,this.arrayVariables
+    );
     // let testLine = document.getElementsByClassName('code_editor_line_measure')[0].childNodes[1];
     // let charSize = (testLine.clientWidth)/40;
   }
@@ -48,15 +52,17 @@ export default class generateCodeEditor{
     this.dataVariables.setCharSize((testLine.clientWidth)/40);
     
     // update line height of the lines in code editor
-    let testLine1 = codeEditor.getElementsByClassName('line')[0]
+    let testLine1 = codeEditor.getElementsByClassName('line')[0];
     let testLineDimensions = testLine1.getBoundingClientRect();
     let testLineHeight = testLineDimensions.top - testLineDimensions.bottom;
-    this.dataVariables.setLineHeight(Math.abs(testLineHeight))
+    this.dataVariables.setLineHeight(Math.abs(testLineHeight));
     // start cursor Blink
     cursorBlink(codeEditor);
 
     // adding eventListeners on windows
-    addingWindowEventListener(codeEditor,this.conditionalVariables,this.intervalVariables,this.dataVariables);
+    addingWindowEventListener(
+      codeEditor,this.conditionalVariables,this.intervalVariables,this.dataVariables
+    );
   }
   /**
    * @description - we need to set some sample code into the code Editor after it has been appended. In this function
@@ -64,7 +70,9 @@ export default class generateCodeEditor{
    */
   setCode(codeText){
     let codeEditor = this.codeEditor.getCodeEditor();
-    setInitialCode(codeText,codeEditor,this.dataVariables,this.conditionalVariables,this.arrayVariables);
+    setInitialCode(
+      codeText,codeEditor,this.dataVariables,this.conditionalVariables,this.arrayVariables
+    );
   }
   /**
    * @description - we need to export the code written in code edittor whenever it's asked for, so this function gets

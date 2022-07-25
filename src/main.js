@@ -20,27 +20,33 @@ export default class codeEditor {
       this.dataVariables,this.conditionalVariables,this.arrayVariables,this.intervalVariables);
     
     this.syntaxColorConfigObj = new syntaxColorConfig();
-    this.musicBlocksv4Support = new addMusicBlocksSupport(this.syntaxColorConfigObj,_specificationSnapshot);
+    this.musicBlocksv4Support = new addMusicBlocksSupport(
+      this.syntaxColorConfigObj,_specificationSnapshot
+    );
   }
 
   createCodeEditorDom(){
     const codeEditorNode = this.codeEditorNodeObject.generateCodeEditorDOM();
     this.codeEditorCont.appendChild(codeEditorNode);
     this.codeEditorNodeObject.setupInitialDomData();
-    this.musicBlocksv4Support.initializeSupport(this.codeEditor.getCodeEditor(),this.dataVariables,this.conditionalVariables);
+    this.musicBlocksv4Support.initializeSupport(
+      this.codeEditor.getCodeEditor(),this.dataVariables,this.conditionalVariables
+    );
   }
 
   setCode(codeText){
     this.codeEditorNodeObject.setCode(codeText);
-    this.musicBlocksv4Support.runSyntaxHighlighterOnAllLinesAPI(this.codeEditor.getCodeEditor(),this.dataVariables);
+    this.musicBlocksv4Support.runSyntaxHighlighterOnAllLinesAPI(
+      this.codeEditor.getCodeEditor(),this.dataVariables
+    );
   }
 
   getCode(){
-    return this.codeEditorNodeObject.getCode(codeText);
+    return this.codeEditorNodeObject.getCode();
   }
 
   setSyntaxColorConfig(newColorConfig){
-    return this.syntaxColorConfigObj.setConfig(newColorConfig)
+    return this.syntaxColorConfigObj.setConfig(newColorConfig);
   }
 
   resetSyntaxColorConfig(newColorConfig){

@@ -24,9 +24,9 @@ export default function focusOnCursor(codeEditorCont, dataVariables){
   }
 
   if(cursorTop <= codeEditorContTop && cursorTop <= codeEditorContBottom){
-      codeEditorCont.scrollTop = cursorTop
+      codeEditorCont.scrollTop = cursorTop;
   } else if (cursorTop >= codeEditorContTop && cursorTop >= codeEditorContBottom){
       codeEditorCont.scrollTop = cursorTop - codeEditorCont.clientHeight + lineHeight;
-  }    
+  }
 
 }

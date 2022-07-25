@@ -27,7 +27,7 @@ export default function cursorNavigationDown(codeEditorCont,dataVariables,condit
           } else {
               charNumber = dataVariables.setCharNumber(codeLines[lineNumber].innerText.length);
               cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
-          }            
+          }
       }
       lineNumber = dataVariables.setLineNumber(lineNumber + 1);
   }

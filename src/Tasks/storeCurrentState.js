@@ -23,7 +23,7 @@ export default function storeCurrentState(codeEditorCont,dataVariables,arrayVari
         lineStart:lineStart,
         data:codeLinesCont.innerHTML,
         numberLineData:numberLineCont.innerHTML
-    })
+    });
   } else {
     arrayVariables.pushIntoUndoStore({
         lineNumber:lineNumber,
@@ -33,5 +33,5 @@ export default function storeCurrentState(codeEditorCont,dataVariables,arrayVari
         data:codeLinesCont.innerHTML,
         numberLineData:numberLineCont.innerHTML
     });
-  }  
-} 
+  }
+}

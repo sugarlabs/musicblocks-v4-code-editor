@@ -17,16 +17,16 @@ export default function cursorNavigationSelectUp(codeEditorCont,dataVariables,co
       let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
       cursor.style.top = (lineNumber - 2)*lineHeight +"px";
       if(textSelectionInProgress){
-        lineEnd.line = lineEnd.line - 1
+        lineEnd.line = lineEnd.line - 1;
         dataVariables.setLineEnd(lineEnd);
       } else {
         lineStart=dataVariables.setLineStart({
           line : lineNumber,
-          char:charNumber 
+          char:charNumber
         });
         lineEnd=dataVariables.setLineEnd({
           line : lineNumber - 1,
-          char:charNumber 
+          char:charNumber
         });
         textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(true);
       }

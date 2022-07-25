@@ -1,6 +1,6 @@
 import deselectText from "./deselectText";
 
-export default 
+export default
 function getMousePosition(codeEditorCont, conditionalVariables, dataVariables, event) {
     const TextDeselectEvent = new Event("TextDeselect");
     let numberLineWidth = dataVariables.getNumberLineWidth();

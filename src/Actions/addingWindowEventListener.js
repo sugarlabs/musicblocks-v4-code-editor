@@ -1,6 +1,8 @@
 import SelectTextByMouse from "../Tasks/selectTextByMouse";
 
-export default function addingWindowEventListener(codeEditorCont,conditionalVariables,intervalVariables,dataVariables){
+export default function addingWindowEventListener(
+  codeEditorCont,conditionalVariables,intervalVariables,dataVariables
+  ){
 
   
   window.addEventListener("mouseup",(e) =>{
@@ -37,8 +39,8 @@ export default function addingWindowEventListener(codeEditorCont,conditionalVari
               lineEnd.char = lineEnd.char + noOfCharTobeSelected ;
               dataVariables.setLineEnd(lineEnd);
               SelectTextByMouse(codeEditorCont,dataVariables,conditionalVariables);
-          }   
-        },10));          
+          }
+        },10));
       }
       if(e.clientX < codeEditorContLeft){
         intervalVariables.clearCodeEditorAutoScrollX();
@@ -51,7 +53,7 @@ export default function addingWindowEventListener(codeEditorCont,conditionalVari
               lineEnd.char = lineEnd.char - noOfCharTobeSelected;
               dataVariables.setLineEnd(lineEnd);
               SelectTextByMouse(codeEditorCont,dataVariables,conditionalVariables);
-          }   
+          }
         },10));
       }
       if(e.clientY > codeEditorContBottom){

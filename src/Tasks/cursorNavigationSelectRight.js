@@ -1,7 +1,9 @@
 import focusOnCursor from "./focusOnCursor";
 import SelectTextByMouse from "./selectTextByMouse";
 
-export default function cursorNavigationSelectRight(codeEditorCont,dataVariables,conditionalVariables){
+export default function cursorNavigationSelectRight(
+  codeEditorCont,dataVariables,conditionalVariables
+  ){
 
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -20,11 +22,11 @@ export default function cursorNavigationSelectRight(codeEditorCont,dataVariables
         lineStart=dataVariables.setLineStart({
             line : lineNumber,
             char:charNumber
-        })
+        });
         lineEnd=dataVariables.setLineEnd({
             line : lineNumber,
             char:charNumber
-        })
+        });
         textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(true);
       }
       if(codeLines[lineNumber-1].innerText == "\u200B" && lineNumber != codeLines.length) {
@@ -35,7 +37,7 @@ export default function cursorNavigationSelectRight(codeEditorCont,dataVariables
         dataVariables.setLineEnd(lineEnd);
         cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
         cursor.style.top = (lineNumber)*lineHeight +"px";
-      } 
+      }
       else {
         charNumber = dataVariables.setCharNumber(charNumber + 1);
         lineEnd.char = lineEnd.char + 1;
@@ -43,7 +45,7 @@ export default function cursorNavigationSelectRight(codeEditorCont,dataVariables
         cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
       }
      
-  } 
+  }
   else if(charNumber == codeLines[lineNumber-1].innerText.length && lineNumber != codeLines.length){
     charNumber =  dataVariables.setCharNumber(0);
     lineNumber = dataVariables.setLineNumber(lineNumber + 1);;

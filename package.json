@@ -5,7 +5,8 @@
   "main": "build/codeEditor.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --open --hot",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "lint": "eslint src --fix"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "@sugarlabs/musicblocks-v4-lib": "^0.2.0",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
+    "eslint": "^8.20.0",
     "html-webpack-plugin": "^5.5.0",
     "jsdoc": "^3.6.10",
     "path": "^0.12.7",
@@ -24,5 +26,8 @@
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.3"
+  },
+  "dependencies": {
+    "eslint-config-prettier": "^8.5.0"
   }
 }

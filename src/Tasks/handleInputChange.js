@@ -1,7 +1,9 @@
 import focusOnCursor from "./focusOnCursor";
 import removeSelected from "./removeSelected";
 
-export default function handleInputChange(e, codeEditorCont, dataVariables, conditionalVariables, arrayVariables){
+export default function handleInputChange(
+  e, codeEditorCont, dataVariables, conditionalVariables, arrayVariables
+  ){
   e.preventDefault();
   const InputEvent = new CustomEvent("InputTriggered",{detail:{data:e.data}});
   let textInputBox = codeEditorCont.querySelector('#code-editor-cursor-input');
@@ -35,19 +37,18 @@ export default function handleInputChange(e, codeEditorCont, dataVariables, cond
       let activeline = codeEditorCont.getElementsByClassName("text")[lineNumber - 1];
       let textVal = activeline.innerText;
       if((e.data.length)){
-        console.log(e.data,textVal.slice(0,charNumber) + e.data + textVal.slice(charNumber),charNumber)
         // remove ZeroWhiteSpace and add the text.
         if(textVal == "\u200B"){
             let preTag = document.createElement('pre');
-            preTag.innerText = e.data
+            preTag.innerText = e.data;
             activeline.innerHTML = "";
-            activeline.appendChild(preTag); 
+            activeline.appendChild(preTag);
         } else{
             let preTag = document.createElement('pre');
-            preTag.innerText = `${textVal.slice(0,charNumber)}${e.data}${textVal.slice(charNumber)}`
-            console.log(preTag)
+            preTag.innerText = `${textVal.slice(0,charNumber)}${e.data}${textVal.slice(charNumber)}`;
+            console.log(preTag);
             activeline.innerHTML = "";
-            activeline.appendChild(preTag); 
+            activeline.appendChild(preTag);
         }
         
         charNumber = charNumber + 1;

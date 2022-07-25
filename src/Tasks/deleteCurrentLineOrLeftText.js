@@ -3,7 +3,9 @@ import removeLine from "./removeLine";
 import removeSelected from "./removeSelected";
 import storeCurrentState from "./storeCurrentState";
 
-export default function deleteCurrentLineOrLeftText(codeEditorCont,conditionalVariables,dataVariables,arrayVariables){
+export default function deleteCurrentLineOrLeftText(
+  codeEditorCont,conditionalVariables,dataVariables,arrayVariables
+  ){
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let lineNumber = dataVariables.getLineNumber();
@@ -17,7 +19,7 @@ export default function deleteCurrentLineOrLeftText(codeEditorCont,conditionalVa
 
   let codeLines = codeEditorCont.getElementsByClassName("line");
   if(lineNumber > codeLines.length){
-    lineNumber = dataVariables.setLineNumber(codeLines.length)
+    lineNumber = dataVariables.setLineNumber(codeLines.length);
   }
 
   let activeline = codeEditorCont.getElementsByClassName("text")[lineNumber - 1];
@@ -52,9 +54,9 @@ export default function deleteCurrentLineOrLeftText(codeEditorCont,conditionalVa
       let preTag = document.createElement('pre');
       preTag.innerText = activeline.innerText.slice(0,activeline.innerText.length) + textVal;
       activeline.innerHTML = "";
-      activeline.appendChild(preTag); 
+      activeline.appendChild(preTag);
 
-    } 
+    }
     else {
       if(charNumber ==0){
           return;
@@ -63,7 +65,7 @@ export default function deleteCurrentLineOrLeftText(codeEditorCont,conditionalVa
       let preTag = document.createElement('pre');
       preTag.innerText = textVal.slice(0,charNumber-1) + textVal.slice(charNumber);
       activeline.innerHTML = "";
-      activeline.appendChild(preTag); 
+      activeline.appendChild(preTag);
       // moving the cursor left
       let cursor = document.getElementsByClassName('code_editor_cursor')[0];
       cursor.style.left = (charNumber-1)*charSize + numberLineWidth  + "px";

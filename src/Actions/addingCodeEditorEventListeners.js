@@ -1,7 +1,9 @@
 import getMousePosition from "../Tasks/getMousePosition";
 import SelectTextByMouse from "../Tasks/selectTextByMouse";
 
-export default function addingCodeEditorEventListeners(codeEditorCont, intervalVariables, conditionalVariables, dataVariables){
+export default function addingCodeEditorEventListeners(
+  codeEditorCont, intervalVariables, conditionalVariables, dataVariables
+  ){
   let codeEditor = codeEditorCont.getElementsByClassName('code_editor_lines_container')[0];
   
   codeEditor.addEventListener("mouseup",(e)=>{
@@ -21,7 +23,7 @@ export default function addingCodeEditorEventListeners(codeEditorCont, intervalV
     intervalVariables.clearCodeEditorAutoScrollY();
     if(!drag){
       getMousePosition(codeEditorCont, conditionalVariables, dataVariables, e);
-    } 
+    }
     if(drag){
       let rect = codeEditor.getBoundingClientRect();
       let x = e.clientX - rect.left - numberLineWidth;
@@ -35,7 +37,7 @@ export default function addingCodeEditorEventListeners(codeEditorCont, intervalV
       lineEnd = {
           line:lineNumber,
           char:charNumber
-      }
+      };
       dataVariables.setLineEnd(lineEnd);
     }
     
@@ -68,7 +70,7 @@ export default function addingCodeEditorEventListeners(codeEditorCont, intervalV
     lineStart = {
         line:lineNumber,
         char:charNumber
-    }
+    };
     dataVariables.setLineStart(lineStart);
 
   });
@@ -105,12 +107,12 @@ export default function addingCodeEditorEventListeners(codeEditorCont, intervalV
           lineEnd = {
               line:lineNumber,
               char:charNumber
-          }
+          };
           dataVariables.setLineEnd(lineEnd);
           SelectTextByMouse(codeEditorCont,dataVariables,conditionalVariables);
           // const TextSelection = new CustomEvent("TextSelection");
           // codeEditorCont.dispatchEvent(TextSelection);
-      },1)
+      },1);
     }
     
   });
@@ -128,7 +130,7 @@ export default function addingCodeEditorEventListeners(codeEditorCont, intervalV
             codeEditor.style.width = codeEditorCont.scrollWidth+"px";
         }
         
-    },500)
+    },500);
     
   });
 

@@ -12,7 +12,7 @@ export default function cursorNavigationRight(codeEditorCont,dataVariables,condi
 
   deselectText(codeEditorCont);
   conditionalVariables.setDrag(false);
-  textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(false)
+  textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(false);
   let codeLines = codeEditorCont.getElementsByClassName("line");
   let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
   if(charNumber < codeLines[lineNumber-1].innerText.length){
@@ -26,7 +26,8 @@ export default function cursorNavigationRight(codeEditorCont,dataVariables,condi
           cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
       }
      
-  } else if(charNumber == codeLines[lineNumber-1].innerText.length && lineNumber != codeLines.length){
+  } else if(charNumber == codeLines[lineNumber-1].innerText.length &&
+     lineNumber != codeLines.length){
     charNumber = dataVariables.setCharNumber(0);
     lineNumber = dataVariables.setLineNumber(lineNumber + 1);
       cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";

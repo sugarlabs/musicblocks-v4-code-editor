@@ -16,7 +16,9 @@ import performRedo from "../Tasks/performRedo";
 import performUndo from "../Tasks/performUndo";
 import selectAllText from "../Tasks/selectAllText";
 
-export default function addingInputEventListeners(codeEditorCont,dataVariables,conditionalVariables,arrayVariables){
+export default function addingInputEventListeners(
+  codeEditorCont,dataVariables,conditionalVariables,arrayVariables
+  ){
   let textInputBox = codeEditorCont.querySelector('#code-editor-cursor-input');
 
   textInputBox.addEventListener('input',(e) => {
@@ -35,20 +37,20 @@ export default function addingInputEventListeners(codeEditorCont,dataVariables,c
       createNewLine(codeEditorCont,conditionalVariables,dataVariables,arrayVariables);
       const InputEvent = new CustomEvent("InputTriggered",{detail:{data:"Enter"}});
       textInputBox.dispatchEvent(InputEvent);
-    } 
+    }
     
     else if(e.key == "Backspace"){
       deleteCurrentLineOrLeftText(codeEditorCont,conditionalVariables,dataVariables,arrayVariables);
       const InputEvent = new CustomEvent("InputTriggered",{detail:{data:"BackSpace"}});
       textInputBox.dispatchEvent(InputEvent);
-    } 
+    }
     
     else if(e.key == "Delete"){
       
       deleteNextLineOrRightText(codeEditorCont,conditionalVariables,dataVariables,arrayVariables);
       const InputEvent = new CustomEvent("InputTriggered",{detail:{data:"Delete"}});
       textInputBox.dispatchEvent(InputEvent);
-    } 
+    }
     
     else if(e.key == "ArrowUp"){
       if(e.shiftKey){
@@ -58,7 +60,7 @@ export default function addingInputEventListeners(codeEditorCont,dataVariables,c
           cursorNavigationUp(codeEditorCont,dataVariables,conditionalVariables);
       }
       
-    } 
+    }
     
     else if(e.key == "ArrowDown"){
       if(e.shiftKey){
@@ -66,8 +68,8 @@ export default function addingInputEventListeners(codeEditorCont,dataVariables,c
           cursorNavigationSelectDown(codeEditorCont,dataVariables,conditionalVariables);
       }else {
           cursorNavigationDown(codeEditorCont,dataVariables,conditionalVariables);
-      } 
-    } 
+      }
+    }
     
     else if(e.key == "ArrowLeft"){
       if(e.shiftKey){
@@ -75,7 +77,7 @@ export default function addingInputEventListeners(codeEditorCont,dataVariables,c
       }else {
           cursorNavigationLeft(codeEditorCont,dataVariables,conditionalVariables);
       }
-    } 
+    }
     
     else if(e.key == "ArrowRight"){
       if(e.shiftKey){
@@ -83,7 +85,7 @@ export default function addingInputEventListeners(codeEditorCont,dataVariables,c
       }else {
           cursorNavigationRight(codeEditorCont,dataVariables,conditionalVariables);
       }
-    } 
+    }
     
     else if(e.key == "c" || e.key == "C"){
         
@@ -92,7 +94,7 @@ export default function addingInputEventListeners(codeEditorCont,dataVariables,c
           // we need to copy selected text
           copySelectedText(codeEditorCont);
       }
-    } 
+    }
     
     else if(e.key == "v" || e.key == "V"){
         
@@ -124,5 +126,5 @@ export default function addingInputEventListeners(codeEditorCont,dataVariables,c
       }
     }
   });
-} 
+}
 

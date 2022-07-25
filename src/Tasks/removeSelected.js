@@ -1,7 +1,9 @@
 import removeLine from "./removeLine";
 import storeCurrentState from "./storeCurrentState";
 
-export default function removeSelected(ReplaceChar,dataVariables,conditionalVariables,codeEditorCont,arrayVariables){
+export default function removeSelected(
+    ReplaceChar,dataVariables,conditionalVariables,codeEditorCont,arrayVariables
+    ){
   //console.log(lineStart,lineEnd)let lineNumber = dataVariables.getLineNumber();
   const TextDeselectEvent = new Event("TextDeselect");
   
@@ -16,9 +18,11 @@ export default function removeSelected(ReplaceChar,dataVariables,conditionalVari
   storeCurrentState(codeEditorCont,dataVariables,arrayVariables);
   let codeLines = codeEditorCont.getElementsByClassName("line");
   let topLineInSelected = lineStart.line > lineEnd.line ?
-       lineEnd : (lineStart.line == lineEnd.line ? (lineStart.char > lineEnd.char ? lineEnd : lineStart) : lineStart);
-  let bottomLineInSelected =  lineStart.line > lineEnd.line ? 
-       lineStart :(lineStart.line == lineEnd.line ? (lineStart.char > lineEnd.char ? lineStart : lineEnd) : lineEnd)  ;
+       lineEnd : (lineStart.line == lineEnd.line
+        ? (lineStart.char > lineEnd.char ? lineEnd : lineStart) : lineStart);
+  let bottomLineInSelected =  lineStart.line > lineEnd.line ?
+       lineStart :(lineStart.line == lineEnd.line
+        ? (lineStart.char > lineEnd.char ? lineStart : lineEnd) : lineEnd)  ;
 
   if(bottomLineInSelected.line > codeLines.length){
       bottomLineInSelected.line = codeLines.length;
@@ -40,8 +44,10 @@ export default function removeSelected(ReplaceChar,dataVariables,conditionalVari
       topLineInSelected.char = 0;
   }
 
-  let bottomLineUnSelectedText = codeLines[bottomLineInSelected.line - 1].innerText.slice(bottomLineInSelected.char, codeLines[bottomLineInSelected.line - 1].innerText.length);
-  let topLineUnselectedText = codeLines[topLineInSelected.line - 1].innerText.slice(0,topLineInSelected.char);
+  let bottomLineUnSelectedText = codeLines[bottomLineInSelected.line - 1].innerText
+    .slice(bottomLineInSelected.char, codeLines[bottomLineInSelected.line - 1].innerText.length);
+  let topLineUnselectedText = codeLines[topLineInSelected.line - 1]
+    .innerText.slice(0,topLineInSelected.char);
   // //console.log(bottomLineUnSelectedText,topLineUnselectedText)
   let preTag = document.createElement('pre');
   preTag.innerText = topLineUnselectedText + ReplaceChar + bottomLineUnSelectedText;
@@ -49,8 +55,10 @@ export default function removeSelected(ReplaceChar,dataVariables,conditionalVari
   codeLines[topLineInSelected.line -1].childNodes[0].appendChild(preTag);
   let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
   
-  charNumber = topLineInSelected.char > codeLines[topLineInSelected.line -1].childNodes[0].innerText.length
-      ? codeLines[topLineInSelected.line -1].childNodes[0].innerText.length + 1 : topLineInSelected.char  + ReplaceChar.length;
+  charNumber = topLineInSelected.char >
+        codeLines[topLineInSelected.line -1].childNodes[0].innerText.length
+      ? codeLines[topLineInSelected.line -1].childNodes[0].innerText.length + 1
+      : topLineInSelected.char  + ReplaceChar.length;
   lineNumber = topLineInSelected.line;
   dataVariables.setCharNumber(charNumber);
   dataVariables.setLineNumber(lineNumber);

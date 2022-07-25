@@ -25,5 +25,5 @@ export default function deselectText(codeEditorCont){
     line.classList.remove('background_selected_text');
     
   });
-  console.log("deselectText")
+  console.log("deselectText");
 }

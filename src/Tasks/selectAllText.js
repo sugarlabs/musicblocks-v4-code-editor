@@ -17,6 +17,6 @@ export default function selectAllText(codeEditorCont,dataVariables,conditionalVa
   lineEnd = dataVariables.setLineEnd({
       line:codeLines.length,
       char:codeLines[codeLines.length - 1].innerText.length
-  })
+  });
   drag = conditionalVariables.setDrag(true);
 }
