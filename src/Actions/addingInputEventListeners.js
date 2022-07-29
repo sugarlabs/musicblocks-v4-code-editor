@@ -15,14 +15,17 @@ import pasteCopiedText from "../Tasks/pasteCopiedText";
 import performRedo from "../Tasks/performRedo";
 import performUndo from "../Tasks/performUndo";
 import selectAllText from "../Tasks/selectAllText";
+import { codeEditorCont, dataVariables, conditionalVariables, arrayVariables } from "../store";
 
-export default function addingInputEventListeners(
-  codeEditorCont,dataVariables,conditionalVariables,arrayVariables
-  ){
+/**
+ * this function adds eventListeners for keyboard inputs on codeEditor.
+ * @fucntion addingInputEventListeners
+ */
+export default function addingInputEventListeners(){
   let textInputBox = codeEditorCont.querySelector('#code-editor-cursor-input');
 
   textInputBox.addEventListener('input',(e) => {
-    handleInputChange(e, codeEditorCont,dataVariables,conditionalVariables,arrayVariables);
+    handleInputChange(e);
   });
 
   textInputBox.addEventListener("blur",()=>{
@@ -34,30 +37,35 @@ export default function addingInputEventListeners(
 
   textInputBox.addEventListener("keydown",(e)=>{
     if(e.key == "Enter"){
-      createNewLine(codeEditorCont,conditionalVariables,dataVariables,arrayVariables);
-      const InputEvent = new CustomEvent("InputTriggered",{detail:{data:"Enter"}});
+      createNewLine();
+      // emitting InputTriggered event on codeEditor after adding text inside the Dom, this
+      // event can be used to do additional tasks on text if needed by listening to this event.
+      const InputEvent = new CustomEvent('InputTriggered', { detail: { data: 'Enter' } });
       textInputBox.dispatchEvent(InputEvent);
     }
     
     else if(e.key == "Backspace"){
-      deleteCurrentLineOrLeftText(codeEditorCont,conditionalVariables,dataVariables,arrayVariables);
-      const InputEvent = new CustomEvent("InputTriggered",{detail:{data:"BackSpace"}});
+      deleteCurrentLineOrLeftText();
+      // emitting InputTriggered event on codeEditor after adding text inside the Dom, this
+      // event can be used to do additional tasks on text if needed by listening to this event.
+      const InputEvent = new CustomEvent('InputTriggered', { detail: { data: 'BackSpace' } });
       textInputBox.dispatchEvent(InputEvent);
     }
     
     else if(e.key == "Delete"){
-      
-      deleteNextLineOrRightText(codeEditorCont,conditionalVariables,dataVariables,arrayVariables);
-      const InputEvent = new CustomEvent("InputTriggered",{detail:{data:"Delete"}});
+      deleteNextLineOrRightText();
+      // emitting InputTriggered event on codeEditor after adding text inside the Dom, this
+      // event can be used to do additional tasks on text if needed by listening to this event.
+      const InputEvent = new CustomEvent('InputTriggered', { detail: { data: 'Delete' } });
       textInputBox.dispatchEvent(InputEvent);
     }
     
     else if(e.key == "ArrowUp"){
       if(e.shiftKey){
           e.preventDefault();
-          cursorNavigationSelectUp(codeEditorCont,dataVariables,conditionalVariables);
+          cursorNavigationSelectUp();
       }else {
-          cursorNavigationUp(codeEditorCont,dataVariables,conditionalVariables);
+          cursorNavigationUp();
       }
       
     }
@@ -65,25 +73,25 @@ export default function addingInputEventListeners(
     else if(e.key == "ArrowDown"){
       if(e.shiftKey){
           e.preventDefault();
-          cursorNavigationSelectDown(codeEditorCont,dataVariables,conditionalVariables);
+          cursorNavigationSelectDown();
       }else {
-          cursorNavigationDown(codeEditorCont,dataVariables,conditionalVariables);
+          cursorNavigationDown();
       }
     }
     
     else if(e.key == "ArrowLeft"){
       if(e.shiftKey){
-          cursorNavigationSelectLeft(codeEditorCont,dataVariables,conditionalVariables);
+          cursorNavigationSelectLeft();
       }else {
-          cursorNavigationLeft(codeEditorCont,dataVariables,conditionalVariables);
+          cursorNavigationLeft();
       }
     }
     
     else if(e.key == "ArrowRight"){
       if(e.shiftKey){
-          cursorNavigationSelectRight(codeEditorCont,dataVariables,conditionalVariables);
+          cursorNavigationSelectRight();
       }else {
-          cursorNavigationRight(codeEditorCont,dataVariables,conditionalVariables);
+          cursorNavigationRight();
       }
     }
     
@@ -92,7 +100,7 @@ export default function addingInputEventListeners(
       if(e.ctrlKey){
           e.preventDefault();
           // we need to copy selected text
-          copySelectedText(codeEditorCont);
+          copySelectedText();
       }
     }
     
@@ -100,7 +108,7 @@ export default function addingInputEventListeners(
         
       if(e.ctrlKey){
           e.preventDefault();
-          pasteCopiedText(codeEditorCont,dataVariables,conditionalVariables,arrayVariables);
+          pasteCopiedText();
       }
     }
 
@@ -108,21 +116,21 @@ export default function addingInputEventListeners(
       if(e.ctrlKey){
           e.preventDefault();
           // we need to undo 
-          performUndo(codeEditorCont,dataVariables,conditionalVariables,arrayVariables);
+          performUndo();
       }
     }
 
     else if(e.key == "y" || e.key == "Y"){
       if(e.ctrlKey){
           e.preventDefault();
-          performRedo(codeEditorCont,dataVariables,conditionalVariables,arrayVariables);
+          performRedo();
       }
     }
 
     else if(e.key == "a" || e.key == "A"){
       if(e.ctrlKey){
           e.preventDefault();
-          selectAllText(codeEditorCont,dataVariables,conditionalVariables);
+          selectAllText();
       }
     }
   });

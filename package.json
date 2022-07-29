@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --open --hot",
     "build": "webpack --config webpack.prod.js",
-    "lint": "eslint src --fix"
+    "lint": "eslint src --fix",
+    "docs": "jsdoc -r ./src -d ./docs -c ./jsdoc.config.json"
   },
   "author": "",
   "license": "ISC",

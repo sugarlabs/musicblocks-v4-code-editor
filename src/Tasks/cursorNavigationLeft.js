@@ -1,7 +1,13 @@
 import deselectText from "./deselectText";
 import focusOnCursor from "./focusOnCursor";
+import { codeEditorCont, dataVariables, conditionalVariables } from "../store";
 
-export default function cursorNavigationLeft(codeEditorCont,dataVariables,conditionalVariables){
+/**
+ * This methods runs when the events for making the cursor go left is triggered and makes
+ * the cursor go left and move up if the cursor reached the beginning of text.
+ * @function cursorNavigationLeft
+ */
+export default function cursorNavigationLeft(){
   const TextDeselectEvent = new Event("TextDeselect");
   
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -11,8 +17,8 @@ export default function cursorNavigationLeft(codeEditorCont,dataVariables,condit
   let lineHeight = dataVariables.getLineHeight();
   let numberLineWidth = dataVariables.getNumberLineWidth();
 
-
-  deselectText(codeEditorCont);
+  console.log(charNumber);
+  deselectText();
   conditionalVariables.setDrag(false);
   textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(false);
   let codeLines = codeEditorCont.getElementsByClassName("line");

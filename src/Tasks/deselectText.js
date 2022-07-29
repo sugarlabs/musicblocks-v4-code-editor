@@ -1,4 +1,11 @@
-export default function deselectText(codeEditorCont){
+import { codeEditorCont } from "../store";
+
+/**
+ * this methods removes all the span tags with background_selected_text while retaining 
+ * the text inside it.
+ * @function deselectText
+ */
+export default function deselectText(){
   let SelectedLines  = codeEditorCont.querySelectorAll(".background_selected_text");
   SelectedLines.forEach((line) => {
     // if(line.tagName == "SPAN"){
@@ -25,5 +32,4 @@ export default function deselectText(codeEditorCont){
     line.classList.remove('background_selected_text');
     
   });
-  console.log("deselectText");
 }

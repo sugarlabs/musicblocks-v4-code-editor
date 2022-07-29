@@ -1,8 +1,14 @@
 import focusOnCursor from "./focusOnCursor";
+import { codeEditorCont, dataVariables, conditionalVariables, arrayVariables } from "../store";
 
-export default function performUndo(
-    codeEditorCont,dataVariables,conditionalVariables,arrayVariables
-    ){
+/**
+ * this function gets triggered when ctrl+x is pressed indicating a undo action on text editor.
+ * Currently this methods follows a memorization procedure to store exact copy of the DOM in an array.
+ * Undo just takes the last saved state of codeEditor DOM inside undoStore and replaces the active state of code lines 
+ * with the previously saved state. It also store the active state into redoStore incase Redo is triggered later.
+ * @function performUndo
+ */
+export default function performUndo(){
 
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let lineNumber = dataVariables.getLineNumber();
@@ -38,6 +44,6 @@ export default function performUndo(
       }
       
       arrayVariables.popFromUndoStore();
-      focusOnCursor(codeEditorCont,dataVariables);
+      focusOnCursor();
   }
 }

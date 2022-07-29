@@ -1,3 +1,5 @@
+import { codeEditorCont, dataVariables, conditionalVariables } from '../store';
+
 let syntaxColorConfig;
 let SyntaxDetails = "";
 let LineNumber = 0;
@@ -6,6 +8,15 @@ let TempConditionalVariables;
 let TempDataVariable;
 let TextData = [];
 let TextDataI = 0;
+
+/**
+ * This method is takes up a keyword and returns information of that keyword from specification snapshot
+ * if the information exists. 
+ * @param {String} text - the keyword after splitting the code line text with " "
+ * @param {Number} currentLineNumber - the current active line number whose text is being processed
+ * @param {Object} _specificationSnapshot - MusicBLocksv4 specification snapshot for getting syntax names.
+ * @returns {Object} - returns syntax details of the keyword passed from specificatio snapshot.
+ */
 function getSyntaxDetails(text,currentLineNumber,_specificationSnapshot){
 
   let codeLines = tempCodeEditorCont.getElementsByClassName("line");
@@ -45,6 +56,12 @@ function getSyntaxDetails(text,currentLineNumber,_specificationSnapshot){
   return SyntaxDetails;
 }
 
+/**
+ * This methods takes in the keyword and returns what color the needs to displayed in.
+ * @param {String} text - the keyword after splitting the code line text with " "
+ * @param {Object} _specificationSnapshot - MusicBLocksv4 specification snapshot for getting syntax names.
+ * @returns {String} - returns colour for the keyword in Hex code. this color is assigned to the text.
+ */
 function getColorForText(text,_specificationSnapshot){
   let color = "";
   if(_specificationSnapshot[text]){
@@ -175,6 +192,16 @@ function getColorForText(text,_specificationSnapshot){
   }
 }
 
+/**
+ * This method adds all the needed data of the param "t" keyword passed into the "TextData" array which at the time
+ * of appending into the DOM can be used to get the data of evey keyword and append them into DOM accordingly.
+ * @param {String} t  the keyword after splitting the code line text with " "
+ * @param {Object} _specificationSnapshot - MusicBLocksv4 specification snapshot for getting syntax names.
+ * @param {Boolean} toAddColon - this tells the future method whether or not to add the colon at the end of text
+ * @param {Boolean} toAddSpace - this tells the future methods whether or not to add a " "(space) after the text.
+ * @returns {String} - returns an span tag string with color inside style for the specified text, this is just for reference 
+ *      and will not be appended to DOM because using innerHTML is not wise. 
+ */
 function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
   if(!t){
     if(toAddColon){
@@ -259,7 +286,20 @@ function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
   return t;
 }
 
-function highLightLineText(codeLines,dataVariables,_specificationSnapshot){
+/**
+ * This method generates all the needed data on every single keyword inside the active Text,
+ * adds all the data into TextData array, and finally using the TextData appends the span tags into the DOM
+ * achieving the syntax Highlighting. 
+ * @param {HTMLCollection} codeLines - an array of codelines DIv in DOM.
+ * @param {Object} _specificationSnapshot - MusicBLocksv4 specification snapshot for getting syntax names.
+ * 
+ * @Description - This basic concept is we split the line Text by " "(space) then treat every element as a keyword, then
+ * further process every keyword to remove "-" and ":" and then when we get the actual keyword we search it in 
+ * Specification snapshot of musicBlocksV4 and assign a color if the keyword is not found we go to previous line and keep
+ * following the above procedure recursively until we find the color for every keyword. After assigning colors to every keyword 
+ * we move on to Appending them all at once. 
+ */
+function highLightLineText(codeLines,_specificationSnapshot){
   let codeLineText = codeLines[LineNumber-1].innerText;
   let codeTextArray = codeLineText.split(" ");
   let HTMLText = "";
@@ -397,14 +437,17 @@ function highLightLineText(codeLines,dataVariables,_specificationSnapshot){
   
 }
 
-
+/**
+ * This method runs everytime a custom event is triggered which changes the text of single line in code Editor,
+ * this methods highlights the Text of the line that changed. 
+ * @param {String} eventKey - the event Key name that has triggered this function.
+ * @param {Object} _specificationSnapshot - MusicBLocksv4 specification snapshot for getting syntax names.
+ * @param {*} syntaxColorConfigObj - the configuration file containing what colors to adds to keywords.
+ */
 export default function runSyntaxHighlighter(
   eventKey,
-  codeEditorCont,
-  dataVariables,
   _specificationSnapshot,
   syntaxColorConfigObj,
-  conditionalVariables
   ){
   syntaxColorConfig = syntaxColorConfigObj["colorConfig"];
   SyntaxDetails = "";
@@ -415,7 +458,7 @@ export default function runSyntaxHighlighter(
   let codeLines = codeEditorCont.getElementsByClassName("line");
   if(eventKey == "Space" || eventKey == "BackSpace" || eventKey == "Delete" || eventKey == "Input" || eventKey == "TextSelection"){
     
-    highLightLineText(codeLines,dataVariables,_specificationSnapshot);
+    highLightLineText(codeLines,_specificationSnapshot);
 
     if(TempConditionalVariables && TempConditionalVariables.getDrag()){
       let lineEnd = TempDataVariable.getLineEnd();
@@ -424,20 +467,27 @@ export default function runSyntaxHighlighter(
     }
     // codeLines[dataVariables.getLineNumber()-1].getElementsByTagName('pre')[0].innerHTML = HTMLText;
   } else if(eventKey == "Enter"){
-    
+    // highlight previous line
     LineNumber = LineNumber - 1;
 
-    highLightLineText(codeLines,dataVariables,_specificationSnapshot);
-
+    highLightLineText(codeLines, _specificationSnapshot);
+    // highlight current line
     LineNumber = LineNumber + 1;
-    
-    highLightLineText(codeLines,dataVariables,_specificationSnapshot);
+
+    highLightLineText(codeLines, _specificationSnapshot);
   }
 
 }
 
+/**
+ * This method runs everytime a custom event is triggered which changes the text of multiple line in code Editor,
+ * this methods highlights the Text of all the lines. 
+ * @param {String} eventKey - the event Key name that has triggered this function.
+ * @param {Object} _specificationSnapshot - MusicBLocksv4 specification snapshot for getting syntax names.
+ * @param {*} syntaxColorConfigObj - the configuration file containing what colors to adds to keywords.
+ */
 export function runSyntaxHighlighterOnAllLines(
-  codeEditorCont,dataVariables,_specificationSnapshot,syntaxColorConfigObj
+    _specificationSnapshot,syntaxColorConfigObj
   ){
   syntaxColorConfig = syntaxColorConfigObj["colorConfig"];
   tempCodeEditorCont = codeEditorCont;
@@ -445,7 +495,7 @@ export function runSyntaxHighlighterOnAllLines(
   let codeLines = codeEditorCont.getElementsByClassName("line");
   while(codeLines.length >= LineNumber){
     SyntaxDetails = "";
-    highLightLineText(codeLines,dataVariables,_specificationSnapshot);
+    highLightLineText(codeLines,_specificationSnapshot);
     LineNumber = LineNumber + 1;
   }
   

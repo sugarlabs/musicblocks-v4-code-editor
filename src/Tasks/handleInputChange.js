@@ -1,9 +1,14 @@
 import focusOnCursor from "./focusOnCursor";
 import removeSelected from "./removeSelected";
+import { codeEditorCont, dataVariables, conditionalVariables, arrayVariables } from "../store";
 
-export default function handleInputChange(
-  e, codeEditorCont, dataVariables, conditionalVariables, arrayVariables
-  ){
+/**
+ * This method runs when an input is triggered inside codeEditor, it Checks the input data and
+ * and adds that into DOM in position specified by line NUmber and Char number.
+ * @param {Event} e - keyDOwn event data for input in codeEditor.
+ * @function handleInputChange
+ */
+export default function handleInputChange(e){
   e.preventDefault();
   const InputEvent = new CustomEvent("InputTriggered",{detail:{data:e.data}});
   let textInputBox = codeEditorCont.querySelector('#code-editor-cursor-input');
@@ -17,15 +22,17 @@ export default function handleInputChange(
   textSelectionInProgress = false;
   conditionalVariables.setTextSelectionInProgress(false);
   // //console.log(drag,e.data);
+  // if drag is true that means user has selected some text so we need to replace the 
+  // selected text with the input Character.
   if(drag){
       if(e.data.length){
-        removeSelected(e.data,dataVariables,conditionalVariables,codeEditorCont,arrayVariables);
+        removeSelected(e.data);
         lineNumber = dataVariables.getLineNumber();
         charNumber = dataVariables.getCharNumber();
         textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
         textInputBox.dispatchEvent(InputEvent);
       } else {
-        removeSelected("",dataVariables,conditionalVariables,codeEditorCont);
+        removeSelected("");
         lineNumber = dataVariables.getLineNumber();
         charNumber = dataVariables.getCharNumber();
         textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -64,6 +71,6 @@ export default function handleInputChange(
       }
       e.target.value = "";
   }
-  focusOnCursor(codeEditorCont, dataVariables);
+  focusOnCursor();
   
 }

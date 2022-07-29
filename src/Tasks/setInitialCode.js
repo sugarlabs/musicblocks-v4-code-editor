@@ -1,25 +1,24 @@
 import focusOnCursor from "./focusOnCursor";
-import removeSelected from "./removeSelected";
-import storeCurrentState from "./storeCurrentState";
+import { codeEditorCont, dataVariables,conditionalVariables } from "../store";
 
-export default async function setInitialCode(
-  codeText,codeEditorCont,dataVariables,conditionalVariables,arrayVariables
-  ){
+/**
+ * This methods sets the initial text inside the code editor rather than initializing an empty codeEditor.
+ * @param {String} codeText - code in string that will be set inside the code editor when the code editor is loaded. 
+ * @returns {undefined} - nothing
+ * @function setInitialCode
+ */
+export default async function setInitialCode(codeText){
   
-  let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let lineNumber = dataVariables.getLineNumber();
   let charNumber = dataVariables.getCharNumber();
   let charSize = dataVariables.getCharSize();
   let lineHeight = dataVariables.getLineHeight();
   let numberLineWidth = dataVariables.getNumberLineWidth();
-  let lineEnd = dataVariables.getLineEnd();
-  let lineStart = dataVariables.getLineStart();
 
 
   textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(false);
   let codeLines = codeEditorCont.getElementsByClassName("line");
-  let selectedLines = codeEditorCont.getElementsByClassName("background_selected_text");
   let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
   let textToSet = codeText;
   
@@ -122,7 +121,7 @@ export default async function setInitialCode(
     cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
     cursor.style.top = (lineNumber-1)*lineHeight  + "px";
   }
-  focusOnCursor(codeEditorCont,dataVariables);
+  focusOnCursor();
 
   
   

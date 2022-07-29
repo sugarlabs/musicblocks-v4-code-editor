@@ -2,9 +2,10 @@
  * @description - We need some variables that are global to the whole project. To avoid creating
  * a global scope variable this class implements getter and setter functions for variable that 
  * hold data either numeric, string or object. 
+ * @exports dataVariables
  */
 export default class dataVariables {
-  constructor(){
+  constructor() {
     /**
      * A variable to keep track of line Number on which the cursor is placed.
      * use getLineNumber() to get the value of variable and setLineNumber() to set the value of variable.
@@ -28,7 +29,7 @@ export default class dataVariables {
      * use getNumberLineWidth() to get the value of variable and setNumberLineWidth() to set the value of variable.
      * @type {number}
      */
-     this.numberLineWidth = 35;
+    this.numberLineWidth = 35;
     /**
      * A variable to store the character size of a code line in code editor.
      * use getCharSize() to get the value of variable and setCharSize() to set the value of variable.
@@ -41,8 +42,8 @@ export default class dataVariables {
      * @type {JSON}
      */
     this.lineStart = {
-      line:0,
-      char:0
+      line: 0,
+      char: 0,
     };
     /**
      * A variable to store the end line data when text is being selected.
@@ -50,64 +51,117 @@ export default class dataVariables {
      * @type {JSON}
      */
     this.lineEnd = {
-      line:0,
-      char:0
+      line: 0,
+      char: 0,
     };
-
   }
 
-  getLineNumber(){
+  /**
+   *
+   * @returns {Number}
+   */
+  getLineNumber() {
     return this.lineNumber;
   }
-  setLineNumber(LineNumber){
+  /**
+   *
+   * @returns {Number}
+   */
+  setLineNumber(LineNumber) {
     this.lineNumber = LineNumber;
     return this.lineNumber;
   }
-
-  getCharNumber(){
+  /**
+   *
+   * @returns {String}
+   */
+  getCharNumber() {
     return this.charNumber;
   }
-  setCharNumber(CharNumber){
+  /**
+   *
+   * @returns {String}
+   */
+  setCharNumber(CharNumber) {
     this.charNumber = CharNumber;
     return this.charNumber;
   }
-
-  getLineHeight(){
+  /**
+   *
+   * @returns {Number}
+   */
+  getLineHeight() {
     return this.lineHeight;
   }
-  setLineHeight(LineHeight){
+  /**
+   *
+   * @returns {Number}
+   */
+  setLineHeight(LineHeight) {
     this.lineHeight = LineHeight;
     return this.lineHeight;
   }
 
-  getCharSize(){
+  /**
+   *
+   * @returns {Number}
+   */
+  getCharSize() {
     return this.charSize;
   }
-  setCharSize(CharSize){
+  /**
+   *
+   * @returns {Number}
+   */
+  setCharSize(CharSize) {
     this.charSize = CharSize;
     return this.charSize;
   }
 
-  getLineStart(){
+  /**
+   *
+   * @returns {Object}
+   */
+  getLineStart() {
     return this.lineStart;
   }
-  setLineStart(LineStart){
+  /**
+   *
+   * @returns {Object}
+   */
+  setLineStart(LineStart) {
     this.lineStart = LineStart;
     return this.lineStart;
   }
 
-  getLineEnd(){
+  /**
+   *
+   * @returns {Object}
+   */
+  getLineEnd() {
     return this.lineEnd;
   }
-  setLineEnd(LineEnd){
+  /**
+   *
+   * @returns {Object}
+   */
+  setLineEnd(LineEnd) {
     this.lineEnd = LineEnd;
     return this.lineEnd;
   }
 
-  getNumberLineWidth(){
+  /**
+   *
+   * @returns {Number}
+   */
+  getNumberLineWidth() {
     return this.numberLineWidth;
   }
-  setNumberLineWidth(NumberLineWidth){
+  /**
+   *
+   * @returns {Number}
+   */
+  setNumberLineWidth(NumberLineWidth) {
     this.numberLineWidth = NumberLineWidth;
     return this.numberLineWidth;
   }

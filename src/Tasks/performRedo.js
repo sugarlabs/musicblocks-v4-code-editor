@@ -1,8 +1,14 @@
 import focusOnCursor from "./focusOnCursor";
+import { codeEditorCont, dataVariables, conditionalVariables, arrayVariables } from "../store";
 
-export default function performRedo(
-  codeEditorCont,dataVariables,conditionalVariables,arrayVariables
-  ){
+/**
+ * this function gets triggered when ctrl+y is pressed indicating a redo action on text editor.
+ * Currently this methods follows a memorization procedure to store exact copy of the DOM in an array.
+ * Redo just takes the last saved state of codeEditor DOM inside redoStore and replaces the active state of code lines 
+ * with the previously saved state. It also store the active state into undoStore incase undo is triggered later.
+ * @function performRedo
+ */
+export default function performRedo(){
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let lineNumber = dataVariables.getLineNumber();
   let charNumber = dataVariables.getCharNumber();
@@ -37,7 +43,7 @@ export default function performRedo(
       cursor.style.top = (lineNumber-1)*lineHeight  + "px";
     }
     arrayVariables.popFromRedoStore();
-    focusOnCursor(codeEditorCont,dataVariables);
+    focusOnCursor();
   }
   
   

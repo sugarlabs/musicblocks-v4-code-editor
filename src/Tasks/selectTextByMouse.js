@@ -1,75 +1,81 @@
 import deselectText from "./deselectText";
 import focusOnCursor from "./focusOnCursor";
+import {codeEditorCont,dataVariables,conditionalVariables} from "../store";
+// function generateSelectedTextHTML(category,charPos,preNode){
 
-function generateSelectedTextHTML(category,charPos,preNode){
+//   let spanTags = preNode.querySelectorAll("span");
+//   let spanTag = document.createElement('span');
+//   spanTag.classList.add("background_selected_text");
 
-  let spanTags = preNode.querySelectorAll("span");
-  let spanTag = document.createElement('span');
-  spanTag.classList.add("background_selected_text");
+//   let tempSpanTag = document.createElement('span');
 
-  let tempSpanTag = document.createElement('span');
-
-  let unModifiedSpanTags = [];
-  let textLengthsPos=[];
-  for(let i=0;i<spanTags.length;i++){
-    textLengthsPos.push(textLengthsPos.length ?
-      textLengthsPos[textLengthsPos.length-1] + spanTags[i].innerText.length
-      : spanTags[i].innerText.length);
-  }
-  let cursorPosInSpanTags = 0;
-  for(let i=0; i<textLengthsPos.length;i++){
-    if(textLengthsPos[i] > charPos){
-      cursorPosInSpanTags = i;
-      break;
-    }
-    cursorPosInSpanTags = i;
-  }
-  let noOfCharToSelect = textLengthsPos[cursorPosInSpanTags] - charPos;
+//   let unModifiedSpanTags = [];
+//   let textLengthsPos=[];
+//   for(let i=0;i<spanTags.length;i++){
+//     textLengthsPos.push(textLengthsPos.length ?
+//       textLengthsPos[textLengthsPos.length-1] + spanTags[i].innerText.length
+//       : spanTags[i].innerText.length);
+//   }
+//   let cursorPosInSpanTags = 0;
+//   for(let i=0; i<textLengthsPos.length;i++){
+//     if(textLengthsPos[i] > charPos){
+//       cursorPosInSpanTags = i;
+//       break;
+//     }
+//     cursorPosInSpanTags = i;
+//   }
+//   let noOfCharToSelect = textLengthsPos[cursorPosInSpanTags] - charPos;
  
-  if(category == "RL"){
-    let spanTagsLength = spanTags.length;
-    let i=cursorPosInSpanTags+1;
-    console.log("spanTAgslength: ",spanTagsLength," cursorPositionInSPan ",cursorPosInSpanTags);
-    while(i<spanTagsLength){
-      console.log("i",i);
-      let tempCloneSPanTag = spanTags[i].cloneNode(true);
-      spanTag.appendChild(tempCloneSPanTag);
-      // preNode.removeChild(spanTags[i]);
-      i++;
-    }
-    if(spanTagsLength){
-      let tempcloneSpanTag = preNode.childNodes[cursorPosInSpanTags].cloneNode(true);
+//   if(category == "RL"){
+//     let spanTagsLength = spanTags.length;
+//     let i=cursorPosInSpanTags+1;
+//     console.log("spanTAgslength: ",spanTagsLength," cursorPositionInSPan ",cursorPosInSpanTags);
+//     while(i<spanTagsLength){
+//       console.log("i",i);
+//       let tempCloneSPanTag = spanTags[i].cloneNode(true);
+//       spanTag.appendChild(tempCloneSPanTag);
+//       // preNode.removeChild(spanTags[i]);
+//       i++;
+//     }
+//     if(spanTagsLength){
+//       let tempcloneSpanTag = preNode.childNodes[cursorPosInSpanTags].cloneNode(true);
 
-      let tempSpanTagSelected = document.createElement('span');
-      tempSpanTagSelected.classList.add("background_selected_text");
-      tempSpanTagSelected.innerText = tempcloneSpanTag.innerText
-        .slice(preNode.childNodes[cursorPosInSpanTags].innerText.length - (noOfCharToSelect));;
+//       let tempSpanTagSelected = document.createElement('span');
+//       tempSpanTagSelected.classList.add("background_selected_text");
+//       tempSpanTagSelected.innerText = tempcloneSpanTag.innerText
+//         .slice(preNode.childNodes[cursorPosInSpanTags].innerText.length - (noOfCharToSelect));;
       
-      tempSpanTag.innerText = preNode.childNodes[cursorPosInSpanTags]
-        .innerText.slice(0,preNode.childNodes[cursorPosInSpanTags]
-          .innerText.length - (noOfCharToSelect));
-      tempSpanTag.appendChild(tempSpanTagSelected);
+//       tempSpanTag.innerText = preNode.childNodes[cursorPosInSpanTags]
+//         .innerText.slice(0,preNode.childNodes[cursorPosInSpanTags]
+//           .innerText.length - (noOfCharToSelect));
+//       tempSpanTag.appendChild(tempSpanTagSelected);
 
-      i=cursorPosInSpanTags - 1;
-      while(i>=0){
-        let tempCloneSpanTag = spanTags[i].cloneNode(true);
-        unModifiedSpanTags.push(tempCloneSpanTag);
-        i--;
-      }
-    }
+//       i=cursorPosInSpanTags - 1;
+//       while(i>=0){
+//         let tempCloneSpanTag = spanTags[i].cloneNode(true);
+//         unModifiedSpanTags.push(tempCloneSpanTag);
+//         i--;
+//       }
+//     }
     
-    // preNode.childNodes[preNode.childNodes.length - 1].innerText = preNode.childNodes[preNode.childNodes.length - 1].innerText.slice(0,preNode.childNodes[preNode.childNodes.length - 1].innerText.length - (noOfCharToSelect));
-    // preNode.childNodes[preNode.childNodes.length - 1].appendChild(tempSpanTag)
-  }
+//     // preNode.childNodes[preNode.childNodes.length - 1].innerText = preNode.childNodes[preNode.childNodes.length - 1].innerText.slice(0,preNode.childNodes[preNode.childNodes.length - 1].innerText.length - (noOfCharToSelect));
+//     // preNode.childNodes[preNode.childNodes.length - 1].appendChild(tempSpanTag)
+//   }
   
-  return {
-    "unModified":unModifiedSpanTags.reverse(),
-    "partialModified":tempSpanTag,
-    "ComplModified":spanTag,
-  };
-}
+//   return {
+//     "unModified":unModifiedSpanTags.reverse(),
+//     "partialModified":tempSpanTag,
+//     "ComplModified":spanTag,
+//   };
+// }
 
-export default function SelectTextByMouse(codeEditorCont,dataVariables,conditionalVariables){
+/**
+ * This method selects the text by reading the data of LineStart and LineEnd global varaibles
+ * when are assigned whenever there is a change in user text Selection data. this methods takes
+ * that data and selects all the text between LineStart and LineEnd
+ * @function SelectTextByMouse
+ */
+export default function SelectTextByMouse(){
   let lineNumber = dataVariables.getLineNumber();
   let charNumber = dataVariables.getCharNumber();
   let charSize = dataVariables.getCharSize();
@@ -82,7 +88,7 @@ export default function SelectTextByMouse(codeEditorCont,dataVariables,condition
   let codeLines = codeEditorCont.getElementsByClassName("line");
   let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
   // remove selected text if any
-  deselectText(codeEditorCont);
+  deselectText();
 
   // user dragging or moving cursor from bottom to top
   if(lineStart.line > lineEnd.line){
@@ -116,7 +122,10 @@ export default function SelectTextByMouse(codeEditorCont,dataVariables,condition
           codeLines[i-1].childNodes[0].childNodes[0].classList.add("background_selected_text");
       }
   
-      
+      lineEnd.line = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
+      lineEnd.char = lineEnd.char > codeLines[lineNumber - 1].innerText.length
+          ? codeLines[lineNumber - 1].innerText.length
+          : lineEnd.char;
       lineNumber = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
       charNumber = lineEnd.char > codeLines[lineNumber - 1].innerText.length
         ? codeLines[lineNumber - 1].innerText.length : lineEnd.char ;
@@ -154,6 +163,12 @@ export default function SelectTextByMouse(codeEditorCont,dataVariables,condition
       for(let i = lineStart.line + 1; i< lineEnd.line; i++){
           codeLines[i-1].childNodes[0].childNodes[0].classList.add("background_selected_text");
       }
+
+      lineEnd.line = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
+      lineEnd.char =
+        lineEnd.char > codeLines[lineNumber - 1].innerText.length
+          ? codeLines[lineNumber - 1].innerText.length
+          : lineEnd.char;
       lineNumber = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
       charNumber = lineEnd.char > codeLines[lineNumber - 1].innerText.length
         ? codeLines[lineNumber - 1].innerText.length : lineEnd.char;
@@ -185,6 +200,11 @@ export default function SelectTextByMouse(codeEditorCont,dataVariables,condition
         .innerText.slice(endCharNum,codeLines[lineEnd.line - 1].childNodes[0].innerText.length);
       codeLines[lineEnd.line - 1].childNodes[0].innerHTML = "<pre>" + frontNonSpanText +"<span class='background_selected_text'>" + insideSpanText + "</span>" + endNonSpanText + "</pre>" ;
 
+      lineEnd.line = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
+      lineEnd.char =
+        lineEnd.char > codeLines[lineNumber - 1].innerText.length
+          ? codeLines[lineNumber - 1].innerText.length
+          : lineEnd.char;
       lineNumber = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
       charNumber = lineEnd.char > codeLines[lineNumber - 1]
         .innerText.length ? codeLines[lineNumber - 1].innerText.length : lineEnd.char ;
@@ -193,11 +213,12 @@ export default function SelectTextByMouse(codeEditorCont,dataVariables,condition
       cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
       cursor.style.top = (lineNumber-1)*lineHeight  + "px";
   }
+  console.log(charNumber,dataVariables.getCharNumber(),lineEnd,lineStart);
 
   dataVariables.setLineEnd(lineEnd);
   dataVariables.setLineStart(lineStart);
   let input = codeEditorCont.querySelector('#code-editor-cursor-input');
   input.focus();
-  focusOnCursor(codeEditorCont, dataVariables);
+  focusOnCursor();
   conditionalVariables.setTextSelectionInProgress(true);
 }

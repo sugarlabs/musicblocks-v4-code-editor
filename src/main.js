@@ -1,55 +1,91 @@
 import generateCodeEditor from "./Actions";
-import codeEditorDom from "./Actions/codeEditorDom";
 import addMusicBlocksSupport from "./MusicBlock_v4_Support";
 import syntaxColorConfig from "./MusicBlock_v4_Support/color.config";
-import arrayVariables from "./Variables/arrayVariables";
-import conditionalVariables from "./Variables/conditionalVariables";
-import dataVariables from "./Variables/dataVariables";
-import intervalVariables from "./Variables/intervalVariables";
-export default class codeEditor {
 
-  constructor(codeEditorCont,_specificationSnapshot){
+/**
+ * A main class that get exported by default in production. 
+ * It takes code Editor container and _specificationSnapshot as a parameters in constructor
+ * and has different methods to be used in production.
+ * @exports codeEditor
+ */
+export default class codeEditor {
+  /**
+   * assigns some initial variables 
+   * @param {HTMLDivElement} codeEditorCont - container div Element inside which code Editor will be injected.
+   * @param {Object} _specificationSnapshot - Specification snapshot of syntax elements of musicBlock-v4.
+   */
+  constructor(codeEditorCont, _specificationSnapshot) {
+    /**
+     * @type {HTMLDDivContainer}
+     */
     this.codeEditorCont = codeEditorCont;
-    this.codeEditor = new codeEditorDom();
-    this.dataVariables = new dataVariables();
-    this.conditionalVariables = new conditionalVariables();
-    this.arrayVariables = new arrayVariables();
-    this.intervalVariables = new intervalVariables();
-    
-    this.codeEditorNodeObject =  new generateCodeEditor(this.codeEditor,
-      this.dataVariables,this.conditionalVariables,this.arrayVariables,this.intervalVariables);
-    
+    // this.codeEditor = new codeEditorDom();
+    // this.dataVariables = new dataVariables();
+    // this.conditionalVariables = new conditionalVariables();
+    // this.arrayVariables = new arrayVariables();
+    // this.intervalVariables = new intervalVariables();
+    /**
+     * @type {Object}
+     */
+    this.codeEditorNodeObject = new generateCodeEditor();
+    /**
+     * @type {Object}
+     */
     this.syntaxColorConfigObj = new syntaxColorConfig();
+    /**
+     * @type {Object}
+     */
     this.musicBlocksv4Support = new addMusicBlocksSupport(
-      this.syntaxColorConfigObj,_specificationSnapshot
+      this.syntaxColorConfigObj,
+      _specificationSnapshot,
     );
   }
 
-  createCodeEditorDom(){
+  /**
+   * after initialising the container in constructor, this function can be
+   * called to actually inject the code Editor in HTML DOM.
+   * @return {undefined}
+   */
+  createCodeEditorDom() {
     const codeEditorNode = this.codeEditorNodeObject.generateCodeEditorDOM();
     this.codeEditorCont.appendChild(codeEditorNode);
     this.codeEditorNodeObject.setupInitialDomData();
-    this.musicBlocksv4Support.initializeSupport(
-      this.codeEditor.getCodeEditor(),this.dataVariables,this.conditionalVariables
-    );
+    this.musicBlocksv4Support.initializeSupport();
   }
 
-  setCode(codeText){
+  /**
+   * This functions adds the text passed in param into the code Editor.
+   * @param {String} codeText - a string of code to be placed inside code editor.
+   *
+   */
+  setCode(codeText) {
     this.codeEditorNodeObject.setCode(codeText);
-    this.musicBlocksv4Support.runSyntaxHighlighterOnAllLinesAPI(
-      this.codeEditor.getCodeEditor(),this.dataVariables
-    );
+    this.musicBlocksv4Support.runSyntaxHighlighterOnAllLinesAPI();
   }
 
-  getCode(){
+  /**
+   *
+   * @returns {String} - returns the text inside the code Editor.
+   */
+  getCode() {
     return this.codeEditorNodeObject.getCode();
   }
 
-  setSyntaxColorConfig(newColorConfig){
+  /**
+   * This functions updates the configuration colours for syntax highlighting.
+   * @param {Object} newColorConfig - a JSON object containing the config data for syntax highlightning
+   * @returns {Object} - returns the updated config object along with other default values.
+   */
+  setSyntaxColorConfig(newColorConfig) {
     return this.syntaxColorConfigObj.setConfig(newColorConfig);
   }
 
-  resetSyntaxColorConfig(newColorConfig){
+  /**
+   * This function resets the whole configuration colors for syntax highlighting with newColorConfig param.
+   * @param {Object} newColorConfig - a JSON object containing the config data for syntax highlightning
+   * @returns {Object} - returns the updated config object.
+   */
+  resetSyntaxColorConfig(newColorConfig) {
     return this.syntaxColorConfigObj.resetConfig(newColorConfig);
   }
 }

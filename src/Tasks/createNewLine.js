@@ -1,10 +1,13 @@
 import focusOnCursor from "./focusOnCursor";
 import removeSelected from "./removeSelected";
 import storeCurrentState from "./storeCurrentState";
+import { codeEditorCont,conditionalVariables, dataVariables, arrayVariables } from "../store";
 
-export default function createNewLine(
-  codeEditorCont,conditionalVariables,dataVariables,arrayVariables
-){
+/**
+ * This methods creates a new line when Enter is triggered on input.
+ * @function createNewLine
+ */
+export default function createNewLine(){
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let lineNumber = dataVariables.getLineNumber();
@@ -14,10 +17,12 @@ export default function createNewLine(
   let lineStart = dataVariables.getLineStart();
   let lineEnd = dataVariables.getLineEnd();
 
-
-  storeCurrentState(codeEditorCont,dataVariables,arrayVariables);
+  // stroe the current code Editor state to make undo and redo possible.
+  storeCurrentState();
   textSelectionInProgress = false;
   conditionalVariables.setTextSelectionInProgress(false);
+  // if drag is true that means the user has selected some text, so when enter is triggered we need to 
+  // remove the selected text and then create a new line.
   if(drag){
     let codeLines = codeEditorCont.getElementsByClassName("line");
 
@@ -51,7 +56,7 @@ export default function createNewLine(
     numberLine.append(numberLineP);
     numberLineCont.appendChild(numberLine);
     
-    removeSelected("",dataVariables,conditionalVariables,codeEditorCont,arrayVariables);
+    removeSelected("");
     lineNumber = dataVariables.getLineNumber();
     charNumber = dataVariables.getCharNumber();
     textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -94,7 +99,7 @@ export default function createNewLine(
       activeline.innerHTML = "";
       activeline.appendChild(preTag);
     }
-    focusOnCursor(codeEditorCont,dataVariables);
+    focusOnCursor();
 
     drag=false;
     conditionalVariables.setDrag(false);
@@ -151,7 +156,7 @@ export default function createNewLine(
     cursor.style.left = numberLineWidth  + "px";
     charNumber = 0;
     dataVariables.setCharNumber(charNumber);
-    focusOnCursor(codeEditorCont,dataVariables);
+    focusOnCursor();
   }
 
 }

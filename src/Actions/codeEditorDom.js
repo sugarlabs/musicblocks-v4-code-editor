@@ -131,6 +131,7 @@ function createCodeEditorDom(){
  * @description - this class provides a getter and setter method for codeEditor DOM so
  * all the changes and listener could be added to one single HTML node which can be 
  * exported at the end.
+ * @exports codeEditorDom
  */
 export default class codeEditorDom {
   constructor(){
@@ -141,10 +142,17 @@ export default class codeEditorDom {
      */
     this.codeEditor = createCodeEditorDom();
   }
-
+  /**
+   * 
+   * @returns {HTMLDivElement}
+   */
   getCodeEditor(){
     return this.codeEditor;
   }
+  /**
+   * 
+   * @param {HTMLDivConatiner} CodeEditor - new codeEditor html DOM. 
+   */
   setCodeEditor(CodeEditor){
     this.codeEditor = CodeEditor;
   }

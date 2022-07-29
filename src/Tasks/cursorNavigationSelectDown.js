@@ -1,9 +1,14 @@
 import focusOnCursor from "./focusOnCursor";
 import SelectTextByMouse from "./selectTextByMouse";
+import { codeEditorCont, dataVariables, conditionalVariables } from "../store";
 
-export default function cursorNavigationSelectDown(
-    codeEditorCont,dataVariables,conditionalVariables
-    ){
+/**
+ * This methods runs when the events for making the cursor go down along with Shift key is triggered and makes
+ * the cursor go down selecting the text upwards of it and move left or right automatically depending on few 
+ * scenarios.
+ * @function cursorNavigationSelectDown
+ */
+export default function cursorNavigationSelectDown(){
     
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -52,8 +57,8 @@ export default function cursorNavigationSelectDown(
       }
       lineNumber = dataVariables.setLineNumber(lineNumber + 1);
       drag = conditionalVariables.setDrag(true);
-      focusOnCursor(codeEditorCont,dataVariables);
-      SelectTextByMouse(codeEditorCont,dataVariables,conditionalVariables);
+      focusOnCursor();
+      SelectTextByMouse();
   }
   
 }

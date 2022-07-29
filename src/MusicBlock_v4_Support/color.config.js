@@ -14,8 +14,20 @@ function updateJSON(oldJSON,newJSON){
   return tempData;
 }
 
+/**
+ * Defines methods to assign and change the colour configurations
+ * for syntax highlighting.
+ * @exports syntaxColorConfig
+ */
 export default class syntaxColorConfig{
+
+  /**
+   * @description assigns the default color config for syntax highlighting. 
+   */
   constructor(){
+    /**
+     * @type {Object}
+     */
     this.colorConfig = {
       "block":{
         "categories":{
@@ -73,15 +85,29 @@ export default class syntaxColorConfig{
     };
   }
 
+  /**
+   * 
+   * @returns {Object} - returns the current color config.
+   */
   getConfig(){
     return this.colorConfig;
   }
 
+  /**
+   * 
+   * @param {Object} newColorConfig - the new color config that will reset the current config. 
+   * @returns {Object} - returns the new color config whcih will be the object passed in the params.
+   */
   resetConfig(newColorConfig){
     this.colorConfig = newColorConfig;
     return this.colorConfig;
   }
 
+  /**
+   * 
+   * @param {Object} newColorConfig - the new color config that will be used to update the old config.
+   * @returns {Object} - returns the new updated color config along with all other default values. 
+   */
   setConfig(newColorConfig){
     return updateJSON(this.colorConfig, newColorConfig);
   }

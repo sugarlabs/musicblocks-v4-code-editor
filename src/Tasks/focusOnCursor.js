@@ -1,4 +1,12 @@
-export default function focusOnCursor(codeEditorCont, dataVariables){
+import { codeEditorCont,dataVariables } from "../store";
+
+/**
+ * This method makes the cursor stay in the visible area by automatically scrolling the
+ * code Editor container to always keep the curson in the visible area when user uses 
+ * keys to move the cursor to non visible area of codeEditor.
+ * @function focusOnCursor
+ */
+export default function focusOnCursor(){
   let lineNumber = dataVariables.getLineNumber();
   let charNumber = dataVariables.getCharNumber();
   let charSize = dataVariables.getCharSize();

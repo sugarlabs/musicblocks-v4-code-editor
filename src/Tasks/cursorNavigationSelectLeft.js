@@ -1,9 +1,13 @@
 import focusOnCursor from "./focusOnCursor";
 import SelectTextByMouse from "./selectTextByMouse";
+import { codeEditorCont, dataVariables, conditionalVariables } from "../store";
 
-export default function cursorNavigationSelectLeft(
-    codeEditorCont,dataVariables,conditionalVariables
-    ){
+/**
+ * This methods runs when the events for making the cursor go left along with Shift key is triggered and makes
+ * the cursor go left selecting the text right to it and move up if the cursor reached the beginning of text.
+ * @function cursorNavigationSelectLeft
+ */
+export default function cursorNavigationSelectLeft(){
 
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -51,6 +55,6 @@ export default function cursorNavigationSelectLeft(
       cursor.style.top = (lineNumber)*lineHeight +"px";
   }
   drag = conditionalVariables.setDrag(true);
-  focusOnCursor(conditionalVariables,dataVariables);
-  SelectTextByMouse(codeEditorCont,dataVariables,conditionalVariables);
+  focusOnCursor();
+  SelectTextByMouse();
 }

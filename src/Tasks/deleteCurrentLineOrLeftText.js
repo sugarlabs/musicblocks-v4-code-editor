@@ -2,10 +2,15 @@ import focusOnCursor from "./focusOnCursor";
 import removeLine from "./removeLine";
 import removeSelected from "./removeSelected";
 import storeCurrentState from "./storeCurrentState";
+import { codeEditorCont, conditionalVariables, dataVariables } from "../store";
 
-export default function deleteCurrentLineOrLeftText(
-  codeEditorCont,conditionalVariables,dataVariables,arrayVariables
-  ){
+/**
+ * This methods runs when backspace key is triggered intending to remove the text left to it, this method
+ * also removes the line if the cursor reached the beginning of the line.
+ * @returns {undefined} - nothing
+ * @function cursorNavigationUp
+ */
+export default function deleteCurrentLineOrLeftText(){
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
   let lineNumber = dataVariables.getLineNumber();
@@ -24,8 +29,10 @@ export default function deleteCurrentLineOrLeftText(
 
   let activeline = codeEditorCont.getElementsByClassName("text")[lineNumber - 1];
   let textVal = activeline.innerText;
+  // drag true means there is some text selected and we need to remove those selected
+  // text when backspace is triggered.
   if(drag){
-    removeSelected("",dataVariables,conditionalVariables,codeEditorCont,arrayVariables);
+    removeSelected("");
     lineNumber = dataVariables.getLineNumber();
     charNumber = dataVariables.getCharNumber();
     textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -34,8 +41,8 @@ export default function deleteCurrentLineOrLeftText(
   } else {
     // Removing the number line number and line along with text
     if(charNumber == 0 && lineNumber != 1){
-      storeCurrentState(codeEditorCont,dataVariables,arrayVariables);
-      removeLine(lineNumber,codeEditorCont);
+      storeCurrentState();
+      removeLine(lineNumber);
       lineNumber = dataVariables.getLineNumber();
       charNumber = dataVariables.getCharNumber();
       textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -73,6 +80,6 @@ export default function deleteCurrentLineOrLeftText(
       dataVariables.setCharNumber(charNumber);
     }
   }
-  focusOnCursor(codeEditorCont,dataVariables);
+  focusOnCursor();
   
 }

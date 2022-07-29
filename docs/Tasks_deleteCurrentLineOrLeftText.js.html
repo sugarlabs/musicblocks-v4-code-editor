@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Tasks/deleteCurrentLineOrLeftText.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Tasks/deleteCurrentLineOrLeftText.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import focusOnCursor from "./focusOnCursor";
+import removeLine from "./removeLine";
+import removeSelected from "./removeSelected";
+import storeCurrentState from "./storeCurrentState";
+import { codeEditorCont, conditionalVariables, dataVariables } from "../store";
+
+/**
+ * This methods runs when backspace key is triggered intending to remove the text left to it, this method
+ * also removes the line if the cursor reached the beginning of the line.
+ * @returns {undefined} - nothing
+ * @function cursorNavigationUp
+ */
+export default function deleteCurrentLineOrLeftText(){
+  let drag = conditionalVariables.getDrag();
+  let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
+  let lineNumber = dataVariables.getLineNumber();
+  let charNumber = dataVariables.getCharNumber();
+  let charSize = dataVariables.getCharSize();
+  let lineHeight = dataVariables.getLineHeight();
+  let numberLineWidth = dataVariables.getNumberLineWidth();
+
+  textSelectionInProgress = false;
+  conditionalVariables.setTextSelectionInProgress(false);
+
+  let codeLines = codeEditorCont.getElementsByClassName("line");
+  if(lineNumber > codeLines.length){
+    lineNumber = dataVariables.setLineNumber(codeLines.length);
+  }
+
+  let activeline = codeEditorCont.getElementsByClassName("text")[lineNumber - 1];
+  let textVal = activeline.innerText;
+  // drag true means there is some text selected and we need to remove those selected
+  // text when backspace is triggered.
+  if(drag){
+    removeSelected("");
+    lineNumber = dataVariables.getLineNumber();
+    charNumber = dataVariables.getCharNumber();
+    textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
+    drag = false;
+    conditionalVariables.setDrag(false);
+  } else {
+    // Removing the number line number and line along with text
+    if(charNumber == 0 &amp;&amp; lineNumber != 1){
+      storeCurrentState();
+      removeLine(lineNumber);
+      lineNumber = dataVariables.getLineNumber();
+      charNumber = dataVariables.getCharNumber();
+      textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
+      // moving the cursor up  and left
+      lineNumber = lineNumber - 1;
+      dataVariables.setLineNumber(lineNumber);
+      let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
+      activeline = codeEditorCont.getElementsByClassName("text")[lineNumber-1];
+      cursor.style.top = (lineNumber-1)*lineHeight  + "px";
+      cursor.style.left = (activeline.innerText.length)*charSize + numberLineWidth  + "px";
+      charNumber = activeline.innerText.length;
+      dataVariables.setCharNumber(charNumber);
+
+      //adding any text the deleted line had into current active line
+
+      let preTag = document.createElement('pre');
+      preTag.innerText = activeline.innerText.slice(0,activeline.innerText.length) + textVal;
+      activeline.innerHTML = "";
+      activeline.appendChild(preTag);
+
+    }
+    else {
+      if(charNumber ==0){
+          return;
+      }
+      // removing text from left side
+      let preTag = document.createElement('pre');
+      preTag.innerText = textVal.slice(0,charNumber-1) + textVal.slice(charNumber);
+      activeline.innerHTML = "";
+      activeline.appendChild(preTag);
+      // moving the cursor left
+      let cursor = document.getElementsByClassName('code_editor_cursor')[0];
+      cursor.style.left = (charNumber-1)*charSize + numberLineWidth  + "px";
+      charNumber = charNumber-1;
+      dataVariables.setCharNumber(charNumber);
+    }
+  }
+  focusOnCursor();
+  
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-addMusicBlocksSupport.html">addMusicBlocksSupport</a></li><li><a href="module-arrayVariables.html">arrayVariables</a></li><li><a href="module-codeEditor.html">codeEditor</a></li><li><a href="module-codeEditorDom.html">codeEditorDom</a></li><li><a href="module-conditionalVariables.html">conditionalVariables</a></li><li><a href="module-dataVariables.html">dataVariables</a></li><li><a href="module-generateCodeEditor.html">generateCodeEditor</a></li><li><a href="module-intervalVariables.html">intervalVariables</a></li><li><a href="module-syntaxColorConfig.html">syntaxColorConfig</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addingCodeEditorEventListeners">addingCodeEditorEventListeners</a></li><li><a href="global.html#addingCodeEditorEventListenersMB">addingCodeEditorEventListenersMB</a></li><li><a href="global.html#addingInputEventListenersMB">addingInputEventListenersMB</a></li><li><a href="global.html#copySelectedText">copySelectedText</a></li><li><a href="global.html#createCodeEditorDom">createCodeEditorDom</a></li><li><a href="global.html#createNewLine">createNewLine</a></li><li><a href="global.html#cursorBlink">cursorBlink</a></li><li><a href="global.html#cursorNavigationDown">cursorNavigationDown</a></li><li><a href="global.html#cursorNavigationLeft">cursorNavigationLeft</a></li><li><a href="global.html#cursorNavigationSelectDown">cursorNavigationSelectDown</a></li><li><a href="global.html#cursorNavigationSelectLeft">cursorNavigationSelectLeft</a></li><li><a href="global.html#cursorNavigationSelectRight">cursorNavigationSelectRight</a></li><li><a href="global.html#cursorNavigationSelectUp">cursorNavigationSelectUp</a></li><li><a href="global.html#cursorNavigationUp">cursorNavigationUp</a></li><li><a href="global.html#deleteNextLineOrRightText">deleteNextLineOrRightText</a></li><li><a href="global.html#deselectText">deselectText</a></li><li><a href="global.html#focusOnCursor">focusOnCursor</a></li><li><a href="global.html#getColorForText">getColorForText</a></li><li><a href="global.html#getMousePosition">getMousePosition</a></li><li><a href="global.html#getSyntaxDetails">getSyntaxDetails</a></li><li><a href="global.html#getWrittenCode">getWrittenCode</a></li><li><a href="global.html#handleInputChange">handleInputChange</a></li><li><a href="global.html#highLightLineText">highLightLineText</a></li><li><a href="global.html#HighLightText">HighLightText</a></li><li><a href="global.html#MouseMoveSelection">MouseMoveSelection</a></li><li><a href="global.html#pasteCopiedText">pasteCopiedText</a></li><li><a href="global.html#performRedo">performRedo</a></li><li><a href="global.html#performUndo">performUndo</a></li><li><a href="global.html#removeLine">removeLine</a></li><li><a href="global.html#removeSelected">removeSelected</a></li><li><a href="global.html#runSyntaxHighlighterOnAllLines">runSyntaxHighlighterOnAllLines</a></li><li><a href="global.html#selectAllText">selectAllText</a></li><li><a href="global.html#SelectTextByMouse">SelectTextByMouse</a></li><li><a href="global.html#setInitialCode">setInitialCode</a></li><li><a href="global.html#setTimeoutforWidthInc">setTimeoutforWidthInc</a></li><li><a href="global.html#storeCurrentState">storeCurrentState</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Jul 29 2022 21:18:55 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,4 +1,11 @@
-export default function selectAllText(codeEditorCont,dataVariables,conditionalVariables){
+import { codeEditorCont, dataVariables, conditionalVariables } from "../store";
+
+/**
+ * This method gets triggered when ctrl+a is runned which indicates that the user wants to select the whole code.
+ * This methods selects all the lines by adding a background_selected_text class on all the pre Tags.
+ * @function selectAllText
+ */
+export default function selectAllText(){
 
   let drag = conditionalVariables.getDrag();
   let lineEnd = dataVariables.getLineEnd();

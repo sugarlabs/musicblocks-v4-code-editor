@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Tasks/selectTextByMouse.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Tasks/selectTextByMouse.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import deselectText from "./deselectText";
+import focusOnCursor from "./focusOnCursor";
+import {codeEditorCont,dataVariables,conditionalVariables} from "../store";
+// function generateSelectedTextHTML(category,charPos,preNode){
+
+//   let spanTags = preNode.querySelectorAll("span");
+//   let spanTag = document.createElement('span');
+//   spanTag.classList.add("background_selected_text");
+
+//   let tempSpanTag = document.createElement('span');
+
+//   let unModifiedSpanTags = [];
+//   let textLengthsPos=[];
+//   for(let i=0;i&lt;spanTags.length;i++){
+//     textLengthsPos.push(textLengthsPos.length ?
+//       textLengthsPos[textLengthsPos.length-1] + spanTags[i].innerText.length
+//       : spanTags[i].innerText.length);
+//   }
+//   let cursorPosInSpanTags = 0;
+//   for(let i=0; i&lt;textLengthsPos.length;i++){
+//     if(textLengthsPos[i] > charPos){
+//       cursorPosInSpanTags = i;
+//       break;
+//     }
+//     cursorPosInSpanTags = i;
+//   }
+//   let noOfCharToSelect = textLengthsPos[cursorPosInSpanTags] - charPos;
+ 
+//   if(category == "RL"){
+//     let spanTagsLength = spanTags.length;
+//     let i=cursorPosInSpanTags+1;
+//     console.log("spanTAgslength: ",spanTagsLength," cursorPositionInSPan ",cursorPosInSpanTags);
+//     while(i&lt;spanTagsLength){
+//       console.log("i",i);
+//       let tempCloneSPanTag = spanTags[i].cloneNode(true);
+//       spanTag.appendChild(tempCloneSPanTag);
+//       // preNode.removeChild(spanTags[i]);
+//       i++;
+//     }
+//     if(spanTagsLength){
+//       let tempcloneSpanTag = preNode.childNodes[cursorPosInSpanTags].cloneNode(true);
+
+//       let tempSpanTagSelected = document.createElement('span');
+//       tempSpanTagSelected.classList.add("background_selected_text");
+//       tempSpanTagSelected.innerText = tempcloneSpanTag.innerText
+//         .slice(preNode.childNodes[cursorPosInSpanTags].innerText.length - (noOfCharToSelect));;
+      
+//       tempSpanTag.innerText = preNode.childNodes[cursorPosInSpanTags]
+//         .innerText.slice(0,preNode.childNodes[cursorPosInSpanTags]
+//           .innerText.length - (noOfCharToSelect));
+//       tempSpanTag.appendChild(tempSpanTagSelected);
+
+//       i=cursorPosInSpanTags - 1;
+//       while(i>=0){
+//         let tempCloneSpanTag = spanTags[i].cloneNode(true);
+//         unModifiedSpanTags.push(tempCloneSpanTag);
+//         i--;
+//       }
+//     }
+    
+//     // preNode.childNodes[preNode.childNodes.length - 1].innerText = preNode.childNodes[preNode.childNodes.length - 1].innerText.slice(0,preNode.childNodes[preNode.childNodes.length - 1].innerText.length - (noOfCharToSelect));
+//     // preNode.childNodes[preNode.childNodes.length - 1].appendChild(tempSpanTag)
+//   }
+  
+//   return {
+//     "unModified":unModifiedSpanTags.reverse(),
+//     "partialModified":tempSpanTag,
+//     "ComplModified":spanTag,
+//   };
+// }
+
+/**
+ * This method selects the text by reading the data of LineStart and LineEnd global varaibles
+ * when are assigned whenever there is a change in user text Selection data. this methods takes
+ * that data and selects all the text between LineStart and LineEnd
+ * @function SelectTextByMouse
+ */
+export default function SelectTextByMouse(){
+  let lineNumber = dataVariables.getLineNumber();
+  let charNumber = dataVariables.getCharNumber();
+  let charSize = dataVariables.getCharSize();
+  let lineHeight = dataVariables.getLineHeight();
+  let numberLineWidth = dataVariables.getNumberLineWidth();
+  let lineStart = dataVariables.getLineStart();
+  let lineEnd = dataVariables.getLineEnd();
+
+  //console.log("selecting",lineStart,lineEnd)
+  let codeLines = codeEditorCont.getElementsByClassName("line");
+  let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
+  // remove selected text if any
+  deselectText();
+
+  // user dragging or moving cursor from bottom to top
+  if(lineStart.line > lineEnd.line){
+
+      if(lineStart.line &lt;= 0){
+          lineStart.line = 1;
+      }
+      if(lineStart.char > codeLines[lineStart.line - 1].innerText.length){
+          lineStart.char = codeLines[lineStart.line - 1].innerText.length;
+      }
+      //console.log(lineEnd,lineStart)
+      // add the span tag around the text being selected.
+      if(lineEnd.char &lt; 0){
+          lineEnd.char = 0;
+      }
+      if(codeLines[lineEnd.line - 1].innerText.length >= lineEnd.char &amp;&amp; lineEnd.char >= 0){
+          
+          codeLines[lineEnd.line - 1].childNodes[0].innerHTML = "&lt;pre>" + codeLines[lineEnd.line - 1].innerText.slice(0,lineEnd.char) +
+                   "&lt;span class='background_selected_text'>" + codeLines[lineEnd.line - 1].innerText.slice(lineEnd.char,codeLines[lineEnd.line - 1].innerText.length)
+                   +"&lt;/span>"  + "&lt;/pre>";
+      }
+     
+      if(codeLines[lineStart.line - 1].innerText.length >= lineStart.char){
+          codeLines[lineStart.line - 1].childNodes[0].innerHTML = "&lt;pre>" + "&lt;span class='background_selected_text'>" + codeLines[lineStart.line - 1].innerText.slice(0,lineStart.char)
+          + "&lt;/span>" + codeLines[lineStart.line - 1].innerText.slice(lineStart.char,codeLines[lineStart.line - 1].innerText.length) + "&lt;/pre>";
+      } else{
+          codeLines[lineStart.line - 1].childNodes[0].innerHTML = "&lt;pre>" + "&lt;span class='background_selected_text'>" + codeLines[lineStart.line - 1].innerText + "&lt;/span>" + "&lt;/pre>";
+      }
+
+      for(let i = lineEnd.line + 1; i&lt; lineStart.line; i++){
+          codeLines[i-1].childNodes[0].childNodes[0].classList.add("background_selected_text");
+      }
+  
+      lineEnd.line = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
+      lineEnd.char = lineEnd.char > codeLines[lineNumber - 1].innerText.length
+          ? codeLines[lineNumber - 1].innerText.length
+          : lineEnd.char;
+      lineNumber = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
+      charNumber = lineEnd.char > codeLines[lineNumber - 1].innerText.length
+        ? codeLines[lineNumber - 1].innerText.length : lineEnd.char ;
+      dataVariables.setLineNumber(lineNumber);
+      dataVariables.setCharNumber(charNumber);
+      cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
+      cursor.style.top = (lineNumber-1)*lineHeight  + "px";
+  }
+  else if(lineStart.line &lt; lineEnd.line) {
+      // add the span tag around the text being selected.
+      if(lineEnd.line > codeLines.length){
+          lineEnd.line = codeLines.length;
+      }
+      if(lineEnd.char > codeLines[lineEnd.line - 1].innerText.length){
+          lineEnd.char = codeLines[lineEnd.line - 1].innerText.length;
+      }
+      if(lineStart.char &lt; 0){
+          lineStart.char = 0;
+      }
+      
+      if(codeLines[lineStart.line - 1].innerText.length >= lineStart.char &amp;&amp; lineStart.char >= 0){
+          
+          codeLines[lineStart.line - 1].childNodes[0].innerHTML = "&lt;pre>" + codeLines[lineStart.line - 1].innerText.slice(0,lineStart.char) +
+                   "&lt;span class='background_selected_text'>" + codeLines[lineStart.line - 1].innerText.slice(lineStart.char,codeLines[lineStart.line - 1].innerText.length)
+                   +"&lt;/span>"  + "&lt;/pre>";
+      }
+
+      if(codeLines[lineEnd.line - 1].innerText.length >= lineEnd.char){
+          codeLines[lineEnd.line - 1].childNodes[0].innerHTML = "&lt;pre>" + "&lt;span class='background_selected_text'>" + codeLines[lineEnd.line - 1].innerText.slice(0,lineEnd.char)
+          + "&lt;/span>" + codeLines[lineEnd.line - 1].innerText.slice(lineEnd.char,codeLines[lineEnd.line - 1].innerText.length) + "&lt;/pre>";
+      } else{
+          codeLines[lineEnd.line - 1].childNodes[0].innerHTML = "&lt;pre>" + "&lt;span class='background_selected_text'>" + codeLines[lineEnd.line - 1].innerText + "&lt;/span>" + "&lt;/pre>";
+      }
+
+      for(let i = lineStart.line + 1; i&lt; lineEnd.line; i++){
+          codeLines[i-1].childNodes[0].childNodes[0].classList.add("background_selected_text");
+      }
+
+      lineEnd.line = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
+      lineEnd.char =
+        lineEnd.char > codeLines[lineNumber - 1].innerText.length
+          ? codeLines[lineNumber - 1].innerText.length
+          : lineEnd.char;
+      lineNumber = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
+      charNumber = lineEnd.char > codeLines[lineNumber - 1].innerText.length
+        ? codeLines[lineNumber - 1].innerText.length : lineEnd.char;
+      dataVariables.setLineNumber(lineNumber);
+      dataVariables.setCharNumber(charNumber);
+      cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
+      cursor.style.top = (lineNumber-1)*lineHeight  + "px";
+  }
+  else if(lineStart.line == lineEnd.line){
+      if(lineStart.line > codeLines.length){
+          lineStart.line = codeLines.length;
+          lineEnd.line = codeLines.length;
+      }
+
+      if(lineEnd.char &lt; 0 ){
+          lineEnd.char = 0;
+      }
+      if(lineStart.char &lt; 0){
+          lineStart.char = 0;
+      }
+      let frontCharNum = lineEnd.char > lineStart.char ? lineStart.char : lineEnd.char;
+      let endCharNum = lineEnd.char > lineStart.char ? lineEnd.char : lineStart.char;
+
+      let frontNonSpanText = codeLines[lineEnd.line - 1].childNodes[0]
+        .innerText.slice(0,frontCharNum);
+      let insideSpanText = codeLines[lineEnd.line - 1].childNodes[0]
+        .innerText.slice(frontCharNum,endCharNum);
+      let endNonSpanText = codeLines[lineEnd.line - 1].childNodes[0]
+        .innerText.slice(endCharNum,codeLines[lineEnd.line - 1].childNodes[0].innerText.length);
+      codeLines[lineEnd.line - 1].childNodes[0].innerHTML = "&lt;pre>" + frontNonSpanText +"&lt;span class='background_selected_text'>" + insideSpanText + "&lt;/span>" + endNonSpanText + "&lt;/pre>" ;
+
+      lineEnd.line = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
+      lineEnd.char =
+        lineEnd.char > codeLines[lineNumber - 1].innerText.length
+          ? codeLines[lineNumber - 1].innerText.length
+          : lineEnd.char;
+      lineNumber = lineEnd.line > codeLines.length ? codeLines.length : lineEnd.line;
+      charNumber = lineEnd.char > codeLines[lineNumber - 1]
+        .innerText.length ? codeLines[lineNumber - 1].innerText.length : lineEnd.char ;
+      dataVariables.setLineNumber(lineNumber);
+      dataVariables.setCharNumber(charNumber);
+      cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
+      cursor.style.top = (lineNumber-1)*lineHeight  + "px";
+  }
+  console.log(charNumber,dataVariables.getCharNumber(),lineEnd,lineStart);
+
+  dataVariables.setLineEnd(lineEnd);
+  dataVariables.setLineStart(lineStart);
+  let input = codeEditorCont.querySelector('#code-editor-cursor-input');
+  input.focus();
+  focusOnCursor();
+  conditionalVariables.setTextSelectionInProgress(true);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-addMusicBlocksSupport.html">addMusicBlocksSupport</a></li><li><a href="module-arrayVariables.html">arrayVariables</a></li><li><a href="module-codeEditor.html">codeEditor</a></li><li><a href="module-codeEditorDom.html">codeEditorDom</a></li><li><a href="module-conditionalVariables.html">conditionalVariables</a></li><li><a href="module-dataVariables.html">dataVariables</a></li><li><a href="module-generateCodeEditor.html">generateCodeEditor</a></li><li><a href="module-intervalVariables.html">intervalVariables</a></li><li><a href="module-syntaxColorConfig.html">syntaxColorConfig</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addingCodeEditorEventListeners">addingCodeEditorEventListeners</a></li><li><a href="global.html#addingCodeEditorEventListenersMB">addingCodeEditorEventListenersMB</a></li><li><a href="global.html#addingInputEventListenersMB">addingInputEventListenersMB</a></li><li><a href="global.html#copySelectedText">copySelectedText</a></li><li><a href="global.html#createCodeEditorDom">createCodeEditorDom</a></li><li><a href="global.html#createNewLine">createNewLine</a></li><li><a href="global.html#cursorBlink">cursorBlink</a></li><li><a href="global.html#cursorNavigationDown">cursorNavigationDown</a></li><li><a href="global.html#cursorNavigationLeft">cursorNavigationLeft</a></li><li><a href="global.html#cursorNavigationSelectDown">cursorNavigationSelectDown</a></li><li><a href="global.html#cursorNavigationSelectLeft">cursorNavigationSelectLeft</a></li><li><a href="global.html#cursorNavigationSelectRight">cursorNavigationSelectRight</a></li><li><a href="global.html#cursorNavigationSelectUp">cursorNavigationSelectUp</a></li><li><a href="global.html#cursorNavigationUp">cursorNavigationUp</a></li><li><a href="global.html#deleteNextLineOrRightText">deleteNextLineOrRightText</a></li><li><a href="global.html#deselectText">deselectText</a></li><li><a href="global.html#focusOnCursor">focusOnCursor</a></li><li><a href="global.html#getColorForText">getColorForText</a></li><li><a href="global.html#getMousePosition">getMousePosition</a></li><li><a href="global.html#getSyntaxDetails">getSyntaxDetails</a></li><li><a href="global.html#getWrittenCode">getWrittenCode</a></li><li><a href="global.html#handleInputChange">handleInputChange</a></li><li><a href="global.html#highLightLineText">highLightLineText</a></li><li><a href="global.html#HighLightText">HighLightText</a></li><li><a href="global.html#MouseMoveSelection">MouseMoveSelection</a></li><li><a href="global.html#pasteCopiedText">pasteCopiedText</a></li><li><a href="global.html#performRedo">performRedo</a></li><li><a href="global.html#performUndo">performUndo</a></li><li><a href="global.html#removeLine">removeLine</a></li><li><a href="global.html#removeSelected">removeSelected</a></li><li><a href="global.html#runSyntaxHighlighterOnAllLines">runSyntaxHighlighterOnAllLines</a></li><li><a href="global.html#selectAllText">selectAllText</a></li><li><a href="global.html#SelectTextByMouse">SelectTextByMouse</a></li><li><a href="global.html#setInitialCode">setInitialCode</a></li><li><a href="global.html#setTimeoutforWidthInc">setTimeoutforWidthInc</a></li><li><a href="global.html#storeCurrentState">storeCurrentState</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Jul 29 2022 21:18:55 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,10 +1,15 @@
 import focusOnCursor from "./focusOnCursor";
 import removeSelected from "./removeSelected";
 import storeCurrentState from "./storeCurrentState";
+import { codeEditorCont, dataVariables, conditionalVariables } from "../store";
 
-export default async function pasteCopiedText(
-  codeEditorCont,dataVariables,conditionalVariables,arrayVariables
-  ){
+/**
+ * This method runs when chrl+v is triggered to paste the text, this takes the text from
+ * the clipboard processes it by splitting at /n, and adding the text line by line into the DOM.
+ * @returns {undefined} - nothing
+ * @function pasteCopiedText
+ */
+export default async function pasteCopiedText(){
   const pasteTextEvent = new Event("pasteText");
   let drag = conditionalVariables.getDrag();
   let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -17,13 +22,13 @@ export default async function pasteCopiedText(
   let lineStart = dataVariables.getLineStart();
 
 
-  storeCurrentState(codeEditorCont,dataVariables,arrayVariables);
+  storeCurrentState();
   textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(false);
   let codeLines = codeEditorCont.getElementsByClassName("line");
   let selectedLines = codeEditorCont.getElementsByClassName("background_selected_text");
   let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
   if(selectedLines.length){
-      removeSelected("",dataVariables,conditionalVariables,codeEditorCont,arrayVariables);
+      removeSelected("");
       lineNumber = dataVariables.getLineNumber();
       charNumber = dataVariables.getCharNumber();
       textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
@@ -130,10 +135,6 @@ export default async function pasteCopiedText(
     cursor.style.top = (lineNumber-1)*lineHeight  + "px";
   }
   codeEditorCont.dispatchEvent(pasteTextEvent);
-  focusOnCursor(codeEditorCont,dataVariables);
-
-  
-  
-  //  creating final line adding last line of copied text along with text that was after the cursor in first line.
+  focusOnCursor();
 
 }

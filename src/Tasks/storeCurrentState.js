@@ -1,4 +1,11 @@
-export default function storeCurrentState(codeEditorCont,dataVariables,arrayVariables){
+import { codeEditorCont, dataVariables, arrayVariables } from "../store";
+
+/**
+ * This method stores the snapshot of DOM into undeStore array and empties redoStore array whenever called.
+ * This undoStore array will latter be used to perform undo and redo on code Editor.
+ * @function storeCurrentState
+ */
+export default function storeCurrentState(){
   let lineNumber = dataVariables.getLineNumber();
   let charNumber = dataVariables.getCharNumber();
   let lineStart = dataVariables.getLineStart();

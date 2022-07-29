@@ -1,18 +1,23 @@
 import runSyntaxHighlighter, { runSyntaxHighlighterOnAllLines } from "./runSyntaxHighlighter";
-
+import {codeEditorCont, dataVariables, conditionalVariables} from "../store";
+/**
+ * this function adds custom eventlisteners on codeEditor needed to run
+ * taks for musicBlock v4 code. 
+ * @function addingCodeEditorEventListenersMB
+ */
 export default function addingCodeEditorEventListenersMB(
-  codeEditorCont,dataVariables,_specificationSnapshot,syntaxColorConfigObj,conditionalVariables
+    _specificationSnapshot,syntaxColorConfigObj
   ){
 
   codeEditorCont.addEventListener("TextSelection",(e)=>{
     runSyntaxHighlighter(
-      "TextSelection",codeEditorCont,dataVariables,_specificationSnapshot,syntaxColorConfigObj,conditionalVariables
+      "TextSelection",_specificationSnapshot,syntaxColorConfigObj
     );
   });
 
   codeEditorCont.addEventListener("TextDeselect",(e)=>{
     runSyntaxHighlighterOnAllLines(
-      codeEditorCont,dataVariables,_specificationSnapshot,syntaxColorConfigObj
+      _specificationSnapshot,syntaxColorConfigObj
     );
   });
 }

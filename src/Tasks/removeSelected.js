@@ -1,9 +1,14 @@
 import removeLine from "./removeLine";
 import storeCurrentState from "./storeCurrentState";
+import { dataVariables, conditionalVariables, codeEditorCont, arrayVariables } from "../store";
 
-export default function removeSelected(
-    ReplaceChar,dataVariables,conditionalVariables,codeEditorCont,arrayVariables
-    ){
+/**
+ * This method removes all the selected characters and lines and replaces it with the characters passed in the
+ * parameters.
+ * @param {Strign:a|String:""} ReplaceChar - a single char or empty string that will replace the selected text
+ * @function removeSelected
+ */
+export default function removeSelected(ReplaceChar){
   //console.log(lineStart,lineEnd)let lineNumber = dataVariables.getLineNumber();
   const TextDeselectEvent = new Event("TextDeselect");
   
@@ -15,7 +20,7 @@ export default function removeSelected(
   let lineEnd = dataVariables.getLineEnd();
   let lineNumber = dataVariables.getLineNumber();
 
-  storeCurrentState(codeEditorCont,dataVariables,arrayVariables);
+  storeCurrentState();
   let codeLines = codeEditorCont.getElementsByClassName("line");
   let topLineInSelected = lineStart.line > lineEnd.line ?
        lineEnd : (lineStart.line == lineEnd.line
@@ -57,7 +62,7 @@ export default function removeSelected(
   
   charNumber = topLineInSelected.char >
         codeLines[topLineInSelected.line -1].childNodes[0].innerText.length
-      ? codeLines[topLineInSelected.line -1].childNodes[0].innerText.length + 1
+      ? codeLines[topLineInSelected.line -1].childNodes[0].innerText.length
       : topLineInSelected.char  + ReplaceChar.length;
   lineNumber = topLineInSelected.line;
   dataVariables.setCharNumber(charNumber);
@@ -71,7 +76,7 @@ export default function removeSelected(
   // }
   let numberOfLines = bottomLineInSelected.line - topLineInSelected.line;
   while(numberOfLines > 0){
-      removeLine(topLineInSelected.line+1,codeEditorCont);
+      removeLine(topLineInSelected.line+1);
       numberOfLines = numberOfLines -1 ;
   }
   let input = codeEditorCont.querySelector('#code-editor-cursor-input');

@@ -4,28 +4,56 @@ import setInitialCode from "../Tasks/setInitialCode";
 import addingCodeEditorEventListeners from "./addingCodeEditorEventListeners";
 import addingInputEventListeners from "./addingInputEventListeners";
 import addingWindowEventListener from "./addingWindowEventListener";
-
-
+import {
+  codeEditorDom as codeEditor,
+  dataVariables,
+  conditionalVariables,
+  arrayVariables,
+  intervalVariables,
+} from '../store';
 
 /**
  * @description - This is the main class that creates a code editor , add all the events listenrs 
  * and exports the complete code editor to be appended into a container.
+ * @exports generateCodeEditor
  */
 export default class generateCodeEditor{
 
-  constructor(codeEditor,dataVariables,conditionalVariables,arrayVariables,intervalVariables){
+  constructor(){
+    /**
+     * @type {HTMLDivContainer}
+     */
     this.codeEditor = codeEditor;
+    /**
+     * @type {Object}
+     */
     this.dataVariables = dataVariables;
+    /**
+     * @type {Object}
+     */
     this.conditionalVariables = conditionalVariables;
+    /**
+     * @type {Object}
+     */
     this.arrayVariables = arrayVariables;
+    /**
+     * @type {Object}
+     */
     this.intervalVariables = intervalVariables;
   }
 
+  /**
+   * the main function that user can use to generate code editor.
+   * @returns {HTMLDivElement} - the code editor with all the functionalities added.
+   */
   generateCodeEditorDOM(){
     this.combineAllActions();
     return this.codeEditor.getCodeEditor();
   }
 
+  /**
+   * @description - this method combines all the actions from ./actions folder.
+   */
   combineAllActions(){
     let codeEditor = this.codeEditor.getCodeEditor();
     addingCodeEditorEventListeners(
