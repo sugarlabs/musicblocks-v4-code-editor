@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>MusicBlocks CodeEditor</title>
+  <style>
+    .Code_Editor_Container_main{
+      position: absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+  </style>
+</head>
+<body>
+  <div id="Code_Editor_Container_main" class="Code_Editor_Container_main">
+
+  </div>
+  <script  src="./codeEditor.js"></script>
+  <script >
+    let codeText = `- box-number:
+    name: "a"
+    value: 0
+- box-number:
+    name: "b"
+    value: 1
+- box-number:
+    name: "c"
+    value: 0
+- set-thickness:
+    value: 4
+- repeat:
+    times: 10
+    scope:
+      - print:
+          boxidentifier-number: "a"
+      - set-color:
+          boxidentifier-number: "b"
+      - repeat:
+          times: 6
+          scope:
+            - move-forward:
+                operator-math-times:
+                  operand1:
+                    boxidentifier-number: "a"
+                  operand2: 8
+            - turn-left: 90
+      - box-number:
+          name: "c"
+          value:
+            operator-math-plus:
+              operand1:
+                boxidentifier-number: "a"
+              operand2:
+                boxidentifier-number: "b"
+      - box-number:
+          name: "a"
+          value:
+            boxidentifier-number: "b"
+      - box-number:
+          name: "b"
+          value:
+            boxidentifier-number: "c"`
+
+
+    codeEditorContRef = document.getElementById('Code_Editor_Container_main');
+    let codeEditorDom = new codeEditor.default(codeEditorContRef,{});
+    codeEditorDom.createCodeEditorDom();
+
+    codeEditorDom.setCode(codeText);
+
+    console.log(codeEditorDom.getCode())
+  </script>
+</body>
+</html>

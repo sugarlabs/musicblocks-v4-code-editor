@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Variables/arrayVariables.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Variables/arrayVariables.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @description - We need some variables that are global to the whole project. To avoid creating
+ * a global scope variable this class implements getter and setter functions for variable that 
+ * hold arrays. 
+ * @exports arrayVariables
+ */
+ export default class arrayVariables {
+   constructor() {
+     /**
+      * A variable to store an undo event data to be accessed later to replace current code with saved code.
+      * use getDrag() to get the value of variable and setDrag() to set the value of variable.
+      * @type {Array}
+      */
+     this.undoStore = [];
+     /**
+      * A variable to store an redo event data to be accessed later to replace current code with saved code.
+      * use getTextSelectionInProgress() to get the value of variable and setTextSelectionInProgress() to set the value of variable.
+      * @type {Array}
+      */
+     this.redoStore = [];
+     /**
+      * A variable to store objects of errors occured in the code.
+      * @type {Array}
+      */
+     this.errorStore = [];
+     /**
+      * A variable to store all the objects of warning occured in the code
+      * @type {Array}
+      */
+     this.warningStore = [];
+   }
+
+   /**
+    * @returns {Array} - returns undoStore which is an array for snapshot of codeEditor.
+    */
+   getUndoStore() {
+     return this.undoStore;
+   }
+   /**
+    *
+    * @param {Aray} UndoStore - an array which will replace the current undoStore array
+    * @returns {Array} - returns undoStore which is an array for snapshot of codeEditor.
+    */
+   setUndoStore(UndoStore) {
+     this.undoStore = UndoStore;
+     return this.undoStore;
+   }
+   /**
+    *
+    * @param {HTMLDivElement} ele - the code container DOM snapshot that will be pushed into undoStore array
+    */
+   pushIntoUndoStore(ele) {
+     this.undoStore.push(ele);
+   }
+   /**
+    * @description - thsi method will pop an HTMLDivELement from the undoStore Array
+    */
+   popFromUndoStore() {
+     this.undoStore.pop();
+   }
+   /**
+    * @description - thsi method will shift an HTMLDivELement from the undoStore Array
+    */
+   shiftUndoStore() {
+     this.undoStore.shift();
+   }
+
+   /**
+    * @returns {Array} - returns redoStore which is an array for snapshot of codeEditor.
+    */
+   getRedoStore() {
+     return this.redoStore;
+   }
+   /**
+    *
+    * @param {Array} RedoStore - an array which will replace the current redoStore array
+    * @returns {Array} - returns redoStore which is an array for snapshot of codeEditor.
+    */
+   setRedoStore(RedoStore) {
+     this.redoStore = RedoStore;
+     return this.redoStore;
+   }
+   /**
+    *
+    * @param {HTMLDivElement} ele - the code container DOM snapshot that will be pushed into redoStore array
+    */
+   pushIntoRedoStore(ele) {
+     this.redoStore.push(ele);
+   }
+   /**
+    * @description - thsi method will pop an HTMLDivELement from the redoStore Array
+    */
+   popFromRedoStore() {
+     this.redoStore.pop();
+   }
+   /**
+    * @description - thsi method will shift an HTMLDivELement from the redoStore Array
+    */
+   shiftRedoState() {
+     this.redoStore.shift();
+   }
+
+   /**
+    * @returns {Array} - returns errorStore which is an array for errors in the code.
+    */
+   getErrorStore() {
+     return this.errorStore;
+   }
+   /**
+    *
+    * @param {Array} errorStore - an array which will replace the current errorStore array
+    * @returns {Array} - returns errorStore which is an array for errors in the code.
+    */
+   setErrorStore(errorStore) {
+     this.errorStore = errorStore;
+     return this.errorStore;
+   }
+   /**
+    *
+    * @param {Object} err - an error object that will be pushed into errorStore.
+    */
+   pushIntoErrorStore(err) {
+     this.errorStore.push(err);
+   }
+   /**
+    * @description - thsi method will pop an Object from the errorStore Array
+    */
+   popFromErrorStore() {
+     this.errorStore.pop();
+   }
+   /**
+    * @description - thsi method will shift an Object from the errorStore Array
+    */
+   shiftErrorStore() {
+     this.errorStore.shift();
+   }
+
+   /**
+    * @returns {Array} - returns warningStore which is an array for warnings in the code.
+    */
+   getWarningStore() {
+     return this.warningStore;
+   }
+   /**
+    *
+    * @param {Array} warningStore - an array which will replace the current warningStore array
+    * @returns {Array} - returns warningStore which is an array for warnings in the code.
+    */
+   setWarningStore(warningStore) {
+     this.warningStore = warningStore;
+     return this.warningStore;
+   }
+   /**
+    *
+    * @param {Object} warn - an error object that will be pushed into warningStore.
+    */
+   pushIntoWarningStore(warn) {
+     this.warningStore.push(warn);
+   }
+   /**
+    * @description - thsi method will pop an Object from the warningStore Array
+    */
+   popFromWarningStore() {
+     this.warningStore.pop();
+   }
+   /**
+    * @description - thsi method will shift an Object from the warningStore Array
+    */
+   shiftWarningStore() {
+     this.warningStore.shift();
+   }
+ }</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-addMusicBlocksSupport.html">addMusicBlocksSupport</a></li><li><a href="module-arrayVariables.html">arrayVariables</a></li><li><a href="module-codeEditor.html">codeEditor</a></li><li><a href="module-codeEditorDom.html">codeEditorDom</a></li><li><a href="module-conditionalVariables.html">conditionalVariables</a></li><li><a href="module-dataVariables.html">dataVariables</a></li><li><a href="module-generateCodeEditor.html">generateCodeEditor</a></li><li><a href="module-intervalVariables.html">intervalVariables</a></li><li><a href="module-syntaxColorConfig.html">syntaxColorConfig</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addingCodeEditorEventListeners">addingCodeEditorEventListeners</a></li><li><a href="global.html#addingCodeEditorEventListenersMB">addingCodeEditorEventListenersMB</a></li><li><a href="global.html#addingInputEventListenersMB">addingInputEventListenersMB</a></li><li><a href="global.html#copySelectedText">copySelectedText</a></li><li><a href="global.html#createCodeEditorDom">createCodeEditorDom</a></li><li><a href="global.html#createNewLine">createNewLine</a></li><li><a href="global.html#cursorBlink">cursorBlink</a></li><li><a href="global.html#cursorNavigationDown">cursorNavigationDown</a></li><li><a href="global.html#cursorNavigationLeft">cursorNavigationLeft</a></li><li><a href="global.html#cursorNavigationSelectDown">cursorNavigationSelectDown</a></li><li><a href="global.html#cursorNavigationSelectLeft">cursorNavigationSelectLeft</a></li><li><a href="global.html#cursorNavigationSelectRight">cursorNavigationSelectRight</a></li><li><a href="global.html#cursorNavigationSelectUp">cursorNavigationSelectUp</a></li><li><a href="global.html#cursorNavigationUp">cursorNavigationUp</a></li><li><a href="global.html#deleteNextLineOrRightText">deleteNextLineOrRightText</a></li><li><a href="global.html#deselectText">deselectText</a></li><li><a href="global.html#focusOnCursor">focusOnCursor</a></li><li><a href="global.html#getColorForText">getColorForText</a></li><li><a href="global.html#getMousePosition">getMousePosition</a></li><li><a href="global.html#getSyntaxDetails">getSyntaxDetails</a></li><li><a href="global.html#getWrittenCode">getWrittenCode</a></li><li><a href="global.html#handleInputChange">handleInputChange</a></li><li><a href="global.html#highLightLineText">highLightLineText</a></li><li><a href="global.html#HighLightText">HighLightText</a></li><li><a href="global.html#MouseMoveSelection">MouseMoveSelection</a></li><li><a href="global.html#pasteCopiedText">pasteCopiedText</a></li><li><a href="global.html#performRedo">performRedo</a></li><li><a href="global.html#performUndo">performUndo</a></li><li><a href="global.html#removeLine">removeLine</a></li><li><a href="global.html#removeSelected">removeSelected</a></li><li><a href="global.html#runSyntaxHighlighterOnAllLines">runSyntaxHighlighterOnAllLines</a></li><li><a href="global.html#selectAllText">selectAllText</a></li><li><a href="global.html#SelectTextByMouse">SelectTextByMouse</a></li><li><a href="global.html#setInitialCode">setInitialCode</a></li><li><a href="global.html#setTimeoutforWidthInc">setTimeoutforWidthInc</a></li><li><a href="global.html#showCodeEditorCodeSuggestions">showCodeEditorCodeSuggestions</a></li><li><a href="global.html#storeCurrentState">storeCurrentState</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun Aug 14 2022 18:17:26 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "recurseDepth": 10,
+  "opts": {
+    "destination": "./docs/",
+    "recurse": true
+  }
+}

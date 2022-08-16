@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Tasks/performRedo.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Tasks/performRedo.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import focusOnCursor from "./focusOnCursor";
+import { codeEditorCont, dataVariables, conditionalVariables, arrayVariables } from "../store";
+
+/**
+ * this function gets triggered when ctrl+y is pressed indicating a redo action on text editor.
+ * Currently this methods follows a memorization procedure to store exact copy of the DOM in an array.
+ * Redo just takes the last saved state of codeEditor DOM inside redoStore and replaces the active state of code lines 
+ * with the previously saved state. It also store the active state into undoStore incase undo is triggered later.
+ * @function performRedo
+ */
+export default function performRedo(){
+  let textSelectionInProgress = conditionalVariables.getTextSelectionInProgress();
+  let lineNumber = dataVariables.getLineNumber();
+  let charNumber = dataVariables.getCharNumber();
+  let charSize = dataVariables.getCharSize();
+  let lineHeight = dataVariables.getLineHeight();
+  let lineEnd = dataVariables.getLineEnd();
+  let lineStart = dataVariables.getLineStart();
+  let redoStore = arrayVariables.getRedoStore();
+
+  textSelectionInProgress = conditionalVariables.setTextSelectionInProgress(false);
+
+  let codeLinesCont = codeEditorCont.getElementsByClassName("code_editor_lines_container")[0];
+  let numberLineCont = codeEditorCont.getElementsByClassName("number_line_cont")[0];
+  if(redoStore.length){
+    arrayVariables.pushIntoUndoStore({
+      lineNumber:lineNumber,
+      charNumber:charNumber,
+      lineEnd:lineEnd,
+      lineStart:lineStart,
+      data:codeLinesCont.innerHTML,
+      numberLineData:numberLineCont.innerHTML
+  });
+    if(redoStore.length){
+      lineNumber = dataVariables.setLineNumber(redoStore[redoStore.length - 1].lineNumber);
+      charNumber = dataVariables.setCharNumber(redoStore[redoStore.length - 1].charNumber);
+      lineEnd = dataVariables.setLineEnd(redoStore[redoStore.length - 1].lineEnd);
+      lineStart = dataVariables.setLineStart(redoStore[redoStore.length - 1].lineStart);
+      codeLinesCont.innerHTML = redoStore[redoStore.length - 1].data;
+      numberLineCont.innerHTML = redoStore[redoStore.length - 1].numberLineData;
+      let cursor = codeEditorCont.getElementsByClassName('code_editor_cursor')[0];
+      cursor.style.left = (charNumber)*charSize + 35  + "px";
+      cursor.style.top = (lineNumber-1)*lineHeight  + "px";
+    }
+    arrayVariables.popFromRedoStore();
+    focusOnCursor();
+  }
+  
+  
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-addMusicBlocksSupport.html">addMusicBlocksSupport</a></li><li><a href="module-arrayVariables.html">arrayVariables</a></li><li><a href="module-codeEditor.html">codeEditor</a></li><li><a href="module-codeEditorDom.html">codeEditorDom</a></li><li><a href="module-conditionalVariables.html">conditionalVariables</a></li><li><a href="module-dataVariables.html">dataVariables</a></li><li><a href="module-generateCodeEditor.html">generateCodeEditor</a></li><li><a href="module-intervalVariables.html">intervalVariables</a></li><li><a href="module-syntaxColorConfig.html">syntaxColorConfig</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addingCodeEditorEventListeners">addingCodeEditorEventListeners</a></li><li><a href="global.html#addingCodeEditorEventListenersMB">addingCodeEditorEventListenersMB</a></li><li><a href="global.html#addingInputEventListenersMB">addingInputEventListenersMB</a></li><li><a href="global.html#copySelectedText">copySelectedText</a></li><li><a href="global.html#createCodeEditorDom">createCodeEditorDom</a></li><li><a href="global.html#createNewLine">createNewLine</a></li><li><a href="global.html#cursorBlink">cursorBlink</a></li><li><a href="global.html#cursorNavigationDown">cursorNavigationDown</a></li><li><a href="global.html#cursorNavigationLeft">cursorNavigationLeft</a></li><li><a href="global.html#cursorNavigationSelectDown">cursorNavigationSelectDown</a></li><li><a href="global.html#cursorNavigationSelectLeft">cursorNavigationSelectLeft</a></li><li><a href="global.html#cursorNavigationSelectRight">cursorNavigationSelectRight</a></li><li><a href="global.html#cursorNavigationSelectUp">cursorNavigationSelectUp</a></li><li><a href="global.html#cursorNavigationUp">cursorNavigationUp</a></li><li><a href="global.html#deleteNextLineOrRightText">deleteNextLineOrRightText</a></li><li><a href="global.html#deselectText">deselectText</a></li><li><a href="global.html#focusOnCursor">focusOnCursor</a></li><li><a href="global.html#getColorForText">getColorForText</a></li><li><a href="global.html#getMousePosition">getMousePosition</a></li><li><a href="global.html#getSyntaxDetails">getSyntaxDetails</a></li><li><a href="global.html#getWrittenCode">getWrittenCode</a></li><li><a href="global.html#handleInputChange">handleInputChange</a></li><li><a href="global.html#highLightLineText">highLightLineText</a></li><li><a href="global.html#HighLightText">HighLightText</a></li><li><a href="global.html#MouseMoveSelection">MouseMoveSelection</a></li><li><a href="global.html#pasteCopiedText">pasteCopiedText</a></li><li><a href="global.html#performRedo">performRedo</a></li><li><a href="global.html#performUndo">performUndo</a></li><li><a href="global.html#removeLine">removeLine</a></li><li><a href="global.html#removeSelected">removeSelected</a></li><li><a href="global.html#runSyntaxHighlighterOnAllLines">runSyntaxHighlighterOnAllLines</a></li><li><a href="global.html#selectAllText">selectAllText</a></li><li><a href="global.html#SelectTextByMouse">SelectTextByMouse</a></li><li><a href="global.html#setInitialCode">setInitialCode</a></li><li><a href="global.html#setTimeoutforWidthInc">setTimeoutforWidthInc</a></li><li><a href="global.html#showCodeEditorCodeSuggestions">showCodeEditorCodeSuggestions</a></li><li><a href="global.html#storeCurrentState">storeCurrentState</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun Aug 14 2022 18:17:26 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

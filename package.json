@@ -1,0 +1,34 @@
+{
+  "name": "musicblocks-v4-code-editor",
+  "version": "1.0.0",
+  "description": "Code editor for Musicblocks.",
+  "main": "build/codeEditor.js",
+  "scripts": {
+    "start": "webpack-dev-server --config webpack.dev.js --open --hot",
+    "build": "webpack --config webpack.prod.js",
+    "lint": "eslint src --fix",
+    "docs": "jsdoc -r ./src -d ./docs -c ./jsdoc.config.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.18.5",
+    "@babel/preset-env": "^7.18.2",
+    "@sugarlabs/musicblocks-v4-lib": "^0.2.0",
+    "babel-loader": "^8.2.5",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.20.0",
+    "html-webpack-plugin": "^5.5.0",
+    "jsdoc": "^3.6.10",
+    "path": "^0.12.7",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.7.4",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.3"
+  },
+  "dependencies": {
+    "eslint-config-prettier": "^8.5.0"
+  }
+}

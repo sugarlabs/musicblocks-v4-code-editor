@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: main.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: main.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import generateCodeEditor from "./Actions";
+import addMusicBlocksSupport from "./MusicBlock_v4_Support";
+import syntaxColorConfig from "./MusicBlock_v4_Support/color.config";
+
+/**
+ * A main class that get exported by default in production. 
+ * It takes code Editor container and _specificationSnapshot as a parameters in constructor
+ * and has different methods to be used in production.
+ * @exports codeEditor
+ */
+export default class codeEditor {
+  /**
+   * assigns some initial variables 
+   * @param {HTMLDivElement} codeEditorCont - container div Element inside which code Editor will be injected.
+   * @param {Object} _specificationSnapshot - Specification snapshot of syntax elements of musicBlock-v4.
+   */
+  constructor(codeEditorCont, _specificationSnapshot) {
+    /**
+     * @type {HTMLDDivContainer}
+     */
+    this.codeEditorCont = codeEditorCont;
+    // this.codeEditor = new codeEditorDom();
+    // this.dataVariables = new dataVariables();
+    // this.conditionalVariables = new conditionalVariables();
+    // this.arrayVariables = new arrayVariables();
+    // this.intervalVariables = new intervalVariables();
+    /**
+     * @type {Object}
+     */
+    this.codeEditorNodeObject = new generateCodeEditor();
+    /**
+     * @type {Object}
+     */
+    this.syntaxColorConfigObj = new syntaxColorConfig();
+    /**
+     * @type {Object}
+     */
+    this.musicBlocksv4Support = new addMusicBlocksSupport(
+      this.syntaxColorConfigObj,
+      _specificationSnapshot,
+    );
+  }
+
+  /**
+   * after initialising the container in constructor, this function can be
+   * called to actually inject the code Editor in HTML DOM.
+   * @return {undefined}
+   */
+  createCodeEditorDom() {
+    const codeEditorNode = this.codeEditorNodeObject.generateCodeEditorDOM();
+    this.codeEditorCont.appendChild(codeEditorNode);
+    this.codeEditorNodeObject.setupInitialDomData();
+    this.musicBlocksv4Support.initializeSupport();
+  }
+
+  /**
+   * This functions adds the text passed in param into the code Editor.
+   * @param {String} codeText - a string of code to be placed inside code editor.
+   *
+   */
+  setCode(codeText) {
+    this.codeEditorNodeObject.setCode(codeText);
+    this.musicBlocksv4Support.runSyntaxHighlighterOnAllLinesAPI();
+  }
+
+  /**
+   *
+   * @returns {String} - returns the text inside the code Editor.
+   */
+  getCode() {
+    return this.codeEditorNodeObject.getCode();
+  }
+
+  /**
+   * This functions updates the configuration colours for syntax highlighting.
+   * @param {Object} newColorConfig - a JSON object containing the config data for syntax highlightning
+   * @returns {Object} - returns the updated config object along with other default values.
+   */
+  setSyntaxColorConfig(newColorConfig) {
+    return this.syntaxColorConfigObj.setConfig(newColorConfig);
+  }
+
+  /**
+   * This function resets the whole configuration colors for syntax highlighting with newColorConfig param.
+   * @param {Object} newColorConfig - a JSON object containing the config data for syntax highlightning
+   * @returns {Object} - returns the updated config object.
+   */
+  resetSyntaxColorConfig(newColorConfig) {
+    return this.syntaxColorConfigObj.resetConfig(newColorConfig);
+  }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-addMusicBlocksSupport.html">addMusicBlocksSupport</a></li><li><a href="module-arrayVariables.html">arrayVariables</a></li><li><a href="module-codeEditor.html">codeEditor</a></li><li><a href="module-codeEditorDom.html">codeEditorDom</a></li><li><a href="module-conditionalVariables.html">conditionalVariables</a></li><li><a href="module-dataVariables.html">dataVariables</a></li><li><a href="module-generateCodeEditor.html">generateCodeEditor</a></li><li><a href="module-intervalVariables.html">intervalVariables</a></li><li><a href="module-syntaxColorConfig.html">syntaxColorConfig</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addingCodeEditorEventListeners">addingCodeEditorEventListeners</a></li><li><a href="global.html#addingCodeEditorEventListenersMB">addingCodeEditorEventListenersMB</a></li><li><a href="global.html#addingInputEventListenersMB">addingInputEventListenersMB</a></li><li><a href="global.html#copySelectedText">copySelectedText</a></li><li><a href="global.html#createCodeEditorDom">createCodeEditorDom</a></li><li><a href="global.html#createNewLine">createNewLine</a></li><li><a href="global.html#cursorBlink">cursorBlink</a></li><li><a href="global.html#cursorNavigationDown">cursorNavigationDown</a></li><li><a href="global.html#cursorNavigationLeft">cursorNavigationLeft</a></li><li><a href="global.html#cursorNavigationSelectDown">cursorNavigationSelectDown</a></li><li><a href="global.html#cursorNavigationSelectLeft">cursorNavigationSelectLeft</a></li><li><a href="global.html#cursorNavigationSelectRight">cursorNavigationSelectRight</a></li><li><a href="global.html#cursorNavigationSelectUp">cursorNavigationSelectUp</a></li><li><a href="global.html#cursorNavigationUp">cursorNavigationUp</a></li><li><a href="global.html#deleteNextLineOrRightText">deleteNextLineOrRightText</a></li><li><a href="global.html#deselectText">deselectText</a></li><li><a href="global.html#focusOnCursor">focusOnCursor</a></li><li><a href="global.html#getColorForText">getColorForText</a></li><li><a href="global.html#getMousePosition">getMousePosition</a></li><li><a href="global.html#getSyntaxDetails">getSyntaxDetails</a></li><li><a href="global.html#getWrittenCode">getWrittenCode</a></li><li><a href="global.html#handleInputChange">handleInputChange</a></li><li><a href="global.html#highLightLineText">highLightLineText</a></li><li><a href="global.html#HighLightText">HighLightText</a></li><li><a href="global.html#MouseMoveSelection">MouseMoveSelection</a></li><li><a href="global.html#pasteCopiedText">pasteCopiedText</a></li><li><a href="global.html#performRedo">performRedo</a></li><li><a href="global.html#performUndo">performUndo</a></li><li><a href="global.html#removeLine">removeLine</a></li><li><a href="global.html#removeSelected">removeSelected</a></li><li><a href="global.html#runSyntaxHighlighterOnAllLines">runSyntaxHighlighterOnAllLines</a></li><li><a href="global.html#selectAllText">selectAllText</a></li><li><a href="global.html#SelectTextByMouse">SelectTextByMouse</a></li><li><a href="global.html#setInitialCode">setInitialCode</a></li><li><a href="global.html#setTimeoutforWidthInc">setTimeoutforWidthInc</a></li><li><a href="global.html#showCodeEditorCodeSuggestions">showCodeEditorCodeSuggestions</a></li><li><a href="global.html#storeCurrentState">storeCurrentState</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun Aug 14 2022 18:17:26 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
