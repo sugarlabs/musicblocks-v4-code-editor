@@ -300,8 +300,12 @@ function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
 function highLightLineText(codeLines,_specificationSnapshot){
   let codeLineText = codeLines[LineNumber-1].innerText;
   let codeTextArray = codeLineText.split(" ");
+  // test variable to write what the properties will actually look like while appending
   let HTMLText = "";
+  // an array of properties including keywords and other params which will be used to append keywords
+  // to form the line
   TextData = [];
+  // index position of the keyword being added inside the line text
   TextDataI = 0;
   for(let i=0;i<codeTextArray.length;i++) {
     let t= codeTextArray[i];
@@ -321,6 +325,7 @@ function highLightLineText(codeLines,_specificationSnapshot){
         color:"#000000",
         addSpace:true
       };
+      // the end result of above TextData properties when it'll be appended.
       HTMLText += "-" + " ";
     } else if(t == ':') {
       if(TextData[TextDataI] && TextData[TextDataI].span){
@@ -347,6 +352,8 @@ function highLightLineText(codeLines,_specificationSnapshot){
         if(TextData[TextDataI-1] && codeTextArray.length-1 == i ){
           TextData[TextDataI-1].addSpace = false ;
         }
+      } else if(TextData[TextDataI] && !TextData[TextDataI].span && codeTextArray.length-1 == i){
+        continue;
       }
       
       
