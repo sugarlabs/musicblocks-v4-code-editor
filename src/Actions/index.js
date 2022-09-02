@@ -56,12 +56,8 @@ export default class generateCodeEditor{
    */
   combineAllActions(){
     let codeEditor = this.codeEditor.getCodeEditor();
-    addingCodeEditorEventListeners(
-      codeEditor, this.intervalVariables, this.conditionalVariables, this.dataVariables
-    );
-    addingInputEventListeners(
-      codeEditor,this.dataVariables,this.conditionalVariables,this.arrayVariables
-    );
+    addingCodeEditorEventListeners();
+    addingInputEventListeners();
     // let testLine = document.getElementsByClassName('code_editor_line_measure')[0].childNodes[1];
     // let charSize = (testLine.clientWidth)/40;
   }

@@ -53,12 +53,6 @@ import warningImg from "../../assets/warning.png";
  *       <p>Column: val</p>     
  *     </div>
  *   </div>
- *   <div class="code_editor_code_suggestion_cont">
- *     <div class="code_editor_code_suggestion_sub_cont">
- *       <p></p>
- *     </div>
- *     </div>
- *   </div>
  * </div>
  * 
  * @return {HTMLDivElement} - the main code Editor container. 
@@ -215,36 +209,6 @@ function createCodeEditorDom(){
     codeEditorStatusBarLeft,
     codeEditorStatusBarRight,
   ],null);
-  
-  /**
-   * @description - the div which will contain the code suggestions.
-   * 
-   *   <div class="code_editor_code_suggestion_cont">
-   *     <div class="code_editor_code_suggestion_sub_cont">
-   *     </div>
-   *   </div>
-   */
-
-  const codeEditorTempTestP1 = createPTag(null, "Code Suggestion 1", null);
-  const codeEditorTempTestP2 = createPTag(null, "Code Suggestion 2", null);
-  const codeEditorTempTestP3 = createPTag(null, "Code Suggestion 3", null);
-  const codeEditorTempTestP4 = createPTag(null, "Code Suggestion 4", null);
-  const codeEditorTempTestP5 = createPTag(null, "Code Suggestion 5", null);
-  const codeEditorTempTestP6 = createPTag(null, "Code Suggestion 6", null);
-  const codeEditorTempTestP7 = createPTag(null, "Code Suggestion 7", null);
-  const codeEditorTempTestP8 = createPTag(null, "Code Suggestion 8", null);
-  const codeEditorTempTestP9 = createPTag(null, "Code Suggestion 9", null);
-  const codeEditorTempTestP10 = createPTag(null, "Code Suggestion 10", null);
-  const codeEditorTempTestP11 = createPTag(null, "Code Suggestion 11", null);
-  const codeEditorTempTestP12 = createPTag(null, "Code Suggestion 12", null);
-  const codeEditorTempTestP13 = createPTag(null, "Code Suggestion 13", null);
-  const codeEditorTempTestP14 = createPTag(null, "Code Suggestion 14", null);
-  const codeEditorTempTestP15 = createPTag(null, "Code Suggestion 15", null);
-  const codeEditorTempTestP16 = createPTag(null, "Code Suggestion 16", null);
-  const codeEditorTempTestP17 = createPTag(null, "Code Suggestion 17", null);
-  const codeEditorCodeSuggestionSubCont = createDiv(['code_editor_code_suggestion_sub_cont'],null,[codeEditorTempTestP1,codeEditorTempTestP2,codeEditorTempTestP3,codeEditorTempTestP4,codeEditorTempTestP5,codeEditorTempTestP6,codeEditorTempTestP7,codeEditorTempTestP8,codeEditorTempTestP9,codeEditorTempTestP10,codeEditorTempTestP11,codeEditorTempTestP12,codeEditorTempTestP13,codeEditorTempTestP14,codeEditorTempTestP15,codeEditorTempTestP16,codeEditorTempTestP17],null);
-  const codeEditorCodeSuggestionCont = createDiv(['code_editor_code_suggestion_cont'],null,[codeEditorCodeSuggestionSubCont],`display:none`);
-  
 
   /**
    * @description - appending all the elements into the main container.
@@ -252,7 +216,7 @@ function createCodeEditorDom(){
   const subcodeEditor = createDiv(
     ['code_editor_sub'],
     null,
-    [codeEditorLineMeasure, codeEditorCursor, codeEditorNumberLineCont, codeEditorTextLineCont,codeEditorCodeSuggestionCont],
+    [codeEditorLineMeasure, codeEditorCursor, codeEditorNumberLineCont, codeEditorTextLineCont],
     null,
   );
 

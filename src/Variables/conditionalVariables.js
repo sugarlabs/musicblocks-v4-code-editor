@@ -28,12 +28,6 @@
       * @type {boolean}
       */
      this.mouseDown = false;
-     /**
-      * A varaible to know whether or not suggestion box is visible or hidden inside the code editor.
-      * uset getSuggestionBoxDisplay() to get the value of variable and setSuggestionBoxDisplay() to set the value of variables.
-      * @type {boolean}
-      */
-     this.suggestionBoxDislay = false;
    }
    /**
     *
@@ -84,24 +78,5 @@
    setMouseDown(MouseDown) {
      this.mouseDown = MouseDown;
      return this.mouseDown;
-   }
-
-   /**
-    * 
-    * @returns {Boolean} - if true indicates that the suggestion Box is visible to user.
-    */
-   getSuggestionBoxDisplay(){
-    return this.suggestionBoxDislay
-   }
-   /**
-    * 
-    * @param {Boolean} SuggestionBoxDislay - boolean value indicating whether or not suggestionBox should be visible
-    * @returns {Boolean} - - if true indicates that the suggestion Box is visible to user.
-    */
-   setSuggestionBoxDisplay(SuggestionBoxDislay){
-    this.suggestionBoxDislay = SuggestionBoxDislay;
-    const codeSuggestionCont = this.codeEditorCont.getElementsByClassName('code_editor_code_suggestion_cont')[0];
-    SuggestionBoxDislay ? codeSuggestionCont.style.display = "flex" : codeSuggestionCont.style.display = "none"
-    return this.suggestionBoxDislay;
    }
  }
