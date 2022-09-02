@@ -27,12 +27,15 @@ export default function addingWindowEventListener(){
     let lineEnd = dataVariables.getLineEnd();
     let mouseDown = conditionalVariables.getMouseDown();
     let drag = conditionalVariables.getDrag();
-    
+    let codeEditorContSub = codeEditorCont.getElementsByClassName('code_editor_sub');
     // user is dragging the mouse inside code editor.
     if(mouseDown && drag){
-      // //console.log(codeEditorCont.offsetLeft);
+      console.log(codeEditorCont.offsetTop + codeEditorCont.clientHeight);
       let codeEditorContTop = codeEditorCont.offsetTop;
-      let codeEditorContBottom = codeEditorCont.offsetTop + codeEditorCont.clientHeight;
+      //  (- lineHeight) because the height of status bar is lineHeight so we are removing
+      // it from codeEditorContBottom to start scrolling even when the mouse is over statusbar
+      let codeEditorContBottom =
+        codeEditorCont.offsetTop + codeEditorCont.clientHeight - dataVariables.getLineHeight();
       let codeEditorContLeft = codeEditorCont.offsetLeft;
       let codeEditorContRight = codeEditorCont.offsetLeft + codeEditorCont.clientWidth;
       let codeLines = codeEditorCont.getElementsByClassName('line');
@@ -42,7 +45,7 @@ export default function addingWindowEventListener(){
         intervalVariables.clearCodeEditorAutoScrollY();
         intervalVariables.setCodeEditorAutoScrollX(
           setInterval(() => {
-            codeEditorCont.scrollLeft = codeEditorCont.scrollLeft + 10;
+            // codeEditorCont.scrollLeft = codeEditorCont.scrollLeft + 10;
             let noOfCharTobeSelected = Math.floor(10 / charSize);
             if (lineEnd.char <= codeLines[lineEnd.line - 1].innerText.length) {
               lineEnd.char = lineEnd.char + noOfCharTobeSelected;
@@ -58,7 +61,7 @@ export default function addingWindowEventListener(){
         intervalVariables.clearCodeEditorAutoScrollY();
         intervalVariables.setCodeEditorAutoScrollX(
           setInterval(() => {
-            codeEditorCont.scrollLeft = codeEditorCont.scrollLeft - 10;
+            // codeEditorCont.scrollLeft = codeEditorCont.scrollLeft - 10;
             let noOfCharTobeSelected = Math.floor(10 / charSize);
             //console.log(lineEnd.char)
             if (lineEnd.char >= 0) {
@@ -75,7 +78,7 @@ export default function addingWindowEventListener(){
         intervalVariables.clearCodeEditorAutoScrollY();
         intervalVariables.setCodeEditorAutoScrollY(
           setInterval(() => {
-            codeEditorCont.scrollTop = codeEditorCont.scrollTop + 18.2;
+            // codeEditorCont.scrollTop = codeEditorCont.scrollTop + 18.2;
             if (lineEnd.line <= codeLines.length) {
               lineEnd.line = lineEnd.line + 1;
               dataVariables.setLineEnd(lineEnd);
@@ -91,7 +94,7 @@ export default function addingWindowEventListener(){
         intervalVariables.clearCodeEditorAutoScrollY();
         intervalVariables.setCodeEditorAutoScrollY(
           setInterval(() => {
-            codeEditorCont.scrollTop = codeEditorCont.scrollTop - 18.2;
+            // codeEditorCont.scrollTop = codeEditorCont.scrollTop - 18.2;
             if (lineEnd.line > 1) {
               lineEnd.line = lineEnd.line - 1;
               dataVariables.setLineEnd(lineEnd);

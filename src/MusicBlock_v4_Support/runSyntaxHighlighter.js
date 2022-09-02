@@ -205,7 +205,6 @@ function getColorForText(text,_specificationSnapshot){
 function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
   if(!t){
     if(toAddColon){
-      console.log("toAddSpace" , toAddSpace);
       TextDataI = TextData[TextDataI] ? TextDataI + 1 : TextDataI;
       TextData[TextDataI] = {
         text: ":",
@@ -215,7 +214,6 @@ function  HighLightText(t,_specificationSnapshot,toAddColon,toAddSpace){
         addSpace:toAddSpace
       };
     } else {
-      console.log(toAddSpace,"toAffspace",TextData[TextDataI],TextDataI);
       TextDataI = TextData[TextDataI] ? TextDataI + 1 : TextDataI;
       
       TextData[TextDataI] = {
@@ -305,13 +303,11 @@ function highLightLineText(codeLines,_specificationSnapshot){
   let HTMLText = "";
   TextData = [];
   TextDataI = 0;
-  console.log(codeTextArray);
   for(let i=0;i<codeTextArray.length;i++) {
     let t= codeTextArray[i];
     if(t && t != '-' && t != ':'){
       HTMLText += HighLightText(t,_specificationSnapshot,false,true) + " ";
     } else if(t == '-') {
-      console.log("inside -");
       if(TextData[TextDataI] && TextData[TextDataI].span){
         TextDataI = TextDataI + 1;
       }
@@ -367,7 +363,6 @@ function highLightLineText(codeLines,_specificationSnapshot){
   HTMLText = HTMLText.slice(0,HTMLText.length-1);
   TextData[TextData.length-1].addSpace = false;
   codeLines[LineNumber-1].getElementsByTagName('pre')[0].innerHTML = "";
-  console.log(TextData);
   for(let i=0;i<TextData.length;i++){
     let t = TextData[i];
     if(t.span){
@@ -375,7 +370,6 @@ function highLightLineText(codeLines,_specificationSnapshot){
         let spanTag = document.createElement('span');
         spanTag.style = `color:${t.color} ;`;
         spanTag.innerText = t.text;
-        console.log(spanTag);
         codeLines[LineNumber-1].getElementsByTagName('pre')[0].appendChild(spanTag);
         if(i == TextData.length - 1){
           let spanTag1 = document.createElement('span');
@@ -397,7 +391,6 @@ function highLightLineText(codeLines,_specificationSnapshot){
         let spanTag = document.createElement('span');
         spanTag.style = `color:${t.color} ;`;
         spanTag.innerText = t.text;
-        console.log(spanTag);
         codeLines[LineNumber-1].getElementsByTagName('pre')[0].appendChild(spanTag);
         if(t.addSpace){
           let spanTag1 = document.createElement('span');

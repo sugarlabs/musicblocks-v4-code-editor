@@ -1,6 +1,9 @@
 import deselectText from "./deselectText";
 import focusOnCursor from "./focusOnCursor";
 import {codeEditorCont,dataVariables,conditionalVariables} from "../store";
+
+// this a try at a solution for text color disappearing when the user sleects a text,
+// it's very buggy and needs fixing which will be the priority later.
 // function generateSelectedTextHTML(category,charPos,preNode){
 
 //   let spanTags = preNode.querySelectorAll("span");
@@ -213,7 +216,7 @@ export default function SelectTextByMouse(){
       cursor.style.left = (charNumber)*charSize + numberLineWidth  + "px";
       cursor.style.top = (lineNumber-1)*lineHeight  + "px";
   }
-  console.log(charNumber,dataVariables.getCharNumber(),lineEnd,lineStart);
+//   console.log(charNumber,dataVariables.getCharNumber(),lineEnd,lineStart);
 
   dataVariables.setLineEnd(lineEnd);
   dataVariables.setLineStart(lineStart);

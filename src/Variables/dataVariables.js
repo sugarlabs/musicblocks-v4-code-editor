@@ -5,7 +5,11 @@
  * @exports dataVariables
  */
 export default class dataVariables {
-  constructor() {
+  constructor(codeEditorCont) {
+    /**
+     * @type {HTMLDivElement} - code editor DOM
+     */
+    this.codeEditorCont = codeEditorCont;
     /**
      * A variable to keep track of line Number on which the cursor is placed.
      * use getLineNumber() to get the value of variable and setLineNumber() to set the value of variable.
@@ -68,7 +72,9 @@ export default class dataVariables {
    * @returns {Number}
    */
   setLineNumber(LineNumber) {
+    const lineChangeEvent = new Event("lineChangetriggered");
     this.lineNumber = LineNumber;
+    this.codeEditorCont.dispatchEvent(lineChangeEvent);
     return this.lineNumber;
   }
   /**
@@ -83,7 +89,9 @@ export default class dataVariables {
    * @returns {String}
    */
   setCharNumber(CharNumber) {
+    const charChangeEvent = new Event('charChangetriggered');
     this.charNumber = CharNumber;
+    this.codeEditorCont.dispatchEvent(charChangeEvent);
     return this.charNumber;
   }
   /**

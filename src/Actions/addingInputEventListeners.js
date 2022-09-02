@@ -16,6 +16,8 @@ import performRedo from "../Tasks/performRedo";
 import performUndo from "../Tasks/performUndo";
 import selectAllText from "../Tasks/selectAllText";
 import { codeEditorCont, dataVariables, conditionalVariables, arrayVariables } from "../store";
+import showCodeEditorCodeSuggestions from "../Tasks/showCodeEditorCodeSuggestions";
+import browseCodeSuggestionList from "../Tasks/browseCodeSuggestionList";
 
 /**
  * this function adds eventListeners for keyboard inputs on codeEditor.
@@ -26,6 +28,7 @@ export default function addingInputEventListeners(){
 
   textInputBox.addEventListener('input',(e) => {
     handleInputChange(e);
+    showCodeEditorCodeSuggestions();
   });
 
   textInputBox.addEventListener("blur",()=>{
@@ -62,20 +65,36 @@ export default function addingInputEventListeners(){
     
     else if(e.key == "ArrowUp"){
       if(e.shiftKey){
+          // hide code suggestions if it's visible because with shift user is trying
+          // to select some text.
+          conditionalVariables.setSuggestionBoxDisplay(false);
           e.preventDefault();
           cursorNavigationSelectUp();
       }else {
+        if(conditionalVariables.getSuggestionBoxDisplay()){
+          browseCodeSuggestionList("up");
+        } else {
           cursorNavigationUp();
+        }
       }
       
     }
     
     else if(e.key == "ArrowDown"){
+
       if(e.shiftKey){
-          e.preventDefault();
-          cursorNavigationSelectDown();
+        // hide code suggestions if it's visible because with shift user is trying
+        // to select some text.
+        conditionalVariables.setSuggestionBoxDisplay(false);
+        e.preventDefault();
+        cursorNavigationSelectDown();
       }else {
+        if(conditionalVariables.getSuggestionBoxDisplay()){
+          browseCodeSuggestionList("down");
+        } else {
           cursorNavigationDown();
+        }
+          
       }
     }
     

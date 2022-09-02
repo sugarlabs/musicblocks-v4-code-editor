@@ -26,7 +26,11 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import codeEditorStyles from "../css/codeEditor.css";
+            <pre class="prettyprint source linenums"><code>import { createDiv, createImgTag, createPTag } from "../Helpers/createElements";
+import { arrayVariables, conditionalVariables, dataVariables } from "../store";
+import codeEditorStyles from "../css/codeEditor.css";
+import errorImg from "../../assets/error.png" ;
+import warningImg from "../../assets/warning.png";
 
 
 
@@ -36,25 +40,52 @@
  *          of the below Function looks like :
  * @example   
  * &lt;div id="code-editor-cont" class="editor_inner_container">
- *   &lt;div class="code_editor_line_measure">
- *     &lt;p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&lt;/p>
- *   &lt;/div>
- *   &lt;div class="code_editor_cursor">
- *      &lt;div class="code_editor_cursor_blink">&lt;/div>
- *      &lt;input autocapitalize="none" type="text" id="code_editor_cursor_input" >
- *   &lt;/div>
- *      &lt;div class="number_line_cont">
- *      &lt;div class="number_line">
- *        &lt;p>0&lt;/p>
- *      &lt;/div>
- *      &lt;div class="number_line">
- *        &lt;p>1&lt;/p>
- *      &lt;/div>
+ *   &lt;div class= "code_editor-sub">
+ *    &lt;div class="code_editor_line_measure">
+ *       &lt;p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&lt;/p>
+ *     &lt;/div>
+ *     &lt;div class="code_editor_cursor">
+ *        &lt;div class="code_editor_cursor_blink">&lt;/div>
+ *        &lt;input autocapitalize="none" type="text" id="code_editor_cursor_input" >
+ *     &lt;/div>
+ *        &lt;div class="number_line_cont">
+ *        &lt;div class="number_line">
+ *         &lt;p>0&lt;/p>
+ *        &lt;/div>
+ *       &lt;div class="number_line">
+ *         &lt;p>1&lt;/p>
+ *        &lt;/div>
  *         
+ *     &lt;/div>
+ *     &lt;div tabindex="0" class="code_editor_lines_container">
+ *        &lt;div class="line">&lt;div class="text">&lt;pre>hello&lt;/pre>&lt;/div>
+ *        &lt;/div>
+ *     &lt;/div>
  *   &lt;/div>
- *   &lt;div tabindex="0" class="code_editor_lines_container">
- *      &lt;div class="line">&lt;div class="text">&lt;pre>hello&lt;/pre>&lt;/div>
- *      &lt;/div>
+ *   &lt;div class="code_editor_stausbar_cont">
+ *    &lt;div class="code_editor_stausbar_left">
+ *      &lt;div class="code_editor_stausbar_left_err">
+ *       &lt;img src="..." alt="..." >
+ *       &lt;p>err.length&lt;/p>
+ *     &lt;/div>
+ *     &lt;div class="code_editor_stausbar_left_warn">
+ *       &lt;img src="..." alt="..." >
+ *       &lt;p>err.length&lt;/p>
+ *    &lt;/div>
+ *   &lt;/div>
+ *   &lt;div class="code_editor_stausbar_right">
+ *     &lt;div class="code_editor_stausbar_right_lineN">
+ *       &lt;p>Line : val &lt;/p>
+ *     &lt;/div>
+ *     &lt;div class="code_editor_stausbar_right_columnN">
+ *       &lt;p>Column: val&lt;/p>     
+ *     &lt;/div>
+ *   &lt;/div>
+ *   &lt;div class="code_editor_code_suggestion_cont">
+ *     &lt;div class="code_editor_code_suggestion_sub_cont">
+ *       &lt;p>&lt;/p>
+ *     &lt;/div>
+ *     &lt;/div>
  *   &lt;/div>
  * &lt;/div>
  * 
@@ -66,25 +97,25 @@ function createCodeEditorDom(){
    * @description - the main container that holds all the elements of an editor.
    *  &lt;div class="editor_inner_container">&lt;/div>
    */
-  const codeEditor = document.createElement("div");
-  codeEditor.id = "code-editor-cont";
-  codeEditor.classList.add("editor_inner_container");
+  const codeEditor = document.createElement('div');
+  codeEditor.id = 'code-editor-cont';
+  codeEditor.classList.add('editor_inner_container');
 
   /**
    * @description - the div conatins a sample text of 40 characters.
    *    which will be used at runtime to calculate the length of a single character
    *    in order to move the cursor around.
    *  &lt;div class="code_editor_line_measure">
-   *    &lt;p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&lt;/p> 
+   *    &lt;p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&lt;/p>
    * &lt;/div>
    */
-  const codeEditorLineMeasure = document.createElement("div");
-  codeEditorLineMeasure.classList.add("code_editor_line_measure");
+  const codeEditorLineMeasure = document.createElement('div');
+  codeEditorLineMeasure.classList.add('code_editor_line_measure');
   const codeEditorLineMeasureP = document.createElement('p');
-  codeEditorLineMeasureP.innerText = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+  codeEditorLineMeasureP.innerText = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
   codeEditorLineMeasure.appendChild(codeEditorLineMeasureP);
 
-   /**
+  /**
    * @description - the div is the blinking cursor that will be moving around 
    *  the editor taking inputs.
    *  &lt;div class="code_editor_cursor">
@@ -92,59 +123,169 @@ function createCodeEditorDom(){
         &lt;input autocapitalize="none" type="text" id="code_editor_cursor_input" >
       &lt;/div>
    */
-  const codeEditorCursor = document.createElement("div");
-  codeEditorCursor.classList.add("code_editor_cursor");
-  const codeEditorCursorBackground = document.createElement("div");
-  codeEditorCursorBackground.classList.add("code_editor_cursor_blink");
+  const codeEditorCursor = document.createElement('div');
+  codeEditorCursor.classList.add('code_editor_cursor');
+  const codeEditorCursorBackground = document.createElement('div');
+  codeEditorCursorBackground.classList.add('code_editor_cursor_blink');
   codeEditorCursor.appendChild(codeEditorCursorBackground);
-  const codeEditorCursorInput = document.createElement("input");
-  codeEditorCursorInput.autocapitalize = "none";
-  codeEditorCursorInput.type = "text";
-  codeEditorCursorInput.id = "code-editor-cursor-input";
+  const codeEditorCursorInput = document.createElement('input');
+  codeEditorCursorInput.autocapitalize = 'none';
+  codeEditorCursorInput.type = 'text';
+  codeEditorCursorInput.id = 'code-editor-cursor-input';
   codeEditorCursor.appendChild(codeEditorCursorInput);
 
-   /**
+  /**
    * @description - the div contains the number line for code Editor.
-   *     It is seperated from lines to make it stay skicky when horizontal scroll 
+   *     It is seperated from lines to make it stay skicky when horizontal scroll
    *     Happens
    */
-  const codeEditorNumberLineCont = document.createElement("div");
-  codeEditorNumberLineCont.classList.add("number_line_cont");
-  const codeEditorNumberLine0 = document.createElement("div");
-  codeEditorNumberLine0.classList.add("number_line");
+  const codeEditorNumberLineCont = document.createElement('div');
+  codeEditorNumberLineCont.classList.add('number_line_cont');
+  const codeEditorNumberLine0 = document.createElement('div');
+  codeEditorNumberLine0.classList.add('number_line');
   const codeEditorNumberLine0P = document.createElement('p');
   codeEditorNumberLine0P.innerText = '0';
   codeEditorNumberLine0.appendChild(codeEditorNumberLine0P);
   codeEditorNumberLineCont.appendChild(codeEditorNumberLine0);
-  const codeEditorNumberLine1 = document.createElement("div");
-  codeEditorNumberLine1.classList.add("number_line");
-  const codeEditorNumberLine1P = document.createElement("p");
+  const codeEditorNumberLine1 = document.createElement('div');
+  codeEditorNumberLine1.classList.add('number_line');
+  const codeEditorNumberLine1P = document.createElement('p');
   codeEditorNumberLine1P.innerText = '1';
   codeEditorNumberLine1.appendChild(codeEditorNumberLine1P);
   codeEditorNumberLineCont.appendChild(codeEditorNumberLine1);
-  
+
   /**
    * @description - the div contains the lines where the actual code is displayed.
    */
-  const codeEditorTextLineCont = document.createElement("div");
-  codeEditorTextLineCont.classList.add("code_editor_lines_container");
-  codeEditorTextLineCont.tabindex = "0";
-  const codeEditorTextLine = document.createElement("div");
-  codeEditorTextLine.classList.add("line");
-  const codeEditorTextLineTextCont = document.createElement("div");
-  codeEditorTextLineTextCont.classList.add("text");
-  const codeEditorTextLineText = document.createElement("pre");
+  const codeEditorTextLineCont = document.createElement('div');
+  codeEditorTextLineCont.classList.add('code_editor_lines_container');
+  codeEditorTextLineCont.tabindex = '0';
+  const codeEditorTextLine = document.createElement('div');
+  codeEditorTextLine.classList.add('line');
+  const codeEditorTextLineTextCont = document.createElement('div');
+  codeEditorTextLineTextCont.classList.add('text');
+  const codeEditorTextLineText = document.createElement('pre');
   codeEditorTextLineTextCont.appendChild(codeEditorTextLineText);
   codeEditorTextLine.appendChild(codeEditorTextLineTextCont);
   codeEditorTextLineCont.appendChild(codeEditorTextLine);
 
   /**
-   * @description - appending all the elements into the mav container.
+   * @description - the div containing the status bad div.
+   * &lt;div class="code_editor_stausbar_cont">
+   *  &lt;div class="code_editor_stausbar_left">
+   *    &lt;div class="code_editor_stausbar_left_err">
+   *      &lt;img src="..." alt="..." >
+   *      &lt;p>err.length&lt;/p>
+   *    &lt;/div>
+   *    &lt;div class="code_editor_stausbar_left_warn">
+   *      &lt;img src="..." alt="..." >
+   *      &lt;p>err.length&lt;/p>
+   *    &lt;/div>
+   *  &lt;/div>
+   *  &lt;div class="code_editor_stausbar_right">
+   *    &lt;div class="code_editor_stausbar_right_lineN">
+   *      &lt;p>Line : val &lt;/p>
+   *    &lt;/div>
+   *    &lt;div class="code_editor_stausbar_right_columnN">
+   *      &lt;p>Column: val&lt;/p>     
+   *    &lt;/div>
+   *  &lt;/div>
    */
-  codeEditor.appendChild(codeEditorLineMeasure);
-  codeEditor.appendChild(codeEditorCursor);
-  codeEditor.appendChild(codeEditorNumberLineCont);
-  codeEditor.appendChild(codeEditorTextLineCont);
+
+  const codeEditorStatusBarLeftErrorImg = createImgTag(null, errorImg, 'error icon', null);
+  const codeEditorStatusBarLeftErrorNumber = createPTag(
+    null,
+    "0",
+    null,
+  );
+  const codeEditorStatusBarLeftError = createDiv(
+    ['code_editor_stausbar_left_err'],
+    null,
+    [codeEditorStatusBarLeftErrorImg, codeEditorStatusBarLeftErrorNumber],
+    null,
+  );
+
+  const codeEditorStatusBarLeftWarningImg = createImgTag(null, warningImg, 'warning icon', null);
+  const codeEditorStatusBarLeftWarningNumber = createPTag(
+    null,
+    "0",
+    null,
+  );
+  const codeEditorStatusBarLeftWarning = createDiv(
+    ['code_editor_stausbar_left_warn'],
+    null,
+    [codeEditorStatusBarLeftWarningImg, codeEditorStatusBarLeftWarningNumber],
+    null,
+  );
+
+  const codeEditorStatusBarLeft = createDiv(['code_editor_stausbar_left'], null, [
+    codeEditorStatusBarLeftError,
+    codeEditorStatusBarLeftWarning,
+  ],null);
+
+  const codeEditorStatusBarRightLineP = createPTag(null,"Line : 0",null);
+  const codeEditorStatusBarRightLine = createDiv(['code_editor_stausbar_right_line'], null, [
+    codeEditorStatusBarRightLineP,
+  ],null);
+  const codeEditorStatusBarRightCharP = createPTag(null, "Column : 0", null);
+  const codeEditorStatusBarRightChar = createDiv(
+    ['code_editor_stausbar_right_char'],
+    null,
+    [codeEditorStatusBarRightCharP],
+    null,
+  );
+  const codeEditorStatusBarRight = createDiv(['code_editor_stausbar_right'], null, [
+    codeEditorStatusBarRightLine,
+    codeEditorStatusBarRightChar,
+  ]);
+
+  const codeEditorStatusBarCont = createDiv(['code_editor_stausbar_cont'], null, [
+    codeEditorStatusBarLeft,
+    codeEditorStatusBarRight,
+  ],null);
+  
+  /**
+   * @description - the div which will contain the code suggestions.
+   * 
+   *   &lt;div class="code_editor_code_suggestion_cont">
+   *     &lt;div class="code_editor_code_suggestion_sub_cont">
+   *     &lt;/div>
+   *   &lt;/div>
+   */
+
+  const codeEditorTempTestP1 = createPTag(null, "Code Suggestion 1", null);
+  const codeEditorTempTestP2 = createPTag(null, "Code Suggestion 2", null);
+  const codeEditorTempTestP3 = createPTag(null, "Code Suggestion 3", null);
+  const codeEditorTempTestP4 = createPTag(null, "Code Suggestion 4", null);
+  const codeEditorTempTestP5 = createPTag(null, "Code Suggestion 5", null);
+  const codeEditorTempTestP6 = createPTag(null, "Code Suggestion 6", null);
+  const codeEditorTempTestP7 = createPTag(null, "Code Suggestion 7", null);
+  const codeEditorTempTestP8 = createPTag(null, "Code Suggestion 8", null);
+  const codeEditorTempTestP9 = createPTag(null, "Code Suggestion 9", null);
+  const codeEditorTempTestP10 = createPTag(null, "Code Suggestion 10", null);
+  const codeEditorTempTestP11 = createPTag(null, "Code Suggestion 11", null);
+  const codeEditorTempTestP12 = createPTag(null, "Code Suggestion 12", null);
+  const codeEditorTempTestP13 = createPTag(null, "Code Suggestion 13", null);
+  const codeEditorTempTestP14 = createPTag(null, "Code Suggestion 14", null);
+  const codeEditorTempTestP15 = createPTag(null, "Code Suggestion 15", null);
+  const codeEditorTempTestP16 = createPTag(null, "Code Suggestion 16", null);
+  const codeEditorTempTestP17 = createPTag(null, "Code Suggestion 17", null);
+  const codeEditorCodeSuggestionSubCont = createDiv(['code_editor_code_suggestion_sub_cont'],null,[codeEditorTempTestP1,codeEditorTempTestP2,codeEditorTempTestP3,codeEditorTempTestP4,codeEditorTempTestP5,codeEditorTempTestP6,codeEditorTempTestP7,codeEditorTempTestP8,codeEditorTempTestP9,codeEditorTempTestP10,codeEditorTempTestP11,codeEditorTempTestP12,codeEditorTempTestP13,codeEditorTempTestP14,codeEditorTempTestP15,codeEditorTempTestP16,codeEditorTempTestP17],null);
+  const codeEditorCodeSuggestionCont = createDiv(['code_editor_code_suggestion_cont'],null,[codeEditorCodeSuggestionSubCont],`display:none`);
+  
+
+  /**
+   * @description - appending all the elements into the main container.
+   */
+  const subcodeEditor = createDiv(
+    ['code_editor_sub'],
+    null,
+    [codeEditorLineMeasure, codeEditorCursor, codeEditorNumberLineCont, codeEditorTextLineCont,codeEditorCodeSuggestionCont],
+    null,
+  );
+
+  codeEditor.appendChild(subcodeEditor);
+  codeEditor.appendChild(codeEditorStatusBarCont);
 
   // const codeEditorStyleTag = document.createElement("style");
   // console.log(codeEditorStyles[0])
@@ -152,7 +293,6 @@ function createCodeEditorDom(){
   // document.head.appendChild(codeEditorStyleTag);
 
   return codeEditor;
-  
 }
 
 /**
@@ -194,13 +334,13 @@ export default class codeEditorDom {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-addMusicBlocksSupport.html">addMusicBlocksSupport</a></li><li><a href="module-arrayVariables.html">arrayVariables</a></li><li><a href="module-codeEditor.html">codeEditor</a></li><li><a href="module-codeEditorDom.html">codeEditorDom</a></li><li><a href="module-conditionalVariables.html">conditionalVariables</a></li><li><a href="module-dataVariables.html">dataVariables</a></li><li><a href="module-generateCodeEditor.html">generateCodeEditor</a></li><li><a href="module-intervalVariables.html">intervalVariables</a></li><li><a href="module-syntaxColorConfig.html">syntaxColorConfig</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addingCodeEditorEventListeners">addingCodeEditorEventListeners</a></li><li><a href="global.html#addingCodeEditorEventListenersMB">addingCodeEditorEventListenersMB</a></li><li><a href="global.html#addingInputEventListenersMB">addingInputEventListenersMB</a></li><li><a href="global.html#copySelectedText">copySelectedText</a></li><li><a href="global.html#createCodeEditorDom">createCodeEditorDom</a></li><li><a href="global.html#createNewLine">createNewLine</a></li><li><a href="global.html#cursorBlink">cursorBlink</a></li><li><a href="global.html#cursorNavigationDown">cursorNavigationDown</a></li><li><a href="global.html#cursorNavigationLeft">cursorNavigationLeft</a></li><li><a href="global.html#cursorNavigationSelectDown">cursorNavigationSelectDown</a></li><li><a href="global.html#cursorNavigationSelectLeft">cursorNavigationSelectLeft</a></li><li><a href="global.html#cursorNavigationSelectRight">cursorNavigationSelectRight</a></li><li><a href="global.html#cursorNavigationSelectUp">cursorNavigationSelectUp</a></li><li><a href="global.html#cursorNavigationUp">cursorNavigationUp</a></li><li><a href="global.html#deleteNextLineOrRightText">deleteNextLineOrRightText</a></li><li><a href="global.html#deselectText">deselectText</a></li><li><a href="global.html#focusOnCursor">focusOnCursor</a></li><li><a href="global.html#getColorForText">getColorForText</a></li><li><a href="global.html#getMousePosition">getMousePosition</a></li><li><a href="global.html#getSyntaxDetails">getSyntaxDetails</a></li><li><a href="global.html#getWrittenCode">getWrittenCode</a></li><li><a href="global.html#handleInputChange">handleInputChange</a></li><li><a href="global.html#highLightLineText">highLightLineText</a></li><li><a href="global.html#HighLightText">HighLightText</a></li><li><a href="global.html#MouseMoveSelection">MouseMoveSelection</a></li><li><a href="global.html#pasteCopiedText">pasteCopiedText</a></li><li><a href="global.html#performRedo">performRedo</a></li><li><a href="global.html#performUndo">performUndo</a></li><li><a href="global.html#removeLine">removeLine</a></li><li><a href="global.html#removeSelected">removeSelected</a></li><li><a href="global.html#runSyntaxHighlighterOnAllLines">runSyntaxHighlighterOnAllLines</a></li><li><a href="global.html#selectAllText">selectAllText</a></li><li><a href="global.html#SelectTextByMouse">SelectTextByMouse</a></li><li><a href="global.html#setInitialCode">setInitialCode</a></li><li><a href="global.html#setTimeoutforWidthInc">setTimeoutforWidthInc</a></li><li><a href="global.html#storeCurrentState">storeCurrentState</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-addMusicBlocksSupport.html">addMusicBlocksSupport</a></li><li><a href="module-arrayVariables.html">arrayVariables</a></li><li><a href="module-codeEditor.html">codeEditor</a></li><li><a href="module-codeEditorDom.html">codeEditorDom</a></li><li><a href="module-conditionalVariables.html">conditionalVariables</a></li><li><a href="module-dataVariables.html">dataVariables</a></li><li><a href="module-generateCodeEditor.html">generateCodeEditor</a></li><li><a href="module-intervalVariables.html">intervalVariables</a></li><li><a href="module-syntaxColorConfig.html">syntaxColorConfig</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addingCodeEditorEventListeners">addingCodeEditorEventListeners</a></li><li><a href="global.html#addingCodeEditorEventListenersMB">addingCodeEditorEventListenersMB</a></li><li><a href="global.html#addingInputEventListenersMB">addingInputEventListenersMB</a></li><li><a href="global.html#copySelectedText">copySelectedText</a></li><li><a href="global.html#createCodeEditorDom">createCodeEditorDom</a></li><li><a href="global.html#createNewLine">createNewLine</a></li><li><a href="global.html#cursorBlink">cursorBlink</a></li><li><a href="global.html#cursorNavigationDown">cursorNavigationDown</a></li><li><a href="global.html#cursorNavigationLeft">cursorNavigationLeft</a></li><li><a href="global.html#cursorNavigationSelectDown">cursorNavigationSelectDown</a></li><li><a href="global.html#cursorNavigationSelectLeft">cursorNavigationSelectLeft</a></li><li><a href="global.html#cursorNavigationSelectRight">cursorNavigationSelectRight</a></li><li><a href="global.html#cursorNavigationSelectUp">cursorNavigationSelectUp</a></li><li><a href="global.html#cursorNavigationUp">cursorNavigationUp</a></li><li><a href="global.html#deleteNextLineOrRightText">deleteNextLineOrRightText</a></li><li><a href="global.html#deselectText">deselectText</a></li><li><a href="global.html#focusOnCursor">focusOnCursor</a></li><li><a href="global.html#getColorForText">getColorForText</a></li><li><a href="global.html#getMousePosition">getMousePosition</a></li><li><a href="global.html#getSyntaxDetails">getSyntaxDetails</a></li><li><a href="global.html#getWrittenCode">getWrittenCode</a></li><li><a href="global.html#handleInputChange">handleInputChange</a></li><li><a href="global.html#highLightLineText">highLightLineText</a></li><li><a href="global.html#HighLightText">HighLightText</a></li><li><a href="global.html#MouseMoveSelection">MouseMoveSelection</a></li><li><a href="global.html#pasteCopiedText">pasteCopiedText</a></li><li><a href="global.html#performRedo">performRedo</a></li><li><a href="global.html#performUndo">performUndo</a></li><li><a href="global.html#removeLine">removeLine</a></li><li><a href="global.html#removeSelected">removeSelected</a></li><li><a href="global.html#runSyntaxHighlighterOnAllLines">runSyntaxHighlighterOnAllLines</a></li><li><a href="global.html#selectAllText">selectAllText</a></li><li><a href="global.html#SelectTextByMouse">SelectTextByMouse</a></li><li><a href="global.html#setInitialCode">setInitialCode</a></li><li><a href="global.html#setTimeoutforWidthInc">setTimeoutforWidthInc</a></li><li><a href="global.html#showCodeEditorCodeSuggestions">showCodeEditorCodeSuggestions</a></li><li><a href="global.html#storeCurrentState">storeCurrentState</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Jul 29 2022 21:18:55 GMT+0530 (India Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun Aug 14 2022 18:17:25 GMT+0530 (India Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
