@@ -5,7 +5,11 @@
  * @exports conditionalVariables
  */
  export default class conditionalVariables {
-   constructor() {
+   constructor(codeEditorCont) {
+    /**
+     * @type {HTMLDivElement} - code editor DOM
+     */
+     this.codeEditorCont = codeEditorCont;
      /**
       * A variable to know whether or not the mouse is being dragged.
       * use getDrag() to get the value of variable and setDrag() to set the value of variable.

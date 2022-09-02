@@ -18,6 +18,16 @@
       * @type {Array}
       */
      this.redoStore = [];
+     /**
+      * A variable to store objects of errors occured in the code.
+      * @type {Array}
+      */
+     this.errorStore = [];
+     /**
+      * A variable to store all the objects of warning occured in the code
+      * @type {Array}
+      */
+     this.warningStore = [];
    }
 
    /**
@@ -88,5 +98,75 @@
     */
    shiftRedoState() {
      this.redoStore.shift();
+   }
+
+   /**
+    * @returns {Array} - returns errorStore which is an array for errors in the code.
+    */
+   getErrorStore() {
+     return this.errorStore;
+   }
+   /**
+    *
+    * @param {Array} errorStore - an array which will replace the current errorStore array
+    * @returns {Array} - returns errorStore which is an array for errors in the code.
+    */
+   setErrorStore(errorStore) {
+     this.errorStore = errorStore;
+     return this.errorStore;
+   }
+   /**
+    *
+    * @param {Object} err - an error object that will be pushed into errorStore.
+    */
+   pushIntoErrorStore(err) {
+     this.errorStore.push(err);
+   }
+   /**
+    * @description - thsi method will pop an Object from the errorStore Array
+    */
+   popFromErrorStore() {
+     this.errorStore.pop();
+   }
+   /**
+    * @description - thsi method will shift an Object from the errorStore Array
+    */
+   shiftErrorStore() {
+     this.errorStore.shift();
+   }
+
+   /**
+    * @returns {Array} - returns warningStore which is an array for warnings in the code.
+    */
+   getWarningStore() {
+     return this.warningStore;
+   }
+   /**
+    *
+    * @param {Array} warningStore - an array which will replace the current warningStore array
+    * @returns {Array} - returns warningStore which is an array for warnings in the code.
+    */
+   setWarningStore(warningStore) {
+     this.warningStore = warningStore;
+     return this.warningStore;
+   }
+   /**
+    *
+    * @param {Object} warn - an error object that will be pushed into warningStore.
+    */
+   pushIntoWarningStore(warn) {
+     this.warningStore.push(warn);
+   }
+   /**
+    * @description - thsi method will pop an Object from the warningStore Array
+    */
+   popFromWarningStore() {
+     this.warningStore.pop();
+   }
+   /**
+    * @description - thsi method will shift an Object from the warningStore Array
+    */
+   shiftWarningStore() {
+     this.warningStore.shift();
    }
  }

@@ -11,8 +11,8 @@ import { codeEditorCont, intervalVariables, conditionalVariables, dataVariables 
  */
 export default function addingCodeEditorEventListeners(){
   let codeEditor = codeEditorCont.getElementsByClassName('code_editor_lines_container')[0];
-  
-  codeEditor.addEventListener("mouseup",(e)=>{
+
+  codeEditor.addEventListener('mouseup', (e) => {
     let mouseDown = conditionalVariables.getMouseDown();
     let drag = conditionalVariables.getDrag();
     let charSize = dataVariables.getCharSize();
@@ -22,47 +22,45 @@ export default function addingCodeEditorEventListeners(){
     let numberLineWidth = dataVariables.getNumberLineWidth();
     let lineHeight = dataVariables.getLineHeight();
 
-
     conditionalVariables.setMouseDown(false);
     mouseDown = false;
     intervalVariables.clearCodeEditorAutoScrollX();
     intervalVariables.clearCodeEditorAutoScrollY();
     // drag is a variable that stores where or  not user is dragging the mouse along with mouse click.
-    if(!drag){
+    if (!drag) {
       /**
        * get the mouse position and sets the cursor at that particular position.
-       * because if the user is not dragging and mouse click is detected then it means 
+       * because if the user is not dragging and mouse click is detected then it means
        * the user wants to move the cursor.
        * @function getMousePosition
        */
       getMousePosition(e);
     }
-    if(drag){
+    if (drag) {
       // gets mouse position converts it into line number and char number and sets the position
       // to lineEnd which will be used to follow the drag path and select the text user wants.
       let rect = codeEditor.getBoundingClientRect();
       let x = e.clientX - rect.left - numberLineWidth;
       let y = e.clientY - rect.top;
 
-      lineNumber = parseInt(y/lineHeight) +1;
-      charNumber = parseInt(x/charSize);
-      let codeLines = codeEditorCont.getElementsByClassName("line");
-      if(codeLines[lineNumber - 1].innerText.length < charNumber){
+      lineNumber = parseInt(y / lineHeight) + 1;
+      charNumber = parseInt(x / charSize);
+      let codeLines = codeEditorCont.getElementsByClassName('line');
+      if (codeLines[lineNumber - 1].innerText.length < charNumber) {
         charNumber = codeLines[lineNumber - 1].innerText.length;
       }
       dataVariables.setLineNumber(lineNumber);
       dataVariables.setCharNumber(charNumber);
 
       lineEnd = {
-          line:lineNumber,
-          char:charNumber
+        line: lineNumber,
+        char: charNumber,
       };
       dataVariables.setLineEnd(lineEnd);
     }
-    
   });
 
-  codeEditor.addEventListener("mousedown",(e)=>{
+  codeEditor.addEventListener('mousedown', (e) => {
     let mouseDown = conditionalVariables.getMouseDown();
     let drag = conditionalVariables.getDrag();
     let charSize = dataVariables.getCharSize();
@@ -95,8 +93,8 @@ export default function addingCodeEditorEventListeners(){
     dataVariables.setLineStart(lineStart);
   });
 
-  let MouseMoveSelection ;
-  codeEditor.addEventListener("mousemove",(e)=>{
+  let MouseMoveSelection;
+  codeEditor.addEventListener('mousemove', (e) => {
     let mouseDown = conditionalVariables.getMouseDown();
     let drag = conditionalVariables.getDrag();
     let charSize = dataVariables.getCharSize();
@@ -106,11 +104,10 @@ export default function addingCodeEditorEventListeners(){
     let numberLineWidth = dataVariables.getNumberLineWidth();
     let lineHeight = dataVariables.getLineHeight();
 
-
     e.preventDefault();
     intervalVariables.clearCodeEditorAutoScrollX();
     intervalVariables.clearCodeEditorAutoScrollY();
-    if(mouseDown){
+    if (mouseDown) {
       conditionalVariables.setDrag(true);
       drag = true;
       clearInterval(MouseMoveSelection);
@@ -145,12 +142,11 @@ export default function addingCodeEditorEventListeners(){
         // codeEditorCont.dispatchEvent(TextSelection);
       }, 1);
     }
-    
   });
 
-
   let setTimeoutforWidthInc;
-  codeEditorCont.addEventListener("scroll",()=>{
+  const codeEditorContSub = codeEditorCont.getElementsByClassName('code_editor_sub')[0];
+  codeEditorContSub.addEventListener('scroll', () => {
     /**
      * scroll gets triggered a lot of time per millisecond and running a
      * function for every time it gets triggered will be resource intensive,
@@ -166,13 +162,32 @@ export default function addingCodeEditorEventListeners(){
     clearInterval(setTimeoutforWidthInc);
     setTimeoutforWidthInc = setTimeout(() => {
       const numberLineCont = codeEditorCont.getElementsByClassName('number_line_cont')[0];
-      if (!(numberLineCont.clientWidth == codeEditorCont.scrollWidth)) {
-        numberLineCont.style.width = codeEditorCont.scrollWidth + 'px';
+      if (!(numberLineCont.clientWidth == codeEditorContSub.scrollWidth)) {
+        numberLineCont.style.width = codeEditorContSub.scrollWidth + 'px';
       }
       if (!(codeEditor.clientWidth == codeEditorCont.scrollWidth)) {
-        codeEditor.style.width = codeEditorCont.scrollWidth + 'px';
+        codeEditor.style.width = codeEditorContSub.scrollWidth + 'px';
       }
     }, 500);
-  });
 
+    // clearInterval(setTimeoutforStatusBarTopInc);
+    // setTimeoutforStatusBarTopInc = setTimeout(() => {
+    //   const statusBar = codeEditorCont.getElementsByClassName('code_editor_stausbar_cont ')[0];
+    //   statusBar.style.top = codeEditor.clientHeight + codeEditorCont.scrollTop+ "px" ;
+    //   console.log(statusBar.clientTop, codeEditorCont.scrollTop, codeEditor.clientHeight);
+    // }, 1);
+  });
+  // update statusbar line and column when charChangetriggered and lineChangetriggered events are triggered.
+  codeEditorCont.addEventListener("lineChangetriggered",()=>{
+    const statusBarLineCont = codeEditorCont.getElementsByClassName('code_editor_stausbar_right_line')[0];
+    const statusBarLinePTag = statusBarLineCont.querySelector('p');
+    statusBarLinePTag.innerText = `Line: ${dataVariables.getLineNumber()}`; 
+  });
+  codeEditorCont.addEventListener('charChangetriggered', () => {
+    const statusBarCharCont = codeEditorCont.getElementsByClassName(
+      'code_editor_stausbar_right_char',
+    )[0];
+    const statusBarCharPTag = statusBarCharCont.querySelector('p');
+    statusBarCharPTag.innerText = `Column: ${dataVariables.getCharNumber()}`;
+  });
 }

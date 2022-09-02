@@ -56,12 +56,8 @@ export default class generateCodeEditor{
    */
   combineAllActions(){
     let codeEditor = this.codeEditor.getCodeEditor();
-    addingCodeEditorEventListeners(
-      codeEditor, this.intervalVariables, this.conditionalVariables, this.dataVariables
-    );
-    addingInputEventListeners(
-      codeEditor,this.dataVariables,this.conditionalVariables,this.arrayVariables
-    );
+    addingCodeEditorEventListeners();
+    addingInputEventListeners();
     // let testLine = document.getElementsByClassName('code_editor_line_measure')[0].childNodes[1];
     // let charSize = (testLine.clientWidth)/40;
   }
@@ -91,6 +87,12 @@ export default class generateCodeEditor{
     addingWindowEventListener(
       codeEditor,this.conditionalVariables,this.intervalVariables,this.dataVariables
     );
+
+    // update the height of the codeEditor sub which contains the whole code editor
+    // except status bar.
+    console.log(codeEditor.clientHeight - 18.2);
+    codeEditor.getElementsByClassName('code_editor_sub')[0].style.height =
+      codeEditor.clientHeight - 18.2 + 'px';
   }
   /**
    * @description - we need to set some sample code into the code Editor after it has been appended. In this function

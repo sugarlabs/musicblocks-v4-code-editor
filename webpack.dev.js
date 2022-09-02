@@ -2,31 +2,33 @@ const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode:"development",
+  mode: 'development',
   devtool: false,
   entry: {
-    "codeEditor":path.resolve(__dirname,"src/main.js")
+    codeEditor: path.resolve(__dirname, 'src/main.js'),
   },
-  output:{
-    filename: "codeEditor.js",
-    path:path.resolve(__dirname, "build"),
-    library: "codeEditor",
-    libraryTarget:"umd"
+  output: {
+    filename: 'codeEditor.js',
+    path: path.resolve(__dirname, 'build'),
+    library: 'codeEditor',
+    libraryTarget: 'umd',
   },
-  plugins: [new HtmlWebpackPlugin({
-    template:"./src/template.html"
-  })],
-  module:{
-    rules:[
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/template.html',
+    }),
+  ],
+  module: {
+    rules: [
       // {
       // test: /\.(js)$/,
       // use: "babel-loader",
       // exclude: /node_modules/
       // },
       {
-        test:/\.(css)$/,
+        test: /\.(css)$/,
         exclude: /node_modules/,
-        use: ["style-loader","css-loader"]
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.tsx?$/,
@@ -35,15 +37,16 @@ module.exports = {
       },
       {
         test: /\.json$/,
-        loader: 'json-loader'
-      }
-      
-  ]
+        loader: 'json-loader',
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
+    ],
   },
-  resolve:{
-    modules:[path.resolve(__dirname,"node_modules")],
+  resolve: {
+    modules: [path.resolve(__dirname, 'node_modules')],
     extensions: ['.js', '.jsx', '.ts', '.d.ts'],
-  }
-  
-  
-}
+  },
+};
