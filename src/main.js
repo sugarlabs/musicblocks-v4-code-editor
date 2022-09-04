@@ -12,13 +12,14 @@ export default class codeEditor {
   /**
    * assigns some initial variables 
    * @param {HTMLDivElement} codeEditorCont - container div Element inside which code Editor will be injected.
-   * @param {Object} _specificationSnapshot - Specification snapshot of syntax elements of musicBlock-v4.
    */
-  constructor(codeEditorCont, _specificationSnapshot) {
+  constructor(codeEditorCont) {
     /**
      * @type {HTMLDDivContainer}
      */
     this.codeEditorCont = codeEditorCont;
+    // Specification snapshot of syntax elements of musicBlock-v4.
+    this._specificationSnapshot = {};
     // this.codeEditor = new codeEditorDom();
     // this.dataVariables = new dataVariables();
     // this.conditionalVariables = new conditionalVariables();
@@ -35,10 +36,7 @@ export default class codeEditor {
     /**
      * @type {Object}
      */
-    this.musicBlocksv4Support = new addMusicBlocksSupport(
-      this.syntaxColorConfigObj,
-      _specificationSnapshot,
-    );
+    this.musicBlocksv4Support = null;
   }
 
   /**
@@ -50,7 +48,6 @@ export default class codeEditor {
     const codeEditorNode = this.codeEditorNodeObject.generateCodeEditorDOM();
     this.codeEditorCont.appendChild(codeEditorNode);
     this.codeEditorNodeObject.setupInitialDomData();
-    this.musicBlocksv4Support.initializeSupport();
   }
 
   /**
@@ -60,7 +57,9 @@ export default class codeEditor {
    */
   setCode(codeText) {
     this.codeEditorNodeObject.setCode(codeText);
-    this.musicBlocksv4Support.runSyntaxHighlighterOnAllLinesAPI();
+    if(this.musicBlocksv4Support){
+      this.musicBlocksv4Support.runSyntaxHighlighterOnAllLinesAPI();
+    }
   }
 
   /**
@@ -87,5 +86,27 @@ export default class codeEditor {
    */
   resetSyntaxColorConfig(newColorConfig) {
     return this.syntaxColorConfigObj.resetConfig(newColorConfig);
+  }
+
+  /**
+   * musicblocksv4 support can only be initialised after _specificationsnapshot is passed. This function
+   * provides an API to add specification snapshot and initiate support for musicBloclsv4.
+   * @param {Object} _specificationSnapshot  - Specification snapshot of syntax elements of musicBlock-v4.
+   */
+  setSpecificationSnapshot(_specificationSnapshot){
+    this._specificationSnapshot = _specificationSnapshot;
+    this.inititateAddMusicBlocksSupport();
+  }
+
+  /**
+   * 
+   */
+  inititateAddMusicBlocksSupport(){
+    this.musicBlocksv4Support = new addMusicBlocksSupport(
+      this.syntaxColorConfigObj,
+      this._specificationSnapshot,
+    );
+    
+    this.musicBlocksv4Support.initializeSupport();
   }
 }
