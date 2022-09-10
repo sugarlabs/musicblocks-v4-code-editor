@@ -22,7 +22,7 @@ This project implements a code editor for musicblocks v4 custom programming lang
 The rest of the files are config files.
 
 # code editor screenshot
-![code editor](./docs/codeEditor.jpeg)
+![code editor](./assets/MusicBlocks-v4-code-editor.png)
 
 # Installation
 
